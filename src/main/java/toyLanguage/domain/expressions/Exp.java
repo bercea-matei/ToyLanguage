@@ -1,8 +1,8 @@
-package toy_language.domain.expressions;
+package toyLanguage.domain.expressions;
 
-import toy_language.domain.values.Value;
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.my_exceptions.*;
+import toyLanguage.domain.values.Value;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.myExceptions.*;
 
 public interface Exp {
     public Value eval(MyDict<String,Value> tbl) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException;

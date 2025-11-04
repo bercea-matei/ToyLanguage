@@ -1,10 +1,10 @@
-package toy_language.domain.adts.stack;
+package toyLanguage.domain.adts.stack;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import toy_language.domain.my_exceptions.EmptyStackException;
-import toy_language.domain.statements.Stmt;
+import toyLanguage.domain.myExceptions.EmptyStackException;
+import toyLanguage.domain.statements.Stmt;
 
 public class ExeStk<E extends Stmt> implements MyStack<E> {
     private final Deque<E> exeStk;

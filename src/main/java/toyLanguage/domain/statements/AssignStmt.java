@@ -1,11 +1,11 @@
-package toy_language.domain.statements;
+package toyLanguage.domain.statements;
 
-import toy_language.domain.values.Value;
-import toy_language.domain.my_exceptions.*;
-import toy_language.domain.expressions.Exp;
-import toy_language.domain.prg_state.PrgState;
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.types.Type;
+import toyLanguage.domain.values.Value;
+import toyLanguage.domain.myExceptions.*;
+import toyLanguage.domain.expressions.Exp;
+import toyLanguage.domain.prg_state.PrgState;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.types.Type;
 
 public class AssignStmt implements Stmt{
     private String id;

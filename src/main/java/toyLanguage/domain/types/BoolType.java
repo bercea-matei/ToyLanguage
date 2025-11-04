@@ -1,7 +1,7 @@
-package toy_language.domain.types;
+package toyLanguage.domain.types;
 
-import toy_language.domain.values.BoolValue;
-import toy_language.domain.values.Value;
+import toyLanguage.domain.values.BoolValue;
+import toyLanguage.domain.values.Value;
 
 public class BoolType implements Type {
     private boolean defaultVal = false;

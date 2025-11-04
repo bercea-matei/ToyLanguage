@@ -1,11 +1,11 @@
-package toy_language.domain.statements;
+package toyLanguage.domain.statements;
 
-import toy_language.domain.my_exceptions.*;
-import toy_language.domain.prg_state.PrgState;
-import toy_language.domain.adts.list.MyList;
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.expressions.Exp;
-import toy_language.domain.values.Value;
+import toyLanguage.domain.myExceptions.*;
+import toyLanguage.domain.prg_state.PrgState;
+import toyLanguage.domain.adts.list.MyList;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.expressions.Exp;
+import toyLanguage.domain.values.Value;
 
 public class PrintStmt implements Stmt{
     private Exp exp;

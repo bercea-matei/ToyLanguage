@@ -1,7 +1,7 @@
-package toy_language.domain.values;
+package toyLanguage.domain.values;
 
-import toy_language.domain.types.IntType;
-import toy_language.domain.types.Type;
+import toyLanguage.domain.types.IntType;
+import toyLanguage.domain.types.Type;
 
 
 public class IntValue implements Value {

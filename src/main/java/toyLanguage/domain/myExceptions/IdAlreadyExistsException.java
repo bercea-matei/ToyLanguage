@@ -1,4 +1,4 @@
-package toy_language.domain.my_exceptions;
+package toyLanguage.domain.myExceptions;
 
 public class IdAlreadyExistsException extends ToyLanguageExceptions {
     public IdAlreadyExistsException(String id) {

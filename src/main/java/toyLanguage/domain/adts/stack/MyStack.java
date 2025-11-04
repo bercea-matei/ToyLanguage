@@ -1,6 +1,6 @@
-package toy_language.domain.adts.stack;
+package toyLanguage.domain.adts.stack;
 
-import toy_language.domain.my_exceptions.EmptyStackException;
+import toyLanguage.domain.myExceptions.EmptyStackException;
 
 public interface MyStack<E> {
 

@@ -1,4 +1,4 @@
-package ToyLanguage;
+package toyLanguage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

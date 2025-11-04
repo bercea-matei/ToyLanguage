@@ -1,11 +1,11 @@
-package toy_language.domain.expressions;
+package toyLanguage.domain.expressions;
 
-import toy_language.domain.expressions.operators.ArithOp;
-import toy_language.domain.values.Value;
-import toy_language.domain.values.IntValue;
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.my_exceptions.*;
-import toy_language.domain.types.IntType;
+import toyLanguage.domain.expressions.operators.ArithOp;
+import toyLanguage.domain.values.Value;
+import toyLanguage.domain.values.IntValue;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.myExceptions.*;
+import toyLanguage.domain.types.IntType;
 
 public class ArithExp implements Exp{
     Exp e1;

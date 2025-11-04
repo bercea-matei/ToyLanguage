@@ -1,7 +1,7 @@
-package toy_language.domain.statements;
+package toyLanguage.domain.statements;
 
-import toy_language.domain.my_exceptions.*;
-import toy_language.domain.prg_state.PrgState;
+import toyLanguage.domain.myExceptions.*;
+import toyLanguage.domain.prg_state.PrgState;
 
 public class NOP implements Stmt{
 

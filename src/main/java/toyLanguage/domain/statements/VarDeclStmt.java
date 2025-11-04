@@ -1,11 +1,11 @@
-package toy_language.domain.statements;
+package toyLanguage.domain.statements;
 
-import toy_language.domain.prg_state.PrgState;
-import toy_language.domain.types.*;
+import toyLanguage.domain.prg_state.PrgState;
+import toyLanguage.domain.types.*;
 
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.values.*;
-import toy_language.domain.my_exceptions.*;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.values.*;
+import toyLanguage.domain.myExceptions.*;
 
 public class VarDeclStmt implements Stmt{
     private String name;

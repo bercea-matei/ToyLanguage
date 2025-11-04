@@ -1,8 +1,8 @@
-package toy_language.domain.adts.list;
+package toyLanguage.domain.adts.list;
 
-import toy_language.domain.my_exceptions.EmptyListException;
-import toy_language.domain.my_exceptions.IndexOutOfBoundsException;
-import toy_language.domain.values.Value;
+import toyLanguage.domain.myExceptions.EmptyListException;
+import toyLanguage.domain.myExceptions.IndexOutOfBoundsException;
+import toyLanguage.domain.values.Value;
 
 import java.util.ArrayList;
 import java.util.List;

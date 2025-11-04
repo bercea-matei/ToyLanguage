@@ -23,7 +23,7 @@ public class RunAllCommand extends Command implements ExecutionObserver{
     }
     @Override
     public void onExecutionStart(PrgState initialState) {
-        System.out.println("--- Initial Program State ---");
+        System.out.println("--- Starting All Run ---");
         System.out.println(initialState.toString());
     }
     @Override

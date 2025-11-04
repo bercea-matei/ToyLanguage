@@ -1,11 +1,11 @@
-package toy_language.domain.expressions;
+package toyLanguage.domain.expressions;
 
-import toy_language.domain.expressions.operators.LogicOp;
-import toy_language.domain.values.Value;
-import toy_language.domain.values.BoolValue;
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.my_exceptions.*;
-import toy_language.domain.types.BoolType;
+import toyLanguage.domain.expressions.operators.LogicOp;
+import toyLanguage.domain.values.Value;
+import toyLanguage.domain.values.BoolValue;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.myExceptions.*;
+import toyLanguage.domain.types.BoolType;
 
 public class LogicExp implements Exp{
     Exp e1;

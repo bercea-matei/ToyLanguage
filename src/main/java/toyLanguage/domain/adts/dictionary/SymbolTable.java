@@ -1,12 +1,12 @@
-package toy_language.domain.adts.dictionary;
+package toyLanguage.domain.adts.dictionary;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import toy_language.domain.my_exceptions.IdAlreadyExistsException;
-import toy_language.domain.my_exceptions.IdNotFoundException;
+import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
+import toyLanguage.domain.myExceptions.IdNotFoundException;
 
-import toy_language.domain.values.Value;
+import toyLanguage.domain.values.Value;
 
 public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
     private Map<K,V> myDict;

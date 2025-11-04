@@ -1,4 +1,4 @@
-package toy_language.domain.my_exceptions;
+package toyLanguage.domain.myExceptions;
 
 public class IdNotDefinedException extends ToyLanguageExceptions {
     public IdNotDefinedException(String id) {

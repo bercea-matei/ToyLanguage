@@ -1,4 +1,4 @@
-package toy_language.domain.my_exceptions;
+package toyLanguage.domain.myExceptions;
 
 public class IndexOutOfBoundsException extends ToyLanguageExceptions {
     public IndexOutOfBoundsException(int index) {

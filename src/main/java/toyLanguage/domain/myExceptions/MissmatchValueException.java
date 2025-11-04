@@ -1,5 +1,5 @@
-package toy_language.domain.my_exceptions;
-import toy_language.domain.types.*;
+package toyLanguage.domain.myExceptions;
+import toyLanguage.domain.types.*;
 
 public class MissmatchValueException extends ToyLanguageExceptions {
     public MissmatchValueException(Type exptd, Type got) {

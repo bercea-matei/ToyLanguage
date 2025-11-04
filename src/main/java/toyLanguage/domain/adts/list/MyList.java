@@ -1,7 +1,7 @@
-package toy_language.domain.adts.list;
+package toyLanguage.domain.adts.list;
 
-import toy_language.domain.my_exceptions.EmptyListException;
-import toy_language.domain.my_exceptions.IndexOutOfBoundsException;
+import toyLanguage.domain.myExceptions.EmptyListException;
+import toyLanguage.domain.myExceptions.IndexOutOfBoundsException;
 
 public interface MyList<E> {
 

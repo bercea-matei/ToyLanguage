@@ -1,6 +1,6 @@
-package toy_language.domain.types;
+package toyLanguage.domain.types;
 
-import toy_language.domain.values.Value;
+import toyLanguage.domain.values.Value;
 
 public interface Type {
     public boolean equals(Object another);

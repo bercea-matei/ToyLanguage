@@ -1,7 +1,7 @@
-package toy_language.domain.adts.dictionary;
+package toyLanguage.domain.adts.dictionary;
 
-import toy_language.domain.my_exceptions.IdAlreadyExistsException;
-import toy_language.domain.my_exceptions.IdNotFoundException;
+import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
+import toyLanguage.domain.myExceptions.IdNotFoundException;
 
 public interface MyDict<K, V> {
 

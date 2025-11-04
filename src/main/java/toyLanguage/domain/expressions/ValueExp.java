@@ -1,8 +1,8 @@
-package toy_language.domain.expressions;
+package toyLanguage.domain.expressions;
 
-import toy_language.domain.my_exceptions.IdNotFoundException;
-import toy_language.domain.adts.dictionary.MyDict;
-import toy_language.domain.values.*;
+import toyLanguage.domain.myExceptions.IdNotFoundException;
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.values.*;
 
 public class ValueExp implements Exp{
     Value val;

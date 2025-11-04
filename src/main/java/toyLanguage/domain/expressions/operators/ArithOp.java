@@ -1,4 +1,4 @@
-package toy_language.domain.expressions.operators;
+package toyLanguage.domain.expressions.operators;
 
 public enum ArithOp {
     ADD("+"),
