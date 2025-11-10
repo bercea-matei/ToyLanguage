@@ -21,6 +21,7 @@ public class TUI {
         addCommand(new ShowOriginalStateCommand("5", "Show Original state", controller));
         addCommand(new GoToNextStateCommand("6", "Go to next state", controller));
         addCommand(new FlipPrintFlagCommand(flipId, "Flip the print flag", controller));
+        addCommand(new GetLogCommand("8", "Change Log Path", controller));
     }
 
     private void addCommand(Command command) {

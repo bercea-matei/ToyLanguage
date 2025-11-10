@@ -1,6 +1,8 @@
 package toyLanguage.domain.adts.dictionary;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
@@ -48,7 +50,7 @@ public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
         printSymTbl.append("{ ");
         for ( Map.Entry<K, V> entry_ : this.myDict.entrySet()) {
             printSymTbl.append(entry_.getKey().toString());
-            printSymTbl.append("->");
+            printSymTbl.append("-->");
             printSymTbl.append(entry_.getValue().toString());
             printSymTbl.append(", ");
         }
@@ -72,5 +74,22 @@ public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
         }
         return copy;
     }
-
+    @Override
+    public Iterator<Map.Entry<K, V>> iterator() {
+        return new Iterator<Map.Entry<K, V>>() {
+            private final Iterator<Map.Entry<K, V>> actualIterator = myDict.entrySet().iterator();
+            @Override
+            public boolean hasNext() {
+                return actualIterator.hasNext();
+            }
+            @Override
+            public Map.Entry<K, V> next() {
+                return actualIterator.next();
+            }
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("You cannot remove entries from the Symbol Table while iterating.");
+            }
+        };
+    }
 }

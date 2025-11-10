@@ -2,6 +2,7 @@ package toyLanguage.domain.adts.stack;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 
 import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.statements.Stmt;
@@ -55,5 +56,24 @@ public class ExeStk<E extends Stmt> implements MyStack<E> {
             copyStk.push((E)(element.deepCopy()));
         }
         return copyStk;
+    }
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            private final Iterator<E> actualIterator = exeStk.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return actualIterator.hasNext();
+            }
+            @Override
+            public E next() {
+                return actualIterator.next();
+            }
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("Cannot remove from ExeStack during iteration.");
+            }
+        };
     }
 }

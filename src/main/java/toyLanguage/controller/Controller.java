@@ -15,5 +15,7 @@ public interface Controller {
     public void flipPrintFlag();
     public Stmt getOriginalState() throws NoProgramToRunException;
     public void goToNextState() throws FinishUnexistentStateException;
+    public void setLogFilePath(String logFilePath);
+    public String getLogFilePath();
 }
 

@@ -5,6 +5,7 @@ import toyLanguage.domain.myExceptions.IndexOutOfBoundsException;
 import toyLanguage.domain.values.Value;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,5 +60,23 @@ public class OutList<E extends Value> implements MyList<E> {
         }
         return copyList;
     }
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            private final Iterator<E> actualIterator = outList.iterator();
 
+            @Override
+            public boolean hasNext() {
+                return actualIterator.hasNext();
+            }
+            @Override
+            public E next() {
+                return actualIterator.next();
+            }
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("You cannot remove elements from the OutList while iterating.");
+            }
+        };
+    }
 }

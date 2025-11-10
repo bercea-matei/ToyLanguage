@@ -23,8 +23,10 @@
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/IdNotDefinedException.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/IdNotFoundException.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/IndexOutOfBoundsException.java
+/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/InvalidFilePathException.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/InvalidInstructionException.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/MissmatchValueException.java
+/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/NoFilePathException.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/NoProgramToRunException.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/ToyLanguageExceptions.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/domain/myExceptions/UnknownOperatorException.java
@@ -49,6 +51,7 @@
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/Command.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/ExitCommand.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/FlipPrintFlagCommand.java
+/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/GetLogCommand.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/GoToNextStateCommand.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/RunAllCommand.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/RunOneStepCommand.java

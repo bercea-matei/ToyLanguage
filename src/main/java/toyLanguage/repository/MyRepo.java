@@ -1,16 +1,28 @@
 package toyLanguage.repository;
 
 import java.util.List;
+import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
+import toyLanguage.domain.myExceptions.InvalidFilePathException;
+import toyLanguage.domain.myExceptions.NoFilePathException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
+import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
+import toyLanguage.domain.values.Value;
 
 public class MyRepo implements Repository {
-    //as of now it mimicks queue logic
     private List<PrgState> prgStates;
+    private String logFilePath;
+    private String msgs[] = {"ExeStack:", "SymTable", "Out", "FileTable", "------------------------------"};
 
     public MyRepo() {
         this.prgStates = new ArrayList<>();
@@ -37,5 +49,43 @@ public class MyRepo implements Repository {
             this.prgStates.remove(0);
         else
             throw new FinishUnexistentStateException();
+    }
+    @Override
+    public void logPrgStateExec() throws InvalidFilePathException, NoFilePathException {
+        if (this.logFilePath == null || this.logFilePath.equals(""))
+            throw new NoFilePathException();
+        try {
+            PrintWriter logFile  = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
+            
+            logFile.println(msgs[0]);
+            for (Stmt stmt : this.prgStates.get(0).getExeStk()) {
+                logFile.println(stmt.toString());
+            }
+
+            logFile.println(msgs[1]);
+            for (Map.Entry<String, Value> entry : this.prgStates.get(0).getSymTable()) {
+                logFile.println(entry.getKey() + " --> " + entry.getValue().toString());
+            }
+
+            logFile.println(msgs[2]);
+            for (Value value : this.prgStates.get(0).getOutList()) {
+                logFile.println(value.toString());
+            }
+            logFile.println(msgs[3]);
+            //TODO - add file table
+
+            logFile.println(msgs[4]);
+            logFile.close();
+        } catch (IOException e) {
+            throw new InvalidFilePathException();
+        }
+    }
+    @Override
+    public void setLogFilePath(String logFilePath) {
+        this.logFilePath = logFilePath;
+    }
+    @Override
+    public String getLogFilePath() {
+        return this.logFilePath;
     }
 }

@@ -41,16 +41,19 @@ public class MyController implements Controller {
             throw new NoProgramToRunException();
         
         if (this.printFlag) {
-            observer.onExecutionStart(prg);
+            //observer.onExecutionStart(prg);
+            this.repo.logPrgStateExec();
         }
         while (!prg.getExeStk().isEmpty()) {
             oneStep(prg);
             if (this.printFlag) {
-                observer.onStepExecuted(prg);
+                //observer.onStepExecuted(prg);
+                this.repo.logPrgStateExec();
             }
         }
         if (this.printFlag) {
-            observer.onExecutionFinish(prg);
+            //observer.onExecutionFinish(prg);
+            this.repo.logPrgStateExec();
         }
         //this.repo.finishCrtState();
     }
@@ -84,6 +87,14 @@ public class MyController implements Controller {
         if (prg == null)
             throw new NoProgramToRunException();
         return prg.getOriginal();
+    }
+    @Override
+    public void setLogFilePath(String logFilePath) {
+        this.repo.setLogFilePath(logFilePath);
+    }
+    @Override
+    public String getLogFilePath() {
+        return this.repo.getLogFilePath();
     }
 
 }

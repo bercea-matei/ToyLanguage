@@ -17,7 +17,7 @@ public class AssignStmt implements Stmt{
     }
     @Override
     public String toString() {
-        return this.id+"="+ this.exp.toString();
+        return this.id+" = "+ this.exp.toString();
     }
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
