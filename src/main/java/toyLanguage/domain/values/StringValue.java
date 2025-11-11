@@ -1,14 +1,14 @@
 package toyLanguage.domain.values;
 
-import toyLanguage.domain.types.IntType;
+import toyLanguage.domain.types.StringType;
 import toyLanguage.domain.types.Type;
 
 
-public class IntValue implements Value {
-    private int val;
+public class StringValue implements Value {
+    private String val;
 
-    public IntValue(int i) {
-        this.val = i;
+    public StringValue(String s) {
+        this.val = s;
     }
     @Override
     public String toString() {
@@ -16,23 +16,23 @@ public class IntValue implements Value {
     }
     @Override
     public Type getType() {
-        return new IntType();
+        return new StringType();
     }
-    public int getValue() {
+    public String getValue() {
         return val;
     }
     @Override
-    public Value deepCopy() {
-        return new IntValue(this.val);
+    public StringValue deepCopy(){
+        return new StringValue(this.val);
     }
     @Override
     public boolean equals(Object another) {
         if (another instanceof IntValue)
-            if (((IntValue)another).getValue() == this.val)
+            if (((StringValue)another).getValue() == this.val)
                 return true;
             else
                 return false;
         else
             return false;
-    } 
+    }
 }

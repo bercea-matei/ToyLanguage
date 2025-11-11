@@ -3,18 +3,7 @@ package toyLanguage.view.commands;
 import toyLanguage.controller.Controller; 
 import java.util.Scanner;
 
-import toyLanguage.domain.statements.*;
-import toyLanguage.domain.types.*;
-import toyLanguage.domain.values.*;
-import toyLanguage.domain.adts.dictionary.MyDict;
-import toyLanguage.domain.adts.dictionary.SymbolTable;
-import toyLanguage.domain.adts.list.MyList;
-import toyLanguage.domain.adts.list.OutList;
-import toyLanguage.domain.adts.stack.ExeStk;
-import toyLanguage.domain.adts.stack.MyStack;
-import toyLanguage.domain.expressions.*;
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
-import toyLanguage.domain.prg_state.PrgState;
 
 public class SelectPrgCommand extends Command {
     private final Controller controller;
@@ -22,7 +11,8 @@ public class SelectPrgCommand extends Command {
     private final String[] hardcode_options = {
         "int v; v=2; NOP; Print(v)", 
         "int a; int b; a=2+3*5; b=a+1; Print(b)",
-        "bool a; int v; a=true; (If a Then v=2 Else v=3); Print(v)" 
+        "bool a; int v; a=true; (If a Then v=2 Else v=3); Print(v)",
+        "openFile(\"test.in\")"
     };
 
         
@@ -44,6 +34,9 @@ public class SelectPrgCommand extends Command {
             System.out.println("program saved successfully");
         } else if (option.equals("3")) {
             this.loadOption3();
+            System.out.println("program saved successfully");
+        } else if (option.equals("4")) {
+            this.loadOption4();
             System.out.println("program saved successfully");
         } else {
             System.err.println("unkown option");
@@ -74,6 +67,9 @@ public class SelectPrgCommand extends Command {
     }
     private void loadOption3() {
         this.controller.loadOption3();
+    }
+    private void loadOption4() {
+        this.controller.loadOption4();
     }
 
         

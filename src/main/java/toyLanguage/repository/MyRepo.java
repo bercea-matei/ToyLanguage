@@ -2,6 +2,7 @@ package toyLanguage.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
+import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.values.Value;
 
 public class MyRepo implements Repository {
@@ -72,8 +74,9 @@ public class MyRepo implements Repository {
                 logFile.println(value.toString());
             }
             logFile.println(msgs[3]);
-            //TODO - add file table
-
+            for (Map.Entry<StringValue, BufferedReader> entry : this.prgStates.get(0).getFileTable()) {
+                logFile.println(entry.getKey());
+            }
             logFile.println(msgs[4]);
             logFile.close();
         } catch (IOException e) {

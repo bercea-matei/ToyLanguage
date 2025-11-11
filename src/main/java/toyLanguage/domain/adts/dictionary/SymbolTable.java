@@ -1,6 +1,5 @@
 package toyLanguage.domain.adts.dictionary;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -41,7 +40,7 @@ public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
         }
     }
     @Override
-    public boolean isVarDef(K id) {
+    public boolean isKeyDef(K id) {
         return this.myDict.containsKey(id);
     }
     @Override
@@ -68,8 +67,8 @@ public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
             try {
                 copy.add(entry_.getKey(), (V) entry_.getValue().deepCopy());
             } catch (IdAlreadyExistsException e) {
-                //this should never really occur
-                System.out.println(e);
+                //this should never occur
+                throw new AssertionError("An impossible error occurred during deep copy key/value add: " + e.getMessage(), e);
             }
         }
         return copy;

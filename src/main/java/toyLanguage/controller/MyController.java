@@ -10,6 +10,8 @@ import toyLanguage.repository.*;
 import toyLanguage.domain.statements.*;
 import toyLanguage.domain.types.*;
 import toyLanguage.domain.adts.dictionary.*;
+import toyLanguage.domain.adts.fileTable.FileTable;
+import toyLanguage.domain.adts.fileTable.IFileTable;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.values.*;
@@ -28,6 +30,7 @@ public class MyController implements Controller {
         this.repo.addPrgState(state);
     }
     
+    //TODO - Move Options In Separate Files
     @Override
     public void loadOption1() {
         Stmt ex1= new CompStmt(new VarDeclStmt("v",new IntType()),new CompStmt(new AssignStmt("v",new ValueExp(new IntValue(2))), new CompStmt(new NOP(), new PrintStmt(new VarExp("v")))));
@@ -35,7 +38,8 @@ public class MyController implements Controller {
         exeStk.push(ex1);
         MyDict<String, Value> symTable = new SymbolTable<>();
         MyList<Value> outList = new OutList<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, ex1);
+        IFileTable fileTable = new FileTable();
+        PrgState state = new PrgState(exeStk, symTable, outList, fileTable,ex1);
         this.repo.addPrgState(state);
     }
     @Override
@@ -45,7 +49,8 @@ public class MyController implements Controller {
             exeStk.push(ex2);
             MyDict<String, Value> symTable = new SymbolTable<>();
             MyList<Value> outList = new OutList<>();
-            PrgState state = new PrgState(exeStk, symTable, outList, ex2);
+        IFileTable fileTable = new FileTable();
+            PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex2);
             this.repo.addPrgState(state);
     }
     @Override
@@ -55,7 +60,19 @@ public class MyController implements Controller {
         exeStk.push(ex3);
         MyDict<String, Value> symTable = new SymbolTable<>();
         MyList<Value> outList = new OutList<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, ex3);
+        IFileTable fileTable = new FileTable();
+        PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex3);
+        this.repo.addPrgState(state);
+    }
+    @Override
+    public void loadOption4() {
+        Stmt ex4 = new OpenRFileStmt(new ValueExp(new StringValue("test.in")));
+        MyStack<Stmt> exeStk = new ExeStk<>();
+        exeStk.push(ex4);
+        MyDict<String, Value> symTable = new SymbolTable<>();
+        MyList<Value> outList = new OutList<>();
+        IFileTable fileTable = new FileTable();
+        PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex4);
         this.repo.addPrgState(state);
     }
 
@@ -88,10 +105,10 @@ public class MyController implements Controller {
                 this.repo.logPrgStateExec();
             }
         }
-        if (this.printFlag) {
+        //if (this.printFlag) {
             //observer.onExecutionFinish(prg);
-            this.repo.logPrgStateExec();
-        }
+            //this.repo.logPrgStateExec();
+        //}
         //this.repo.finishCrtState();
     }
     //TODo -- we keep this depending on threading part

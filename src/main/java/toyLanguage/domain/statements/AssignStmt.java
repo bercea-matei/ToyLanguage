@@ -22,7 +22,7 @@ public class AssignStmt implements Stmt{
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String,Value> symTbl= state.getSymTable();
-        if (symTbl.isVarDef(this.id)) {
+        if (symTbl.isKeyDef(this.id)) {
             Value val = this.exp.eval(symTbl);
             Type typId= (symTbl.lookup(this.id)).getType();
             if ((val.getType()).equals(typId)) {

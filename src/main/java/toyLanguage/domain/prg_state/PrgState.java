@@ -1,6 +1,7 @@
 package toyLanguage.domain.prg_state;
 
 import toyLanguage.domain.adts.dictionary.*;
+import toyLanguage.domain.adts.fileTable.IFileTable;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.values.Value;
@@ -10,12 +11,14 @@ public class PrgState {
     private final MyStack<Stmt> exeStk;
     private final MyDict<String, Value> symTable;
     private final MyList<Value> outList;
+    private final IFileTable fileTable;
     private final Stmt originalProgram;
 
-    public PrgState(MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, Stmt origPrg) {
+    public PrgState(MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, IFileTable fileTable, Stmt origPrg) {
         this.exeStk = stk;
         this.symTable = dict;
         this.outList = list;
+        this.fileTable = fileTable;
         this.originalProgram = origPrg.deepCopy();
     }
     
@@ -28,6 +31,9 @@ public class PrgState {
     public MyList<Value> getOutList() {
         return this.outList;
     }
+    public IFileTable getFileTable() {
+        return this.fileTable;
+    }
     @Override
     public String toString() {
         StringBuilder allStr = new StringBuilder();
@@ -36,18 +42,14 @@ public class PrgState {
         allStr.append(this.symTable.toString());
         allStr.append("\n");
         allStr.append(this.outList.toString());
+        allStr.append("\n");
+        allStr.append(this.fileTable.toString());
         return allStr.toString();
     }
     public PrgState deepCopy() {
-        return new PrgState(this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.originalProgram);
+        return new PrgState(this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.fileTable.deepCopy(), this.originalProgram.deepCopy());
     }
     public Stmt getOriginal() {
-        //MyStack<Stmt> copyStk = new ExeStk<>();
-        //MyDict<String, Value> copyDict = new SymbolTable<>();
-        //MyList<Value> copyList = new OutList<>();
-        //Stmt copyOP = this.originalProgram.deepCopy();
-        //copyStk.push(copyOP);
-        //return new PrgState(copyStk, copyDict, copyList, copyOP);
         return this.originalProgram.deepCopy();
     }
 

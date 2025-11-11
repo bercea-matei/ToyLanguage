@@ -21,5 +21,6 @@ public interface Controller {
     public void loadOption1();
     public void loadOption2() throws UnknownOperatorException;
     public void loadOption3();
+    public void loadOption4();
 }
 

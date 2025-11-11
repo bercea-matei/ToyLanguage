@@ -25,5 +25,14 @@ public class BoolValue implements Value {
     public BoolValue deepCopy(){
         return new BoolValue(this.val);
     }
-
+    @Override
+    public boolean equals(Object another) {
+        if (another instanceof IntValue)
+            if (((BoolValue)another).getValue() == this.val)
+                return true;
+            else
+                return false;
+        else
+            return false;
+    } 
 }
