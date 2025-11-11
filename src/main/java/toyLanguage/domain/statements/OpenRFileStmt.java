@@ -17,7 +17,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class OpenRFileStmt implements Stmt {
-
     private final Exp expression;
 
     public OpenRFileStmt(Exp expression) {

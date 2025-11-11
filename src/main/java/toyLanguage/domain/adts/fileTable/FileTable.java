@@ -1,15 +1,10 @@
 package toyLanguage.domain.adts.fileTable;
 
-import toyLanguage.domain.myExceptions.ClosingFileException;
 import toyLanguage.domain.myExceptions.FileAlreadyOpenException;
-import toyLanguage.domain.myExceptions.FileNotFoundException;
 import toyLanguage.domain.myExceptions.FileNotOpenException;
-import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
 import toyLanguage.domain.values.StringValue;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,21 +38,20 @@ public class FileTable implements IFileTable {
     }
 
     @Override
-    public void remove(StringValue filename) throws FileNotOpenException, ClosingFileException {
-        BufferedReader descriptor = lookup(filename); 
-        try {
-            descriptor.close();
-        } catch (IOException e) {
-            throw new ClosingFileException(filename.toString(), e.getMessage());
+    public void remove(StringValue filename) throws FileNotOpenException {
+        if (!files.containsKey(filename)) {
+            throw new FileNotOpenException(filename.getValue());
         }
         files.remove(filename);
     }
-    
+
     @Override
-    public void closeAll() throws ClosingFileException, FileNotOpenException {
-        for (StringValue key : files.keySet()) {
-            remove(key);
-        }    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (StringValue filename : files.keySet()) {
+            sb.append(filename.toString()).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
@@ -82,18 +76,10 @@ public class FileTable implements IFileTable {
         };
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (StringValue filename : files.keySet()) {
-            sb.append(filename.toString()).append("\n");
-        }
-        return sb.toString();
-    }
+
 
     @Override
     public IFileTable deepCopy() {
-        //ASK - ?
         IFileTable copy = new FileTable();
         for (Map.Entry<StringValue, BufferedReader> entry_ : this.files.entrySet())
         {

@@ -66,7 +66,7 @@ public class MyController implements Controller {
     }
     @Override
     public void loadOption4() {
-        Stmt ex4 = new OpenRFileStmt(new ValueExp(new StringValue("test.in")));
+        Stmt ex4 = new CompStmt(new VarDeclStmt("varf", new StringType()),new CompStmt(new AssignStmt("varf", new ValueExp(new StringValue("test.in"))),new CompStmt(new OpenRFileStmt(new VarExp("varf")),new CompStmt(new VarDeclStmt("varc", new IntType()),new CompStmt(new ReadFileStmt(new VarExp("varf"), "varc"),new CompStmt(new PrintStmt(new VarExp("varc")),new CompStmt(new ReadFileStmt(new VarExp("varf"), "varc"),new CompStmt(new PrintStmt(new VarExp("varc")),new CloseRFileStmt(new VarExp("varf"))))))))));
         MyStack<Stmt> exeStk = new ExeStk<>();
         exeStk.push(ex4);
         MyDict<String, Value> symTable = new SymbolTable<>();

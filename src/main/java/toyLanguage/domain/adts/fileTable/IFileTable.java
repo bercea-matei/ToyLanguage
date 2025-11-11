@@ -13,6 +13,5 @@ public interface IFileTable extends Iterable<Map.Entry<StringValue, BufferedRead
     public void add(StringValue filename, BufferedReader descriptor) throws FileAlreadyOpenException;
     public BufferedReader lookup(StringValue filename) throws FileNotOpenException;
     public void remove(StringValue filename) throws ClosingFileException, FileNotOpenException;
-    public void closeAll() throws ClosingFileException, FileNotOpenException;
     public IFileTable deepCopy();
 }

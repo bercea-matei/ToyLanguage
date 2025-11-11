@@ -12,7 +12,7 @@ public class SelectPrgCommand extends Command {
         "int v; v=2; NOP; Print(v)", 
         "int a; int b; a=2+3*5; b=a+1; Print(b)",
         "bool a; int v; a=true; (If a Then v=2 Else v=3); Print(v)",
-        "openFile(\"test.in\")"
+        "(String varf ; (varf = test.in ; (openRFile(varf) ; (int varc ; (readFile(varf, varc) ; (print(varc) ; (readFile(varf, varc) ; (print(varc) ; closeRFile(varf)))))))))"
     };
 
         
