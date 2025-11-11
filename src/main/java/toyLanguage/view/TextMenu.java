@@ -6,25 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class TUI {
+public class TextMenu {
     private final Map<String, Command> commands;
     private final Scanner keyboard = new Scanner(System.in);
-    private final String flipId = "7";
+    private Controller controller;
 
-    public TUI(Controller controller) {
+    public TextMenu(Controller controller) {
         this.commands = new HashMap<>();
-        addCommand(new ExitCommand("0", "Exit"));
-        addCommand(new SelectPrgCommand("1", "Select a program", controller));
-        addCommand(new RunAllCommand("2", "Run the entire program", controller));
-        addCommand(new RunOneStepCommand("3", "Run One Step", controller));
-        addCommand(new ShowCurrentStateCommand("4", "Show current state", controller));
-        addCommand(new ShowOriginalStateCommand("5", "Show Original state", controller));
-        addCommand(new GoToNextStateCommand("6", "Go to next state", controller));
-        addCommand(new FlipPrintFlagCommand(flipId, "Flip the print flag", controller));
-        addCommand(new GetLogCommand("8", "Change Log Path", controller));
+        this.controller = controller;
     }
 
-    private void addCommand(Command command) {
+    public void addCommand(Command command) {
         this.commands.put(command.getKey(), command);
     }
 
@@ -35,11 +27,11 @@ public class TUI {
             System.out.println(line);
         }
         System.out.println("------------------------------");
-        System.out.printf(" print flag: %b%n", ((FlipPrintFlagCommand)this.commands.get(this.flipId)).getPrintFlag());
+        System.out.printf(" print flag: %b%n", this.controller.getPrintFlag());
         System.out.println("------------------------------");
     }
 
-    public void start() {
+    public void show() {
         while (true) {
             printMenu();
             System.out.print("Enter option: ");

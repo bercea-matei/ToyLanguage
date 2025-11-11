@@ -1,4 +1,4 @@
-/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/App.java
+/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/Interpreter.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/controller/Controller.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/controller/ExecutionObserver.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/controller/MyController.java
@@ -47,7 +47,7 @@
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/helpers/Parser.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/repository/MyRepo.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/repository/Repository.java
-/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/TUI.java
+/home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/TextMenu.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/Command.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/ExitCommand.java
 /home/drakon/Faculty/MAP/ToyLanguage/src/main/java/toyLanguage/view/commands/FlipPrintFlagCommand.java

@@ -14,9 +14,5 @@ public class FlipPrintFlagCommand extends Command {
     public void execute() {
         this.controller.flipPrintFlag();    
     }
-
-    public boolean getPrintFlag() {
-        return this.controller.getPrintFlag();
-    }
 }
  

@@ -63,35 +63,17 @@ public class SelectPrgCommand extends Command {
 
     }
     private void loadOption1() {
-        Stmt ex1= new CompStmt(new VarDeclStmt("v",new IntType()),new CompStmt(new AssignStmt("v",new ValueExp(new IntValue(2))), new CompStmt(new NOP(), new PrintStmt(new VarExp("v")))));
-        MyStack<Stmt> exeStk = new ExeStk<>();
-        exeStk.push(ex1);
-        MyDict<String, Value> symTable = new SymbolTable<>();
-        MyList<Value> outList = new OutList<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, ex1);
-        this.controller.addPrgState(state);
+        this.controller.loadOption1();
     }
     private void loadOption2() {
         try {
-            Stmt ex2 = new CompStmt( new VarDeclStmt("a",new IntType()),new CompStmt(new VarDeclStmt("b",new IntType()),new CompStmt(new AssignStmt("a", new ArithExp('+',new ValueExp(new IntValue(2)),new ArithExp('*',new ValueExp(new IntValue(3)), new ValueExp(new IntValue(5))))), new CompStmt(new AssignStmt("b",new ArithExp('+',new VarExp("a"), new ValueExp(new IntValue(1)))), new PrintStmt(new VarExp("b"))))));
-            MyStack<Stmt> exeStk = new ExeStk<>();
-            exeStk.push(ex2);
-            MyDict<String, Value> symTable = new SymbolTable<>();
-            MyList<Value> outList = new OutList<>();
-            PrgState state = new PrgState(exeStk, symTable, outList, ex2);
-            this.controller.addPrgState(state);
+            this.controller.loadOption2();
         } catch (UnknownOperatorException e) {
             System.out.println(e.getMessage());
         }
     }
     private void loadOption3() {
-        Stmt ex3 = new CompStmt(new VarDeclStmt("a",new BoolType()), new CompStmt(new VarDeclStmt("v", new IntType()), new CompStmt(new AssignStmt("a", new ValueExp(new BoolValue(true))), new CompStmt(new IfStmt(new VarExp("a"),new AssignStmt("v",new ValueExp(new IntValue(2))), new AssignStmt("v", new ValueExp(new IntValue(3)))), new PrintStmt(new VarExp("v"))))));
-        MyStack<Stmt> exeStk = new ExeStk<>();
-        exeStk.push(ex3);
-        MyDict<String, Value> symTable = new SymbolTable<>();
-        MyList<Value> outList = new OutList<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, ex3);
-        this.controller.addPrgState(state);
+        this.controller.loadOption3();
     }
 
         

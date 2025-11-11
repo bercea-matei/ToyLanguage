@@ -41,7 +41,7 @@ public class ArithExp implements Exp{
         Value v1,v2;
         v1= e1.eval(tbl);
         if (v1.getType().equals(new IntType())) {
-                v2 = e2.eval(tbl);
+            v2 = e2.eval(tbl);
             if (v2.getType().equals(new IntType())) {
                 IntValue i1 = (IntValue)v1;
                 IntValue i2 = (IntValue)v2;

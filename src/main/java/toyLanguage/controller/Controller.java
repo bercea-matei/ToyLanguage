@@ -3,6 +3,7 @@ package toyLanguage.controller;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
+import toyLanguage.domain.myExceptions.UnknownOperatorException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
 
@@ -17,5 +18,8 @@ public interface Controller {
     public void goToNextState() throws FinishUnexistentStateException;
     public void setLogFilePath(String logFilePath);
     public String getLogFilePath();
+    public void loadOption1();
+    public void loadOption2() throws UnknownOperatorException;
+    public void loadOption3();
 }
 

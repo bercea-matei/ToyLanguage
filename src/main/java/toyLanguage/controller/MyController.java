@@ -1,13 +1,19 @@
 package toyLanguage.controller;
 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
+import toyLanguage.domain.myExceptions.UnknownOperatorException;
 import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.repository.*;
-import toyLanguage.domain.statements.Stmt;
-import toyLanguage.domain.adts.stack.MyStack;
+import toyLanguage.domain.statements.*;
+import toyLanguage.domain.types.*;
+import toyLanguage.domain.adts.dictionary.*;
+import toyLanguage.domain.adts.list.*;
+import toyLanguage.domain.adts.stack.*;
+import toyLanguage.domain.values.*;
+import toyLanguage.domain.expressions.*;
 
 public class MyController implements Controller {
     private Repository repo;
@@ -19,6 +25,37 @@ public class MyController implements Controller {
 
     @Override
     public void addPrgState(PrgState state) {
+        this.repo.addPrgState(state);
+    }
+    
+    @Override
+    public void loadOption1() {
+        Stmt ex1= new CompStmt(new VarDeclStmt("v",new IntType()),new CompStmt(new AssignStmt("v",new ValueExp(new IntValue(2))), new CompStmt(new NOP(), new PrintStmt(new VarExp("v")))));
+        MyStack<Stmt> exeStk = new ExeStk<>();
+        exeStk.push(ex1);
+        MyDict<String, Value> symTable = new SymbolTable<>();
+        MyList<Value> outList = new OutList<>();
+        PrgState state = new PrgState(exeStk, symTable, outList, ex1);
+        this.repo.addPrgState(state);
+    }
+    @Override
+    public void loadOption2() throws UnknownOperatorException{
+            Stmt ex2 = new CompStmt( new VarDeclStmt("a",new IntType()),new CompStmt(new VarDeclStmt("b",new IntType()),new CompStmt(new AssignStmt("a", new ArithExp('+',new ValueExp(new IntValue(2)),new ArithExp('*',new ValueExp(new IntValue(3)), new ValueExp(new IntValue(5))))), new CompStmt(new AssignStmt("b",new ArithExp('+',new VarExp("a"), new ValueExp(new IntValue(1)))), new PrintStmt(new VarExp("b"))))));
+            MyStack<Stmt> exeStk = new ExeStk<>();
+            exeStk.push(ex2);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            PrgState state = new PrgState(exeStk, symTable, outList, ex2);
+            this.repo.addPrgState(state);
+    }
+    @Override
+    public void loadOption3() {
+        Stmt ex3 = new CompStmt(new VarDeclStmt("a",new BoolType()), new CompStmt(new VarDeclStmt("v", new IntType()), new CompStmt(new AssignStmt("a", new ValueExp(new BoolValue(true))), new CompStmt(new IfStmt(new VarExp("a"),new AssignStmt("v",new ValueExp(new IntValue(2))), new AssignStmt("v", new ValueExp(new IntValue(3)))), new PrintStmt(new VarExp("v"))))));
+        MyStack<Stmt> exeStk = new ExeStk<>();
+        exeStk.push(ex3);
+        MyDict<String, Value> symTable = new SymbolTable<>();
+        MyList<Value> outList = new OutList<>();
+        PrgState state = new PrgState(exeStk, symTable, outList, ex3);
         this.repo.addPrgState(state);
     }
 
