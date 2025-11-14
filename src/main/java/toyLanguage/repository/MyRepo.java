@@ -9,13 +9,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import toyLanguage.domain.adts.dictionary.MyDict;
-import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.InvalidFilePathException;
 import toyLanguage.domain.myExceptions.NoFilePathException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
-import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.values.StringValue;
