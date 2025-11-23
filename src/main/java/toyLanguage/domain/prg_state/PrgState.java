@@ -14,14 +14,16 @@ public class PrgState {
     private final MyDict<String, Value> symTable;
     private final MyList<Value> outList;
     private final MyDict<StringValue, BufferedReader> fileTable;
+    private final MyDict<Integer, Value> heapTable;
     private final Stmt originalProgram;
 
-    public PrgState(MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, MyDict<StringValue, BufferedReader> fileTable, Stmt origPrg) {
+    public PrgState(Stmt origPrg, MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, MyDict<StringValue, BufferedReader> fileTable, MyDict<Integer, Value> heapTable) {
+        this.originalProgram = origPrg.deepCopy();
         this.exeStk = stk;
         this.symTable = dict;
         this.outList = list;
         this.fileTable = fileTable;
-        this.originalProgram = origPrg.deepCopy();
+        this.heapTable = heapTable;
     }
     
     public MyDict<String, Value> getSymTable() {
@@ -36,6 +38,9 @@ public class PrgState {
     public MyDict<StringValue, BufferedReader> getFileTable() {
         return this.fileTable;
     }
+    public MyDict<Integer, Value> getHeapTable() {
+        return this.heapTable;
+    }
     @Override
     public String toString() {
         StringBuilder allStr = new StringBuilder();
@@ -49,7 +54,7 @@ public class PrgState {
         return allStr.toString();
     }
     public PrgState deepCopy() {
-        return new PrgState(this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.fileTable.deepCopy(), this.originalProgram.deepCopy());
+        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.fileTable.deepCopy(), this.heapTable.deepCopy());
     }
     public Stmt getOriginal() {
         return this.originalProgram.deepCopy();

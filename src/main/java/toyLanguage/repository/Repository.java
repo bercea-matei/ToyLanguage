@@ -21,7 +21,7 @@ import toyLanguage.domain.values.Value;
 public class Repository implements MyRepository {
     private List<PrgState> prgStates;
     private String logFilePath;
-    private String msgs[] = {"ExeStack:", "SymTable", "Out", "FileTable", "------------------------------"};
+    private String msgs[] = {"------------------------------","ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
 
     public Repository() {
         this.prgStates = new ArrayList<>();
@@ -56,25 +56,29 @@ public class Repository implements MyRepository {
         try {
             PrintWriter logFile  = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
             
-            logFile.println(msgs[0]);
+            logFile.println(msgs[1]);
             for (Stmt stmt : this.prgStates.get(0).getExeStk()) {
                 logFile.println(stmt.toString());
             }
 
-            logFile.println(msgs[1]);
+            logFile.println(msgs[2]);
             for (Map.Entry<String, Value> entry : this.prgStates.get(0).getSymTable()) {
                 logFile.println(entry.getKey() + " --> " + entry.getValue().toString());
             }
 
-            logFile.println(msgs[2]);
+            logFile.println(msgs[3]);
             for (Value value : this.prgStates.get(0).getOutList()) {
                 logFile.println(value.toString());
             }
-            logFile.println(msgs[3]);
+            logFile.println(msgs[4]);
             for (Map.Entry<StringValue, BufferedReader> entry : this.prgStates.get(0).getFileTable()) {
                 logFile.println(entry.getKey());
             }
-            logFile.println(msgs[4]);
+            logFile.println(msgs[5]);
+            for (Map.Entry<Integer, Value> entry : this.prgStates.get(0).getHeapTable()) {
+                logFile.println(entry.getKey());
+            }
+            logFile.println(msgs[0]);
             logFile.close();
         } catch (IOException e) {
             throw new InvalidFilePathException();

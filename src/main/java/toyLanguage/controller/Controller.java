@@ -51,7 +51,8 @@ public class Controller implements MyController {
         MyDict<String, Value> symTable = new SymbolTable<>();
         MyList<Value> outList = new OutList<>();
         MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex1);
+        MyDict<Integer, Value> heapTable = new HeapTable<>();
+        PrgState state = new PrgState( ex1, exeStk, symTable, outList, fileTable, heapTable);
         this.repo.addPrgState(state);
     }
     @Override
@@ -62,7 +63,8 @@ public class Controller implements MyController {
             MyDict<String, Value> symTable = new SymbolTable<>();
             MyList<Value> outList = new OutList<>();
             MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-            PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex2);
+            MyDict<Integer, Value> heapTable = new HeapTable<>();
+            PrgState state = new PrgState(ex2, exeStk, symTable, outList, fileTable, heapTable);
             this.repo.addPrgState(state);
     }
     @Override
@@ -73,7 +75,8 @@ public class Controller implements MyController {
         MyDict<String, Value> symTable = new SymbolTable<>();
         MyList<Value> outList = new OutList<>();
         MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex3);
+        MyDict<Integer, Value> heapTable = new HeapTable<>();
+        PrgState state = new PrgState(ex3, exeStk, symTable, outList, fileTable, heapTable);
         this.repo.addPrgState(state);
     }
     @Override
@@ -84,7 +87,8 @@ public class Controller implements MyController {
         MyDict<String, Value> symTable = new SymbolTable<>();
         MyList<Value> outList = new OutList<>();
         MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-        PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex4);
+        MyDict<Integer, Value> heapTable = new HeapTable<>();
+        PrgState state = new PrgState(ex4,exeStk, symTable, outList, fileTable, heapTable);
         this.repo.addPrgState(state);
     }
     @Override
@@ -118,7 +122,8 @@ public class Controller implements MyController {
                 MyDict<String, Value> symTable = new SymbolTable<>();
                 MyList<Value> outList = new OutList<>();
                 MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-                PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex5);
+                MyDict<Integer, Value> heapTable = new HeapTable<>();
+                PrgState state = new PrgState( ex5,exeStk, symTable, outList, fileTable,heapTable);
                 this.repo.addPrgState(state);
         } catch (UnknownOperatorException e) {
             System.out.println("Something went wrong while loading model 5");
