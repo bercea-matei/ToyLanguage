@@ -1,7 +1,6 @@
 package toyLanguage.domain.statements;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
-import toyLanguage.domain.adts.fileTable.IFileTable;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.myExceptions.FileAlreadyOpenException;
 import toyLanguage.domain.myExceptions.MissmatchValueException;
@@ -36,7 +35,7 @@ public class OpenRFileStmt implements Stmt {
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String, Value> symTable = state.getSymTable();
-        IFileTable fileTable = state.getFileTable();
+        MyDict<StringValue, BufferedReader> fileTable = state.getFileTable();
 
         Value result = this.expression.eval(symTable);
 
@@ -45,7 +44,7 @@ public class OpenRFileStmt implements Stmt {
         }
         StringValue filenameValue = (StringValue) result;
 
-        if (fileTable.isOpened(filenameValue)) {
+        if (fileTable.isKeyDef(filenameValue)) {
             throw new FileAlreadyOpenException(filenameValue.getValue());
         }
 

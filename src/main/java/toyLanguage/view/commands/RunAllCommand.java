@@ -1,14 +1,14 @@
 package toyLanguage.view.commands;
 
-import toyLanguage.controller.Controller; 
+import toyLanguage.controller.MyController; 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.controller.ExecutionObserver;
 import toyLanguage.domain.prg_state.PrgState;
 
 public class RunAllCommand extends Command implements ExecutionObserver{
-    private final Controller controller;
+    private final MyController controller;
         
-    public RunAllCommand (String key, String description, Controller controller) {
+    public RunAllCommand (String key, String description, MyController controller) {
         super(key, description);
         this.controller = controller;
     }

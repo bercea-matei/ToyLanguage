@@ -1,20 +1,22 @@
 package toyLanguage.domain.prg_state;
 
+import java.io.BufferedReader;
+
 import toyLanguage.domain.adts.dictionary.*;
-import toyLanguage.domain.adts.fileTable.IFileTable;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.values.Value;
+import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.statements.Stmt;
 
 public class PrgState {
     private final MyStack<Stmt> exeStk;
     private final MyDict<String, Value> symTable;
     private final MyList<Value> outList;
-    private final IFileTable fileTable;
+    private final MyDict<StringValue, BufferedReader> fileTable;
     private final Stmt originalProgram;
 
-    public PrgState(MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, IFileTable fileTable, Stmt origPrg) {
+    public PrgState(MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, MyDict<StringValue, BufferedReader> fileTable, Stmt origPrg) {
         this.exeStk = stk;
         this.symTable = dict;
         this.outList = list;
@@ -31,7 +33,7 @@ public class PrgState {
     public MyList<Value> getOutList() {
         return this.outList;
     }
-    public IFileTable getFileTable() {
+    public MyDict<StringValue, BufferedReader> getFileTable() {
         return this.fileTable;
     }
     @Override

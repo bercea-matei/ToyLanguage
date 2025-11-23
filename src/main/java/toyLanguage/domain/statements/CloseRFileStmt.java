@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
-import toyLanguage.domain.adts.fileTable.IFileTable;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.myExceptions.ClosingFileException;
 import toyLanguage.domain.myExceptions.MissEvaluationException;
@@ -35,7 +34,7 @@ public class CloseRFileStmt implements Stmt {
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String, Value> symTable = state.getSymTable();
-        IFileTable fileTable = state.getFileTable();
+        MyDict<StringValue, BufferedReader> fileTable = state.getFileTable();
 
         Value result = expression.eval(symTable);
         if (!result.getType().equals(new StringType())) {

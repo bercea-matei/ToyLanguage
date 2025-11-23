@@ -1,13 +1,13 @@
 package toyLanguage.view.commands;
 
-import toyLanguage.controller.Controller; 
+import toyLanguage.controller.MyController; 
 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 
 public class RunOneStepCommand extends Command {
-    private final Controller controller;
+    private final MyController controller;
         
-    public RunOneStepCommand (String key, String description, Controller controller) {
+    public RunOneStepCommand (String key, String description, MyController controller) {
         super(key, description);
         this.controller = controller;
     }

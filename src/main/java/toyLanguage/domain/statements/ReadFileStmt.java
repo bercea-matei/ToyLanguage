@@ -1,7 +1,6 @@
 package toyLanguage.domain.statements;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
-import toyLanguage.domain.adts.fileTable.IFileTable;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.myExceptions.IOFileException;
 import toyLanguage.domain.myExceptions.IdNotDefinedException;
@@ -42,7 +41,7 @@ public class ReadFileStmt implements Stmt {
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String, Value> symTable = state.getSymTable();
-        IFileTable fileTable = state.getFileTable();
+        MyDict<StringValue, BufferedReader> fileTable = state.getFileTable();
 
         if (!symTable.isKeyDef(variableName)) {
             throw new IdNotDefinedException(variableName);

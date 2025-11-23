@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutList<E extends Value> implements MyList<E> {
-
     private List<E> outList;
+    private String dataTypeName = "OutList";
 
     public OutList() {
         outList = new ArrayList<>();
@@ -78,5 +78,9 @@ public class OutList<E extends Value> implements MyList<E> {
                 throw new UnsupportedOperationException("You cannot remove elements from the OutList while iterating.");
             }
         };
+    }
+    @Override
+    public String getDataTypeAsString() {
+        return this.dataTypeName;
     }
 }

@@ -1,12 +1,12 @@
 package toyLanguage.view.commands;
 
-import toyLanguage.controller.Controller; 
+import toyLanguage.controller.MyController; 
 import java.util.Scanner;
 
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
 
 public class SelectPrgCommand extends Command {
-    private final Controller controller;
+    private final MyController controller;
     private final Scanner keyboard = new Scanner(System.in);
     private final String[] hardcode_options = {
         "int v; v=2; NOP; Print(v)", 
@@ -16,7 +16,7 @@ public class SelectPrgCommand extends Command {
     };
 
         
-    public SelectPrgCommand (String key, String description, Controller controller) {
+    public SelectPrgCommand (String key, String description, MyController controller) {
         super(key, description);
         this.controller = controller;
     }

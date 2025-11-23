@@ -4,13 +4,13 @@ import toyLanguage.controller.Controller;
 import toyLanguage.controller.MyController;
 import toyLanguage.view.TextMenu;
 import toyLanguage.repository.Repository;
-import toyLanguage.repository.MyRepo;
+import toyLanguage.repository.MyRepository;
 import toyLanguage.view.commands.*;
 
 public class Interpreter {
     public static void main(String[] args) {
-        Repository repo = new MyRepo();
-        Controller controller = new MyController(repo);
+        MyRepository repo = new Repository();
+        MyController controller = new Controller(repo);
         TextMenu tui = new TextMenu(controller);
 
         tui.addCommand(new ExitCommand("0", "Exit"));

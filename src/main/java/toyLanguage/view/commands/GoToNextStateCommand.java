@@ -1,14 +1,14 @@
 package toyLanguage.view.commands;
 
-import toyLanguage.controller.Controller;
+import toyLanguage.controller.MyController;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.prg_state.PrgState;
 
 public class GoToNextStateCommand extends Command {
-    Controller controller;
+    MyController controller;
 
-    public GoToNextStateCommand(String key, String description, Controller controller) {
+    public GoToNextStateCommand(String key, String description, MyController controller) {
         super(key, description);
         this.controller = controller;
     }

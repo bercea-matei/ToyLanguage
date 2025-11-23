@@ -1,13 +1,13 @@
 package toyLanguage.view.commands;
 
-import toyLanguage.controller.Controller;
+import toyLanguage.controller.MyController;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.prg_state.PrgState;
 
 public class ShowCurrentStateCommand extends Command {
-    Controller controller;
+    private MyController controller;
 
-    public ShowCurrentStateCommand(String key, String description, Controller controller) {
+    public ShowCurrentStateCommand(String key, String description, MyController controller) {
         super(key, description);
         this.controller = controller;
     }

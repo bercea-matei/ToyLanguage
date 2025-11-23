@@ -9,6 +9,7 @@ import toyLanguage.domain.statements.Stmt;
 
 public class ExeStk<E extends Stmt> implements MyStack<E> {
     private final Deque<E> exeStk;
+    private String dataTypeName = "ExeStk";
 
     public ExeStk() {
         this.exeStk = new ArrayDeque<>();
@@ -75,5 +76,9 @@ public class ExeStk<E extends Stmt> implements MyStack<E> {
                 throw new UnsupportedOperationException("Cannot remove from ExeStack during iteration.");
             }
         };
+    }
+    @Override
+    public String getDataTypeAsString() {
+        return this.dataTypeName;
     }
 }

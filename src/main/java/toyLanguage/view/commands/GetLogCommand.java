@@ -2,14 +2,14 @@ package toyLanguage.view.commands;
 
 import java.util.Scanner;
 
-import toyLanguage.controller.Controller;
+import toyLanguage.controller.MyController;
 
 
 public class GetLogCommand extends Command{
-    private final Controller controller;
+    private final MyController controller;
     private final Scanner keyboard = new Scanner(System.in);
         
-    public GetLogCommand (String key, String description, Controller controller) {
+    public GetLogCommand (String key, String description, MyController controller) {
         super(key, description);
         this.controller = controller;
     }

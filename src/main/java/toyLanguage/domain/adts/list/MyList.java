@@ -11,4 +11,5 @@ public interface MyList<E> extends Iterable<E>{
     public int size();
     public boolean isEmpty();
     public MyList<E> deepCopy();
+    public String getDataTypeAsString();
 }

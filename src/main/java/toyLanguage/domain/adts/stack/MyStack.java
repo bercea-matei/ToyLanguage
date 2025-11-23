@@ -9,4 +9,5 @@ public interface MyStack<E> extends Iterable<E> {
     public E top() throws EmptyStackException;
     public boolean isEmpty();
     public MyStack<E> deepCopy();
+    public String getDataTypeAsString();
 }

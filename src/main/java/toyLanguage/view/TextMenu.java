@@ -1,6 +1,6 @@
 package toyLanguage.view;
 
-import toyLanguage.controller.Controller;
+import toyLanguage.controller.MyController;
 import toyLanguage.view.commands.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class TextMenu {
     private final Map<String, Command> commands;
     private final Scanner keyboard = new Scanner(System.in);
-    private Controller controller;
+    private MyController controller;
 
-    public TextMenu(Controller controller) {
+    public TextMenu(MyController controller) {
         this.commands = new HashMap<>();
         this.controller = controller;
     }
