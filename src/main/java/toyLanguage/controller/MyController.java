@@ -1,6 +1,8 @@
 package toyLanguage.controller;
 
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
+import toyLanguage.domain.myExceptions.InvalidFilePathException;
+import toyLanguage.domain.myExceptions.NoFilePathException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
@@ -22,5 +24,7 @@ public interface MyController {
     public void loadOption2() throws UnknownOperatorException;
     public void loadOption3();
     public void loadOption4();
+    public void loadOption5();
+    public void logPrgStateExec() throws InvalidFilePathException, NoFilePathException;
 }
 

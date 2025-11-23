@@ -4,6 +4,8 @@ import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
 import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
+import toyLanguage.domain.myExceptions.InvalidFilePathException;
+import toyLanguage.domain.myExceptions.NoFilePathException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.repository.*;
@@ -34,7 +36,16 @@ public class Controller implements MyController {
     //TODO - Move Options In Separate Files
     @Override
     public void loadOption1() {
-        Stmt ex1= new CompStmt(new VarDeclStmt("v",new IntType()),new CompStmt(new AssignStmt("v",new ValueExp(new IntValue(2))), new CompStmt(new NOP(), new PrintStmt(new VarExp("v")))));
+        Stmt ex1= new CompStmt(
+            new VarDeclStmt("v",new IntType()),
+            new CompStmt(
+                new AssignStmt("v",new ValueExp(new IntValue(2))),
+                new CompStmt(
+                    new NOP(), 
+                    new PrintStmt(new VarExp("v"))
+                )
+            )
+        );
         MyStack<Stmt> exeStk = new ExeStk<>();
         exeStk.push(ex1);
         MyDict<String, Value> symTable = new SymbolTable<>();
@@ -76,25 +87,55 @@ public class Controller implements MyController {
         PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex4);
         this.repo.addPrgState(state);
     }
+    @Override
+    public void loadOption5() {
+        try {
+            Stmt ex5= new CompStmt(
+                new VarDeclStmt("v",new IntType()),
+                new CompStmt(
+                    new AssignStmt("v",new ValueExp(new IntValue(4))),
+                    new CompStmt(
+                        new WhileStmt(
+                            new RelExp(">", new VarExp("v"), new ValueExp(new IntValue(0)) ),
+                            new CompStmt(
+                                new PrintStmt(new VarExp("v")),
+                                new AssignStmt(
+                                    "v", 
+                                    new ArithExp(
+                                        '-',
+                                        new VarExp("v"),
+                                        new ValueExp(new IntValue(1))
+                                    )
+                                )
+                            )
+                        ),
+                        new PrintStmt(new VarExp("v"))
+                    )
+                )
+            );
+            MyStack<Stmt> exeStk = new ExeStk<>();
+                exeStk.push(ex5);
+                MyDict<String, Value> symTable = new SymbolTable<>();
+                MyList<Value> outList = new OutList<>();
+                MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+                PrgState state = new PrgState(exeStk, symTable, outList, fileTable, ex5);
+                this.repo.addPrgState(state);
+        } catch (UnknownOperatorException e) {
+            System.out.println("Something went wrong while loading model 5");
+        }
+        
+    }
 
     @Override
     public PrgState oneStep(PrgState state) throws ToyLanguageExceptions {
          if (state == null)
             throw new NoProgramToRunException();
-        if (this.printFlag) {
-            //observer.onExecutionStart(prg);
-            this.repo.logPrgStateExec();
-        }
         MyStack<Stmt> stk=state.getExeStk();
         if(stk.isEmpty()) 
             //this.repo.finishCrtState();    
             throw new EmptyStackException();
         Stmt crtStmt = stk.pop();
         PrgState newState = crtStmt.execute(state);
-        if (this.printFlag) {
-            //observer.onExecutionStart(prg);
-            this.repo.logPrgStateExec();
-        }
         return newState;
     }
     
@@ -163,5 +204,8 @@ public class Controller implements MyController {
     public String getLogFilePath() {
         return this.repo.getLogFilePath();
     }
-
+    @Override
+    public void logPrgStateExec() throws InvalidFilePathException, NoFilePathException {
+        this.repo.logPrgStateExec();
+    }
 }

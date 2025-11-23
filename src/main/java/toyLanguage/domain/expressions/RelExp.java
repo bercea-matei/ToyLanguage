@@ -3,7 +3,6 @@ package toyLanguage.domain.expressions;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.expressions.operators.RelOp;
 import toyLanguage.domain.myExceptions.*;
-import toyLanguage.domain.types.BoolType;
 import toyLanguage.domain.types.IntType;
 import toyLanguage.domain.values.BoolValue;
 import toyLanguage.domain.values.IntValue;

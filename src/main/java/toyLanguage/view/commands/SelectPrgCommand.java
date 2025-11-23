@@ -12,7 +12,8 @@ public class SelectPrgCommand extends Command {
         "int v; v=2; NOP; Print(v)", 
         "int a; int b; a=2+3*5; b=a+1; Print(b)",
         "bool a; int v; a=true; (If a Then v=2 Else v=3); Print(v)",
-        "(String varf ; (varf = test.in ; (openRFile(varf) ; (int varc ; (readFile(varf, varc) ; (print(varc) ; (readFile(varf, varc) ; (print(varc) ; closeRFile(varf)))))))))"
+        "(String varf ; (varf = test.in ; (openRFile(varf) ; (int varc ; (readFile(varf, varc) ; (print(varc) ; (readFile(varf, varc) ; (print(varc) ; closeRFile(varf)))))))))",
+        "int v; v=4; (while (v>0) print(v);v=v-1);print(v)"
     };
 
         
@@ -38,7 +39,10 @@ public class SelectPrgCommand extends Command {
         } else if (option.equals("4")) {
             this.loadOption4();
             System.out.println("program saved successfully");
-        } else {
+        } else if (option.equals("5")) {
+            this.loadOption5();
+            System.out.println("program saved successfully");
+        }else {
             System.err.println("unkown option");
         }
     }
@@ -71,7 +75,9 @@ public class SelectPrgCommand extends Command {
     private void loadOption4() {
         this.controller.loadOption4();
     }
-
+    private void loadOption5() {
+        this.controller.loadOption5();
+    }
         
 }
   
