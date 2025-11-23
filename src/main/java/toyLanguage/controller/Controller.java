@@ -81,12 +81,21 @@ public class Controller implements MyController {
     public PrgState oneStep(PrgState state) throws ToyLanguageExceptions {
          if (state == null)
             throw new NoProgramToRunException();
+        if (this.printFlag) {
+            //observer.onExecutionStart(prg);
+            this.repo.logPrgStateExec();
+        }
         MyStack<Stmt> stk=state.getExeStk();
         if(stk.isEmpty()) 
             //this.repo.finishCrtState();    
             throw new EmptyStackException();
         Stmt crtStmt = stk.pop();
-        return crtStmt.execute(state);
+        PrgState newState = crtStmt.execute(state);
+        if (this.printFlag) {
+            //observer.onExecutionStart(prg);
+            this.repo.logPrgStateExec();
+        }
+        return newState;
     }
     
     @Override
@@ -99,6 +108,9 @@ public class Controller implements MyController {
             //observer.onExecutionStart(prg);
             this.repo.logPrgStateExec();
         }
+        if(prg.getExeStk().isEmpty()) 
+            //this.repo.finishCrtState();    
+            throw new EmptyStackException();
         while (!prg.getExeStk().isEmpty()) {
             oneStep(prg);
             if (this.printFlag) {

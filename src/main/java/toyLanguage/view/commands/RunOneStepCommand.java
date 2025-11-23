@@ -16,8 +16,6 @@ public class RunOneStepCommand extends Command {
     public void execute() {
         try {
             this.controller.oneStep(this.controller.getCurrentState());
-            if (this.controller.getPrintFlag())
-                System.out.println(this.controller.getCurrentState().toString());
         } catch (ToyLanguageExceptions e) {
             System.out.println(e.getMessage());
         }
