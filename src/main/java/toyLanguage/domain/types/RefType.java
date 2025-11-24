@@ -5,6 +5,7 @@ import toyLanguage.domain.values.Value;
 
 public class RefType implements Type{
     private Type inner;
+    private int defaultValue = 0;
 
     public RefType(Type inner) {
         this.inner=inner;
@@ -23,7 +24,7 @@ public class RefType implements Type{
 
     @Override
     public Value defaultValue() { 
-        return new RefValue(0,inner);
+        return new RefValue(this.defaultValue,inner);
     }
     @Override
     public Type deepCopy() {

@@ -9,8 +9,6 @@ import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
 import toyLanguage.domain.myExceptions.OperationNotSupportedException;
 import toyLanguage.domain.myExceptions.IdNotFoundException;
 
-import toyLanguage.domain.values.Value;
-
 public class FileTable<K,V> implements MyDict<K,V> {
     private Map<K,V> myFiles;
     private String dataTypeName = "FileTable";

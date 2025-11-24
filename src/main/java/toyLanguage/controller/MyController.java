@@ -25,6 +25,7 @@ public interface MyController {
     public void loadOption3();
     public void loadOption4();
     public void loadOption5();
+    public void loadOption6();
     public void logPrgStateExec() throws InvalidFilePathException, NoFilePathException;
 }
 

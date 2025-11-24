@@ -76,7 +76,7 @@ public class Repository implements MyRepository {
             }
             logFile.println(msgs[5]);
             for (Map.Entry<Integer, Value> entry : this.prgStates.get(0).getHeapTable()) {
-                logFile.println(entry.getKey());
+                logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
             logFile.println(msgs[0]);
             logFile.close();

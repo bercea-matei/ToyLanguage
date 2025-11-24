@@ -1,19 +1,22 @@
-package toyLanguage.domain.adts.dictionary;
+package toyLanguage.domain.adts.heapMap;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
+
 import toyLanguage.domain.myExceptions.IdNotFoundException;
 import toyLanguage.domain.values.Value;
 
-public class HeapTable<V extends Value> implements MyDict<Integer,V> {
+public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
     private Map<Integer,V> myDict;
-    private String dataTypeName = "HeapTable";
+    private String dataTypeName;
+    private int freeAddrCounter;
 
     public HeapTable() {
         this.myDict = new HashMap<>();
+        this.dataTypeName = "HeapTable";
+        this.freeAddrCounter = 1;
     }
     @Override
     public V lookup(Integer id) throws IdNotFoundException {
@@ -32,12 +35,10 @@ public class HeapTable<V extends Value> implements MyDict<Integer,V> {
         }
     }
     @Override
-    public void add(Integer id, V val) throws IdAlreadyExistsException {
-        if (! isKeyDef(id)) {
-            this.myDict.putIfAbsent(id, val);
-        } else {
-            throw new IdAlreadyExistsException(id.toString());
-        }
+    public int allocate(V val) {
+        this.myDict.putIfAbsent(this.freeAddrCounter, val);
+        this.freeAddrCounter += 1;
+        return freeAddrCounter - 1;
     }
     @Override
     public boolean isKeyDef(Integer id){
@@ -69,17 +70,12 @@ public class HeapTable<V extends Value> implements MyDict<Integer,V> {
     }
 
     @Override
-    public MyDict<Integer,V> deepCopy() {
-        MyDict<Integer,V> copy = new HeapTable<>();
+    public MyHeap<Integer,V> deepCopy() {
+        MyHeap<Integer,V> copy = new HeapTable<>();
         for (Map.Entry<Integer, V> entry_ : this.myDict.entrySet())
         {
             //The key is a string => imutable => we don't need to copy it
-            try {
-                copy.add(entry_.getKey(), (V) entry_.getValue().deepCopy());
-            } catch (IdAlreadyExistsException e) {
-                //this should never occur
-                throw new AssertionError("An impossible error occurred during deep copy key/value add: " + e.getMessage(), e);
-            }
+            copy.allocate((V) entry_.getValue().deepCopy());
         }
         return copy;
     }

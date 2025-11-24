@@ -1,0 +1,17 @@
+package toyLanguage.domain.adts.heapMap;
+
+import java.util.Map;
+
+import toyLanguage.domain.myExceptions.IdNotFoundException;
+import toyLanguage.domain.myExceptions.OperationNotSupportedException;
+
+public interface MyHeap<K, V> extends Iterable<Map.Entry<K, V>> {
+
+    public V lookup(K id) throws IdNotFoundException;
+    public void update(K id, V val) throws IdNotFoundException, OperationNotSupportedException;
+    public int allocate(V val);
+    public void remove(K id) throws IdNotFoundException, OperationNotSupportedException;
+    public boolean isKeyDef(K id);
+    public MyHeap<K,V> deepCopy();
+    public String getDataTypeAsString();
+}

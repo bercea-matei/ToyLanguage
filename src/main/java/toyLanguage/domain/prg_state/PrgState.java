@@ -3,6 +3,7 @@ package toyLanguage.domain.prg_state;
 import java.io.BufferedReader;
 
 import toyLanguage.domain.adts.dictionary.*;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.values.Value;
@@ -14,10 +15,14 @@ public class PrgState {
     private final MyDict<String, Value> symTable;
     private final MyList<Value> outList;
     private final MyDict<StringValue, BufferedReader> fileTable;
-    private final MyDict<Integer, Value> heapTable;
+    private final MyHeap<Integer, Value> heapTable;
     private final Stmt originalProgram;
 
-    public PrgState(Stmt origPrg, MyStack<Stmt> stk, MyDict<String, Value> dict, MyList<Value> list, MyDict<StringValue, BufferedReader> fileTable, MyDict<Integer, Value> heapTable) {
+    public PrgState(    
+            Stmt origPrg, MyStack<Stmt> stk, 
+            MyDict<String, Value> dict, MyList<Value> list, 
+            MyDict<StringValue, BufferedReader> fileTable, 
+            MyHeap<Integer, Value> heapTable) {
         this.originalProgram = origPrg.deepCopy();
         this.exeStk = stk;
         this.symTable = dict;
@@ -38,7 +43,7 @@ public class PrgState {
     public MyDict<StringValue, BufferedReader> getFileTable() {
         return this.fileTable;
     }
-    public MyDict<Integer, Value> getHeapTable() {
+    public MyHeap<Integer, Value> getHeapTable() {
         return this.heapTable;
     }
     @Override
