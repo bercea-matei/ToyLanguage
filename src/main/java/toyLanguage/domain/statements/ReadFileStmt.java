@@ -1,6 +1,7 @@
 package toyLanguage.domain.statements;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.myExceptions.IOFileException;
 import toyLanguage.domain.myExceptions.IdNotDefinedException;
@@ -42,6 +43,7 @@ public class ReadFileStmt implements Stmt {
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String, Value> symTable = state.getSymTable();
         MyDict<StringValue, BufferedReader> fileTable = state.getFileTable();
+        MyHeap<Integer,Value> heapTbl= state.getHeapTable();
 
         if (!symTable.isKeyDef(variableName)) {
             throw new IdNotDefinedException(variableName);
@@ -51,7 +53,7 @@ public class ReadFileStmt implements Stmt {
             throw new MissmatchValueException(new IntType(), variableValue.getType());
         }
 
-        Value expressionValue = expression.eval(symTable);
+        Value expressionValue = expression.eval(symTable, heapTbl);
         if (!expressionValue.getType().equals(new StringType())) {
             throw new MissEvaluationException(new StringType(), expressionValue.getType());
         }

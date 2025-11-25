@@ -2,6 +2,7 @@ package toyLanguage.domain.expressions;
 
 import toyLanguage.domain.myExceptions.IdNotFoundException;
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.values.*;
 
 public class VarExp implements Exp{
@@ -12,7 +13,7 @@ public class VarExp implements Exp{
     }
 
     @Override
-    public Value eval(MyDict<String,Value> tbl) throws IdNotFoundException{
+    public Value eval(MyDict<String,Value> tbl, MyHeap<Integer,Value> hp) throws IdNotFoundException {
         return tbl.lookup(this.id);
     }
     @Override

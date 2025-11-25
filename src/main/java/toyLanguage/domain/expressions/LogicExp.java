@@ -4,6 +4,7 @@ import toyLanguage.domain.expressions.operators.LogicOp;
 import toyLanguage.domain.values.Value;
 import toyLanguage.domain.values.BoolValue;
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.types.BoolType;
 
@@ -22,11 +23,11 @@ public class LogicExp implements Exp{
         return this.e1.toString() + " " + this.op.toString() + " " + this.e2.toString();
     }
     @Override
-    public Value eval(MyDict<String,Value> tbl) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException{
+    public Value eval(MyDict<String,Value> tbl, MyHeap<Integer, Value> hp) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException{
         Value v1,v2;
-        v1= e1.eval(tbl);
+        v1= e1.eval(tbl, hp);
         if (v1.getType().equals(new BoolType())) {
-                v2 = e2.eval(tbl);
+                v2 = e2.eval(tbl, hp);
             if (v2.getType().equals(new BoolType())) {
                 BoolValue b1 = (BoolValue)v1;
                 BoolValue b2 = (BoolValue)v2;

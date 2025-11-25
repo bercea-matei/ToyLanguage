@@ -13,6 +13,13 @@ import toyLanguage.domain.statements.*;
 import toyLanguage.domain.types.*;
 
 import java.io.BufferedReader;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 import toyLanguage.domain.adts.dictionary.*;
 import toyLanguage.domain.adts.heapMap.*;
@@ -150,14 +157,104 @@ public class Controller implements MyController {
                 )
             );
             MyStack<Stmt> exeStk = new ExeStk<>();
-                exeStk.push(ex6);
+            exeStk.push(ex6);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+            MyHeap<Integer, Value> heapTable = new HeapTable<>();
+            PrgState state = new PrgState(ex6,exeStk, symTable, outList, fileTable,heapTable);
+            this.repo.addPrgState(state);
+    }
+    @Override
+    public void loadOption7() throws UnknownOperatorException {
+            Stmt ex7= new CompStmt(
+                new VarDeclStmt("v",new RefType(new IntType())),
+                new CompStmt(
+                    new NewStmt("v", new ValueExp(new IntValue(20))),
+                    new CompStmt(
+                        new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
+                        new CompStmt(
+                            new NewStmt("a", new VarExp("v")),
+                            new CompStmt(
+                                new PrintStmt(new ReadHeapExp(new VarExp("v"))),
+                                new PrintStmt(
+                                    new ArithExp('+', 
+                                        new ReadHeapExp(new ReadHeapExp(new VarExp("a"))), 
+                                        new ValueExp(new IntValue(5))
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+            MyStack<Stmt> exeStk = new ExeStk<>();
+            exeStk.push(ex7);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+            MyHeap<Integer, Value> heapTable = new HeapTable<>();
+            PrgState state = new PrgState(ex7,exeStk, symTable, outList, fileTable,heapTable);
+            this.repo.addPrgState(state);
+    }
+    @Override
+    public void loadOption8() throws UnknownOperatorException {
+            Stmt ex8 = new CompStmt(
+                new VarDeclStmt("v",new RefType(new IntType())),
+                new CompStmt(
+                    new NewStmt("v", new ValueExp(new IntValue(20))),
+                    new CompStmt(
+                        new PrintStmt(
+                            new ReadHeapExp( new VarExp("v"))
+                        ),
+                        new CompStmt(
+                            new WriteHeapStmt("v", new ValueExp(new IntValue(30))),
+                            new PrintStmt(
+                                new ArithExp('+', 
+                                    new ReadHeapExp(new VarExp("v")), 
+                                    new ValueExp(new IntValue(5)))
+                            )
+                        )
+                    )
+                )
+            );
+            MyStack<Stmt> exeStk = new ExeStk<>();
+                exeStk.push(ex8);
                 MyDict<String, Value> symTable = new SymbolTable<>();
                 MyList<Value> outList = new OutList<>();
                 MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
                 MyHeap<Integer, Value> heapTable = new HeapTable<>();
-                PrgState state = new PrgState(ex6,exeStk, symTable, outList, fileTable,heapTable);
+                PrgState state = new PrgState(ex8,exeStk, symTable, outList, fileTable,heapTable);
                 this.repo.addPrgState(state);
     }
+    @Override
+    public void loadOption9() throws UnknownOperatorException {
+            Stmt ex9 = new CompStmt(
+                new VarDeclStmt("v",new RefType(new IntType())),
+                new CompStmt(
+                    new NewStmt("v", new ValueExp(new IntValue(20))),
+                    new CompStmt(
+                        new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
+                        new CompStmt(
+                            new NewStmt("a", new VarExp("v")),
+                            new CompStmt(
+                                new NewStmt("v", new ValueExp(new IntValue(30))),
+                                new PrintStmt(new ReadHeapExp(new ReadHeapExp(new VarExp("a"))))
+                            )
+                        )
+                    )
+                )
+            );
+            MyStack<Stmt> exeStk = new ExeStk<>();
+                exeStk.push(ex9);
+                MyDict<String, Value> symTable = new SymbolTable<>();
+                MyList<Value> outList = new OutList<>();
+                MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+                MyHeap<Integer, Value> heapTable = new HeapTable<>();
+                PrgState state = new PrgState(ex9,exeStk, symTable, outList, fileTable,heapTable);
+                this.repo.addPrgState(state);
+    }
+
 
     @Override
     public PrgState oneStep(PrgState state) throws ToyLanguageExceptions {
@@ -190,13 +287,44 @@ public class Controller implements MyController {
             if (this.printFlag) {
                 //observer.onStepExecuted(prg);
                 this.repo.logPrgStateExec();
+                prg.getHeapTable().setContent(safeGarbageCollector(getAddrFromSymTable(prg.getSymTable().getContent().values()),prg.getHeapTable().getContent()));
+                this.repo.logPrgStateExec();
             }
         }
-        //if (this.printFlag) {
-            //observer.onExecutionFinish(prg);
-            //this.repo.logPrgStateExec();
-        //}
-        //this.repo.finishCrtState();
+    }
+    private Map<Integer,Value> unsafeGarbageCollector(List<Integer> symTableAddr, Map<Integer,Value> heap) {
+        return heap.entrySet()
+                .stream()
+                .filter(e->symTableAddr.contains(e.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+    private Map<Integer,Value> safeGarbageCollector(List<Integer> symTableAddr, Map<Integer,Value> heap) {
+        Set<Integer> reachableAddresses = new HashSet<>(symTableAddr);
+
+        boolean newAddressFound = true;
+        while (newAddressFound) {
+            newAddressFound = false;
+            Set<Integer> indirectlyReachable = heap.entrySet().stream()
+                    .filter(entry -> reachableAddresses.contains(entry.getKey()))
+                    .map(Map.Entry::getValue)
+                    .filter(value -> value instanceof RefValue)
+                    .map(value -> ((RefValue) value).getAddr())
+                    .collect(Collectors.toSet());
+
+            if (reachableAddresses.addAll(indirectlyReachable)) {
+                newAddressFound = true;
+            }
+        }
+        final Set<Integer> finalReachable = reachableAddresses; // Final variable for lambda
+        return heap.entrySet().stream()
+                .filter(entry -> finalReachable.contains(entry.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));    
+    }
+    private List<Integer> getAddrFromSymTable(Collection<Value> symTableValues){
+        return symTableValues.stream()
+                .filter(v-> v instanceof RefValue)
+                .map(v-> {RefValue v1 = (RefValue)v; return v1.getAddr();})
+                .collect(Collectors.toList());
     }
     //TODo -- we keep this depending on threading part
     @Override

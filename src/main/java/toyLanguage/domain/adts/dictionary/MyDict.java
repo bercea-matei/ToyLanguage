@@ -15,4 +15,5 @@ public interface MyDict<K, V> extends Iterable<Map.Entry<K, V>> {
     public boolean isKeyDef(K id);
     public MyDict<K,V> deepCopy();
     public String getDataTypeAsString();
+    public Map<K,V> getContent();
 }

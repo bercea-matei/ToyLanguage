@@ -1,12 +1,15 @@
 package toyLanguage.domain.adts.heapMap;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 
 import toyLanguage.domain.myExceptions.IdNotFoundException;
 import toyLanguage.domain.values.Value;
+import toyLanguage.domain.values.RefValue;
 
 public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
     private Map<Integer,V> myDict;
@@ -100,5 +103,14 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
     @Override
     public String getDataTypeAsString() {
         return this.dataTypeName;
+    }
+    
+    @Override
+    public void setContent(Map<Integer, V> newContent) {
+        this.myDict = newContent;
+    }
+    @Override
+    public Map<Integer, V> getContent() {
+        return this.myDict;
     }
 }

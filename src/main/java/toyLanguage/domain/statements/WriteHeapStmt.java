@@ -8,43 +8,44 @@ import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
 
-public class NewStmt implements Stmt{
+public class WriteHeapStmt implements Stmt{
     private Exp expression;
     private String varName;
 
-    public NewStmt(String varName,Exp expression) {
-        this.expression = expression;
+    public WriteHeapStmt(String varName, Exp expression) {
         this.varName = varName;
+        this.expression = expression;
     }
 
     @Override
     public String toString() {
-        return " new("+ this.varName + "," + this.expression.toString() + ")";
+        return " wH(" + this.varName + "," + this.expression.toString() + ")";
     }
 
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
-        MyDict<String,Value> symTbl = state.getSymTable();
-        MyHeap<Integer,Value> heapTbl = state.getHeapTable();
-        if (!symTbl.isKeyDef(this.varName))
-            throw new IdNotDefinedException(this.varName);
-
+        MyDict<String,Value> symTbl= state.getSymTable();
+        MyHeap<Integer,Value> heapTbl= state.getHeapTable();       
+        if (! symTbl.isKeyDef(this.varName))
+            throw new IdNotFoundException(this.varName);
         Value val = symTbl.lookup(this.varName);
+
         if (! (val.getType() instanceof RefType))
             throw new MissmatchValueException("RefType", val.getType().toString());
 
         RefValue refVal = (RefValue) val;
-        Type innerType = refVal.getLocationType();
+        int addr = refVal.getAddr();
+        if(! heapTbl.isKeyDef(addr))
+            throw new IdNotFoundException(String.valueOf(addr));
+
         Value newVal = this.expression.eval(symTbl, heapTbl);
-        if(! newVal.getType().equals(innerType))
-            throw new MissmatchValueException(innerType, newVal.getType());
-        
-        int newAddr = heapTbl.allocate(newVal);
-        symTbl.update(this.varName, new RefValue(newAddr, innerType));
+        Type locationType = refVal.getLocationType();
+        if (!newVal.getType().equals(locationType))
+            throw new MissmatchValueException(locationType.toString(), newVal.getType().toString());        heapTbl.update(addr, newVal);
         return state;
     }
 
     public Stmt deepCopy() {
-        return new NewStmt(this.varName, this.expression.deepCopy());
+        return new WriteHeapStmt(this.varName,this.expression.deepCopy());
     }
 }

@@ -1,6 +1,7 @@
 package toyLanguage.domain.expressions;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.operators.RelOp;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.types.IntType;
@@ -54,14 +55,14 @@ public class RelExp implements Exp {
     }
 
     @Override
-    public Value eval(MyDict<String, Value> tbl) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException{
-        Value v1 = e1.eval(tbl);
+    public Value eval(MyDict<String,Value> tbl, MyHeap<Integer, Value> hp) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException{
+        Value v1 = e1.eval(tbl, hp);
 
         if (!v1.getType().equals(new IntType())) {
             throw new MissmatchValueException(new IntType(), v1.getType());
         }
 
-        Value v2 = e2.eval(tbl);
+        Value v2 = e2.eval(tbl, hp);
 
         if (!v2.getType().equals(new IntType())) {
             throw new MissmatchValueException(new IntType(), v2.getType());

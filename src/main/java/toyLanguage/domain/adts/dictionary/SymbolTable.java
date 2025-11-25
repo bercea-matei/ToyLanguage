@@ -104,4 +104,8 @@ public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
     public String getDataTypeAsString() {
         return this.dataTypeName;
     }
+    @Override
+    public Map<K, V> getContent() {
+        return this.myDict;
+    }
 }

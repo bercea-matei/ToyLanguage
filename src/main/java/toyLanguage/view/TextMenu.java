@@ -29,6 +29,7 @@ public class TextMenu {
         System.out.println("------------------------------");
         System.out.printf(" print flag: %b%n", this.controller.getPrintFlag());
         System.out.println("------------------------------");
+        System.out.print(">>");
     }
 
     public void show() {

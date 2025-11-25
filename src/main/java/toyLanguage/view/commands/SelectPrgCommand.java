@@ -53,6 +53,15 @@ public class SelectPrgCommand extends Command {
         } else if (option.equals("6")) {
             this.loadOption6();
             System.out.println("program saved successfully");
+        } else if (option.equals("7")) {
+            this.loadOption7();
+            System.out.println("program saved successfully");
+        } else if (option.equals("8")) {
+            this.loadOption8();
+            System.out.println("program saved successfully");
+        } else if (option.equals("9")) {
+            this.loadOption9();
+            System.out.println("program saved successfully");
         } else {
             System.err.println("unkown option");
         }
@@ -68,6 +77,7 @@ public class SelectPrgCommand extends Command {
         }
         System.out.println("  0. Back");
         System.out.println("------------------------------");
+        System.out.print(">>");
 
     }
     private void loadOption1() {
@@ -91,6 +101,27 @@ public class SelectPrgCommand extends Command {
     }
     private void loadOption6() {
         this.controller.loadOption6();
+    }
+    private void loadOption7() {
+        try {
+            this.controller.loadOption7();
+        } catch (UnknownOperatorException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private void loadOption8() {
+        try {
+            this.controller.loadOption8();
+        } catch (UnknownOperatorException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private void loadOption9() {
+        try {
+            this.controller.loadOption9();
+        } catch (UnknownOperatorException e) {
+            System.out.println(e.getMessage());
+        }
     }
         
 }

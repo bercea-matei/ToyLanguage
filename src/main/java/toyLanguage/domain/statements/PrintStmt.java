@@ -4,6 +4,7 @@ import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.adts.list.MyList;
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.values.Value;
 
@@ -21,7 +22,9 @@ public class PrintStmt implements Stmt{
     public PrgState execute(PrgState state) throws ToyLanguageExceptions{
         MyList<Value> outList = state.getOutList();
         MyDict<String, Value> symTable = state.getSymTable();
-        outList.append(exp.eval(symTable));
+        MyHeap<Integer,Value> heapTbl= state.getHeapTable();
+
+        outList.append(exp.eval(symTable, heapTbl));
         return state;
     }
     public Stmt deepCopy() {

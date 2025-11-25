@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.myExceptions.ClosingFileException;
 import toyLanguage.domain.myExceptions.MissEvaluationException;
@@ -35,8 +36,9 @@ public class CloseRFileStmt implements Stmt {
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String, Value> symTable = state.getSymTable();
         MyDict<StringValue, BufferedReader> fileTable = state.getFileTable();
+        MyHeap<Integer,Value> heapTbl= state.getHeapTable();
 
-        Value result = expression.eval(symTable);
+        Value result = expression.eval(symTable, heapTbl);
         if (!result.getType().equals(new StringType())) {
             throw new MissEvaluationException(new StringType(), result.getType());
         }

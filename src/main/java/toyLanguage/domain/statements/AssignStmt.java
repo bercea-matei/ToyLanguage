@@ -5,6 +5,7 @@ import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.types.Type;
 
 public class AssignStmt implements Stmt{
@@ -22,8 +23,9 @@ public class AssignStmt implements Stmt{
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
         MyDict<String,Value> symTbl= state.getSymTable();
+        MyHeap<Integer,Value> heapTbl= state.getHeapTable();
         if (symTbl.isKeyDef(this.id)) {
-            Value val = this.exp.eval(symTbl);
+            Value val = this.exp.eval(symTbl, heapTbl);
             Type typId= (symTbl.lookup(this.id)).getType();
             if ((val.getType()).equals(typId)) {
                 symTbl.update(this.id, val);

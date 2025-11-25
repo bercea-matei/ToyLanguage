@@ -4,6 +4,7 @@ import toyLanguage.domain.expressions.operators.ArithOp;
 import toyLanguage.domain.values.Value;
 import toyLanguage.domain.values.IntValue;
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.types.IntType;
 
@@ -37,11 +38,11 @@ public class ArithExp implements Exp{
         return this.e1.toString() + " " + this.op.toString() + " " + this.e2.toString();
     }
     @Override
-    public Value eval(MyDict<String,Value> tbl) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException{
+    public Value eval(MyDict<String,Value> tbl, MyHeap<Integer, Value> hp) throws IdNotFoundException, IdAlreadyExistsException, MissmatchValueException, UnknownOperatorException, DivisionByZeroException{
         Value v1,v2;
-        v1= e1.eval(tbl);
+        v1= e1.eval(tbl, hp);
         if (v1.getType().equals(new IntType())) {
-            v2 = e2.eval(tbl);
+            v2 = e2.eval(tbl, hp);
             if (v2.getType().equals(new IntType())) {
                 IntValue i1 = (IntValue)v1;
                 IntValue i2 = (IntValue)v2;
