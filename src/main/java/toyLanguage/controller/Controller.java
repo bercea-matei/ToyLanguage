@@ -42,7 +42,7 @@ public class Controller implements MyController {
         this.repo.addPrgState(state);
     }
     
-    //TODO - Move Options In Separate Files
+    //TODo - Move Options In Separate Files
     @Override
     public void loadOption1() {
         Stmt ex1= new CompStmt(
@@ -304,7 +304,8 @@ public class Controller implements MyController {
         boolean newAddressFound = true;
         while (newAddressFound) {
             newAddressFound = false;
-            Set<Integer> indirectlyReachable = heap.entrySet().stream()
+            Set<Integer> indirectlyReachable = heap.entrySet()
+                    .stream()
                     .filter(entry -> reachableAddresses.contains(entry.getKey()))
                     .map(Map.Entry::getValue)
                     .filter(value -> value instanceof RefValue)
@@ -315,7 +316,7 @@ public class Controller implements MyController {
                 newAddressFound = true;
             }
         }
-        final Set<Integer> finalReachable = reachableAddresses; // Final variable for lambda
+        final Set<Integer> finalReachable = reachableAddresses;
         return heap.entrySet().stream()
                 .filter(entry -> finalReachable.contains(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));    
