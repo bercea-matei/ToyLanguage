@@ -3,6 +3,7 @@ package toyLanguage.domain.statements;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.BoolType;
+import toyLanguage.domain.types.Type;
 import toyLanguage.domain.values.BoolValue;
 import toyLanguage.domain.values.Value;
 import toyLanguage.domain.adts.dictionary.MyDict;
@@ -43,7 +44,18 @@ public class WhileStmt implements Stmt{
             throw new MissmatchValueException(new BoolType(), val.getType());
         return state;
     }
+    @Override
     public Stmt deepCopy() {
         return new WhileStmt(this.expression.deepCopy(), this.statement.deepCopy());
+    }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type typexp=expression.typecheck(typeEnv);
+        if (typexp.equals(new BoolType())) {
+            statement.typecheck(typeEnv.deepCopy());
+            return typeEnv;
+        }
+        else
+            throw new MissmatchTypeException(new BoolType().toString(), typexp.toString());
     }
 }   

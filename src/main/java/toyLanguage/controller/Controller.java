@@ -1,6 +1,7 @@
 package toyLanguage.controller;
 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
+import toyLanguage.domain.myExceptions.TypeCheckFailedException;
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
 import toyLanguage.domain.myExceptions.EmptyStackException;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
@@ -44,7 +45,7 @@ public class Controller implements MyController {
     
     //TODo - Move Options In Separate Files
     @Override
-    public void loadOption1() {
+    public void loadOption1() throws ToyLanguageExceptions {
         Stmt ex1= new CompStmt(
             new VarDeclStmt("v",new IntType()),
             new CompStmt(
@@ -55,18 +56,33 @@ public class Controller implements MyController {
                 )
             )
         );
-        MyStack<Stmt> exeStk = new ExeStk<>();
-        exeStk.push(ex1);
-        MyDict<String, Value> symTable = new SymbolTable<>();
-        MyList<Value> outList = new OutList<>();
-        MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-        MyHeap<Integer, Value> heapTable = new HeapTable<>();
-        PrgState state = new PrgState( ex1, exeStk, symTable, outList, fileTable, heapTable);
-        this.repo.addPrgState(state);
+        try {
+            MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+            ex1.typecheck(typeEnv);
+            
+            MyStack<Stmt> exeStk = new ExeStk<>();
+            exeStk.push(ex1);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+            MyHeap<Integer, Value> heapTable = new HeapTable<>();
+            PrgState state = new PrgState( ex1, exeStk, symTable, outList, fileTable, heapTable);
+            this.repo.addPrgState(state);
+
+        } catch (ToyLanguageExceptions e) {
+            throw new TypeCheckFailedException(e);
+        }
+
+        
     }
     @Override
-    public void loadOption2() throws UnknownOperatorException{
-            Stmt ex2 = new CompStmt( new VarDeclStmt("a",new IntType()),new CompStmt(new VarDeclStmt("b",new IntType()),new CompStmt(new AssignStmt("a", new ArithExp('+',new ValueExp(new IntValue(2)),new ArithExp('*',new ValueExp(new IntValue(3)), new ValueExp(new IntValue(5))))), new CompStmt(new AssignStmt("b",new ArithExp('+',new VarExp("a"), new ValueExp(new IntValue(1)))), new PrintStmt(new VarExp("b"))))));
+    public void loadOption2() throws ToyLanguageExceptions {
+        Stmt ex2 = new CompStmt( new VarDeclStmt("a",new IntType()),new CompStmt(new VarDeclStmt("b",new IntType()),new CompStmt(new AssignStmt("a", new ArithExp('+',new ValueExp(new IntValue(2)),new ArithExp('*',new ValueExp(new IntValue(3)), new ValueExp(new IntValue(5))))), new CompStmt(new AssignStmt("b",new ArithExp('+',new VarExp("a"), new ValueExp(new IntValue(1)))), new PrintStmt(new VarExp("b"))))));
+            
+        try {
+            MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+            ex2.typecheck(typeEnv);
+            
             MyStack<Stmt> exeStk = new ExeStk<>();
             exeStk.push(ex2);
             MyDict<String, Value> symTable = new SymbolTable<>();
@@ -75,36 +91,60 @@ public class Controller implements MyController {
             MyHeap<Integer, Value> heapTable = new HeapTable<>();
             PrgState state = new PrgState(ex2, exeStk, symTable, outList, fileTable, heapTable);
             this.repo.addPrgState(state);
+
+        } catch (ToyLanguageExceptions e) {
+            throw new TypeCheckFailedException(e);
+        }
+
     }
     @Override
-    public void loadOption3() {
+    public void loadOption3() throws ToyLanguageExceptions {
         Stmt ex3 = new CompStmt(new VarDeclStmt("a",new BoolType()), new CompStmt(new VarDeclStmt("v", new IntType()), new CompStmt(new AssignStmt("a", new ValueExp(new BoolValue(true))), new CompStmt(new IfStmt(new VarExp("a"),new AssignStmt("v",new ValueExp(new IntValue(2))), new AssignStmt("v", new ValueExp(new IntValue(3)))), new PrintStmt(new VarExp("v"))))));
-        MyStack<Stmt> exeStk = new ExeStk<>();
-        exeStk.push(ex3);
-        MyDict<String, Value> symTable = new SymbolTable<>();
-        MyList<Value> outList = new OutList<>();
-        MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-        MyHeap<Integer, Value> heapTable = new HeapTable<>();
-        PrgState state = new PrgState(ex3, exeStk, symTable, outList, fileTable, heapTable);
-        this.repo.addPrgState(state);
+        try {
+            MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+            ex3.typecheck(typeEnv);
+            
+            MyStack<Stmt> exeStk = new ExeStk<>();
+            exeStk.push(ex3);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+            MyHeap<Integer, Value> heapTable = new HeapTable<>();
+            PrgState state = new PrgState( ex3, exeStk, symTable, outList, fileTable, heapTable);
+            this.repo.addPrgState(state);
+
+        } catch (ToyLanguageExceptions e) {
+            throw new TypeCheckFailedException(e);
+        }
+
     }
     @Override
-    public void loadOption4() {
+    public void loadOption4() throws ToyLanguageExceptions {
         Stmt ex4 = new CompStmt(new VarDeclStmt("varf", new StringType()),new CompStmt(new AssignStmt("varf", new ValueExp(new StringValue("test.in"))),new CompStmt(new OpenRFileStmt(new VarExp("varf")),new CompStmt(new VarDeclStmt("varc", new IntType()),new CompStmt(new ReadFileStmt(new VarExp("varf"), "varc"),new CompStmt(new PrintStmt(new VarExp("varc")),new CompStmt(new ReadFileStmt(new VarExp("varf"), "varc"),new CompStmt(new PrintStmt(new VarExp("varc")),new CloseRFileStmt(new VarExp("varf"))))))))));
-        MyStack<Stmt> exeStk = new ExeStk<>();
-        exeStk.push(ex4);
-        MyDict<String, Value> symTable = new SymbolTable<>();
-        MyList<Value> outList = new OutList<>();
-        MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-        MyHeap<Integer, Value> heapTable = new HeapTable<>();
-        PrgState state = new PrgState(ex4,exeStk, symTable, outList, fileTable, heapTable);
-        this.repo.addPrgState(state);
+        try {
+            MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+            ex4.typecheck(typeEnv);
+            
+            MyStack<Stmt> exeStk = new ExeStk<>();
+            exeStk.push(ex4);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+            MyHeap<Integer, Value> heapTable = new HeapTable<>();
+            PrgState state = new PrgState( ex4, exeStk, symTable, outList, fileTable, heapTable);
+            this.repo.addPrgState(state);
+
+        } catch (ToyLanguageExceptions e) {
+            throw new TypeCheckFailedException(e);
+        }
+
     }
     @Override
-    public void loadOption5() {
+    public void loadOption5() throws ToyLanguageExceptions {
         try {
             Stmt ex5= new CompStmt(
-                new VarDeclStmt("v",new IntType()),
+                //TYPECHECK_TEST
+                new VarDeclStmt("v",new BoolType()),
                 new CompStmt(
                     new AssignStmt("v",new ValueExp(new IntValue(4))),
                     new CompStmt(
@@ -126,20 +166,28 @@ public class Controller implements MyController {
                     )
                 )
             );
-            MyStack<Stmt> exeStk = new ExeStk<>();
+            try {
+                MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+                ex5.typecheck(typeEnv);
+                
+                MyStack<Stmt> exeStk = new ExeStk<>();
                 exeStk.push(ex5);
                 MyDict<String, Value> symTable = new SymbolTable<>();
                 MyList<Value> outList = new OutList<>();
                 MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
                 MyHeap<Integer, Value> heapTable = new HeapTable<>();
-                PrgState state = new PrgState( ex5,exeStk, symTable, outList, fileTable,heapTable);
+                PrgState state = new PrgState( ex5, exeStk, symTable, outList, fileTable, heapTable);
                 this.repo.addPrgState(state);
+
+            } catch (ToyLanguageExceptions e) {
+                throw new TypeCheckFailedException(e);
+            }
         } catch (UnknownOperatorException e) {
             System.out.println("Something went wrong while loading model 5");
         }
     }
     @Override
-    public void loadOption6() {
+    public void loadOption6() throws ToyLanguageExceptions {
             Stmt ex6= new CompStmt(
                 new VarDeclStmt("v",new RefType(new IntType())),
                 new CompStmt(
@@ -156,17 +204,26 @@ public class Controller implements MyController {
                     )
                 )
             );
-            MyStack<Stmt> exeStk = new ExeStk<>();
-            exeStk.push(ex6);
-            MyDict<String, Value> symTable = new SymbolTable<>();
-            MyList<Value> outList = new OutList<>();
-            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-            MyHeap<Integer, Value> heapTable = new HeapTable<>();
-            PrgState state = new PrgState(ex6,exeStk, symTable, outList, fileTable,heapTable);
-            this.repo.addPrgState(state);
+            try {
+                MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+                ex6.typecheck(typeEnv);
+                
+                MyStack<Stmt> exeStk = new ExeStk<>();
+                exeStk.push(ex6);
+                MyDict<String, Value> symTable = new SymbolTable<>();
+                MyList<Value> outList = new OutList<>();
+                MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+                MyHeap<Integer, Value> heapTable = new HeapTable<>();
+                PrgState state = new PrgState( ex6, exeStk, symTable, outList, fileTable, heapTable);
+                this.repo.addPrgState(state);
+
+            } catch (ToyLanguageExceptions e) {
+                throw new TypeCheckFailedException(e);
+            }
+
     }
     @Override
-    public void loadOption7() throws UnknownOperatorException {
+    public void loadOption7() throws ToyLanguageExceptions {
             Stmt ex7= new CompStmt(
                 new VarDeclStmt("v",new RefType(new IntType())),
                 new CompStmt(
@@ -188,17 +245,26 @@ public class Controller implements MyController {
                     )
                 )
             );
-            MyStack<Stmt> exeStk = new ExeStk<>();
-            exeStk.push(ex7);
-            MyDict<String, Value> symTable = new SymbolTable<>();
-            MyList<Value> outList = new OutList<>();
-            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
-            MyHeap<Integer, Value> heapTable = new HeapTable<>();
-            PrgState state = new PrgState(ex7,exeStk, symTable, outList, fileTable,heapTable);
-            this.repo.addPrgState(state);
+            try {
+                MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+                ex7.typecheck(typeEnv);
+                
+                MyStack<Stmt> exeStk = new ExeStk<>();
+                exeStk.push(ex7);
+                MyDict<String, Value> symTable = new SymbolTable<>();
+                MyList<Value> outList = new OutList<>();
+                MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+                MyHeap<Integer, Value> heapTable = new HeapTable<>();
+                PrgState state = new PrgState( ex7, exeStk, symTable, outList, fileTable, heapTable);
+                this.repo.addPrgState(state);
+
+            } catch (ToyLanguageExceptions e) {
+                throw new TypeCheckFailedException(e);
+            }
+
     }
     @Override
-    public void loadOption8() throws UnknownOperatorException {
+    public void loadOption8()throws ToyLanguageExceptions {
             Stmt ex8 = new CompStmt(
                 new VarDeclStmt("v",new RefType(new IntType())),
                 new CompStmt(
@@ -218,17 +284,26 @@ public class Controller implements MyController {
                     )
                 )
             );
-            MyStack<Stmt> exeStk = new ExeStk<>();
+            try {
+                MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+                ex8.typecheck(typeEnv);
+                
+                MyStack<Stmt> exeStk = new ExeStk<>();
                 exeStk.push(ex8);
                 MyDict<String, Value> symTable = new SymbolTable<>();
                 MyList<Value> outList = new OutList<>();
                 MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
                 MyHeap<Integer, Value> heapTable = new HeapTable<>();
-                PrgState state = new PrgState(ex8,exeStk, symTable, outList, fileTable,heapTable);
+                PrgState state = new PrgState( ex8, exeStk, symTable, outList, fileTable, heapTable);
                 this.repo.addPrgState(state);
+
+            } catch (ToyLanguageExceptions e) {
+                throw new TypeCheckFailedException(e);
+            }
+
     }
     @Override
-    public void loadOption9() throws UnknownOperatorException {
+    public void loadOption9() throws ToyLanguageExceptions {
             Stmt ex9 = new CompStmt(
                 new VarDeclStmt("v",new RefType(new IntType())),
                 new CompStmt(
@@ -245,14 +320,23 @@ public class Controller implements MyController {
                     )
                 )
             );
-            MyStack<Stmt> exeStk = new ExeStk<>();
+            try {
+                MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+                ex9.typecheck(typeEnv);
+                
+                MyStack<Stmt> exeStk = new ExeStk<>();
                 exeStk.push(ex9);
                 MyDict<String, Value> symTable = new SymbolTable<>();
                 MyList<Value> outList = new OutList<>();
                 MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
                 MyHeap<Integer, Value> heapTable = new HeapTable<>();
-                PrgState state = new PrgState(ex9,exeStk, symTable, outList, fileTable,heapTable);
+                PrgState state = new PrgState( ex9, exeStk, symTable, outList, fileTable, heapTable);
                 this.repo.addPrgState(state);
+
+            } catch (ToyLanguageExceptions e) {
+                throw new TypeCheckFailedException(e);
+            }
+
     }
 
 

@@ -7,6 +7,7 @@ import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.types.BoolType;
+import toyLanguage.domain.types.Type;
 
 public class LogicExp implements Exp{
     Exp e1;
@@ -48,8 +49,22 @@ public class LogicExp implements Exp{
             throw new MissmatchValueException(new BoolType(), v1.getType());
         }
     }
+    @Override
     public Exp deepCopy() {
         //this.op is an enum => imutable
         return new LogicExp(this.e1.deepCopy(), this.e2.deepCopy(), this.op);
+    }
+    @Override
+    public Type typecheck(MyDict<String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend {
+        Type typ1, typ2;
+        typ1=e1.typecheck(typeEnv);
+        typ2=e2.typecheck(typeEnv);
+        if (typ1.equals(new BoolType())) {
+            if (typ2.equals(new BoolType())) {
+                return new BoolType();
+            } else
+                throw new WhichOperandExceptionExtend(2, new MissmatchTypeException(new BoolType().toString(), typ2.toString()));
+        }else
+            throw new WhichOperandExceptionExtend(1, new MissmatchTypeException(new BoolType().toString(), typ1.toString()));
     }
 }

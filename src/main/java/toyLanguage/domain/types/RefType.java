@@ -30,7 +30,7 @@ public class RefType implements Type{
     public Type deepCopy() {
         return new RefType(inner.deepCopy());
     }
-    Type getInner() {
+    public Type getInner() {
         return inner;
     }
 }

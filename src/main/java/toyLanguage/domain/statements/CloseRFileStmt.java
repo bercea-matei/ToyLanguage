@@ -7,10 +7,16 @@ import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
 import toyLanguage.domain.myExceptions.ClosingFileException;
+import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
+import toyLanguage.domain.myExceptions.IdNotDefinedException;
+import toyLanguage.domain.myExceptions.IdNotFoundException;
 import toyLanguage.domain.myExceptions.MissEvaluationException;
+import toyLanguage.domain.myExceptions.MissmatchTypeException;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
+import toyLanguage.domain.myExceptions.WhichOperandExceptionExtend;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.StringType;
+import toyLanguage.domain.types.Type;
 import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.values.Value;
 
@@ -55,5 +61,15 @@ public class CloseRFileStmt implements Stmt {
         fileTable.remove(filenameValue);
 
         return state;
+    }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type expType = expression.typecheck(typeEnv);
+
+        if (expType.equals(new StringType())) {
+            return typeEnv;
+        } else {
+            throw new MissmatchTypeException(new StringType().toString(), expType.toString());
+        }
     }
 }

@@ -30,4 +30,9 @@ public class VarDeclStmt implements Stmt{
         // name is a string => immutable
         return new VarDeclStmt(this.name, this.typ.deepCopy());
     }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        typeEnv.add(name,typ);
+        return typeEnv;
+    }
 }

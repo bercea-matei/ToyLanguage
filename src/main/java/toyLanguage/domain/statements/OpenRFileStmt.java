@@ -3,12 +3,10 @@ package toyLanguage.domain.statements;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
-import toyLanguage.domain.myExceptions.FileAlreadyOpenException;
-import toyLanguage.domain.myExceptions.MissmatchValueException;
-import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
-import toyLanguage.domain.myExceptions.FileNotFoundException;
+import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.StringType;
+import toyLanguage.domain.types.Type;
 import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.values.Value;
 
@@ -58,5 +56,15 @@ public class OpenRFileStmt implements Stmt {
             throw new FileNotFoundException(filenameValue.getValue().toString(), e.getMessage());
         }
         return state;
+    }
+    @Override
+    public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type expType = expression.typecheck(typeEnv);
+
+        if (expType.equals(new StringType())) {
+            return typeEnv;
+        } else {
+            throw new MissmatchTypeException(new StringType().toString(), expType.toString());
+        }
     }
 }

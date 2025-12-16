@@ -5,6 +5,7 @@ import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.operators.RelOp;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.types.IntType;
+import toyLanguage.domain.types.Type;
 import toyLanguage.domain.values.BoolValue;
 import toyLanguage.domain.values.IntValue;
 import toyLanguage.domain.values.Value;
@@ -98,5 +99,18 @@ public class RelExp implements Exp {
                 throw new UnknownOperatorException("Unknown relational operator: " + op);
         }
         return new BoolValue(result);
+    }
+    @Override
+    public Type typecheck(MyDict<String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend {
+        Type typ1, typ2;
+        typ1=e1.typecheck(typeEnv);
+        typ2=e2.typecheck(typeEnv);
+        if (typ1.equals(new IntType())) {
+            if (typ2.equals(new IntType())) {
+                return new IntType();
+            } else
+                throw new WhichOperandExceptionExtend(2, new MissmatchTypeException(new IntType().toString(), typ2.toString()));
+        }else
+            throw new WhichOperandExceptionExtend(1, new MissmatchTypeException(new IntType().toString(), typ1.toString()));
     }
 }

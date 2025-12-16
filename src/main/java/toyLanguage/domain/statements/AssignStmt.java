@@ -37,7 +37,17 @@ public class AssignStmt implements Stmt{
         }
         return state;
     }
+    @Override
     public Stmt deepCopy() {
         return new AssignStmt(this.id, this.exp.deepCopy());
+    }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend {
+        Type typevar = typeEnv.lookup(id);
+        Type typexp = exp.typecheck(typeEnv);
+        if (typevar.equals(typexp))
+            return typeEnv;
+        else
+            throw new MissmatchTypeException(typevar.toString(), typexp.toString());
     }
 }

@@ -44,8 +44,25 @@ public class WriteHeapStmt implements Stmt{
             throw new MissmatchValueException(locationType.toString(), newVal.getType().toString());        heapTbl.update(addr, newVal);
         return state;
     }
-
+    @Override
     public Stmt deepCopy() {
         return new WriteHeapStmt(this.varName,this.expression.deepCopy());
+    }
+    @Override
+    public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type varType = typeEnv.lookup(this.varName);
+        if (!(varType instanceof RefType)) {
+            throw new MissmatchTypeException("RefType", this.varName.toString());
+        }
+
+        Type expType = this.expression.typecheck(typeEnv);
+
+        Type innerTypeOfRef = ((RefType) varType).getInner();
+
+        if (innerTypeOfRef.equals(expType)) {
+            return typeEnv;
+        } else {
+            throw new MissmatchTypeException(innerTypeOfRef.toString(), expType.toString());
+        }
     }
 }

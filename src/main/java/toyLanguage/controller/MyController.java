@@ -25,15 +25,15 @@ public interface MyController {
     public void goToNextState() throws FinishUnexistentStateException;
     public void setLogFilePath(String logFilePath);
     public String getLogFilePath();
-    public void loadOption1();
-    public void loadOption2() throws UnknownOperatorException;
-    public void loadOption3();
-    public void loadOption4();
-    public void loadOption5();
-    public void loadOption6();
-    public void loadOption7() throws UnknownOperatorException;
-    public void loadOption8() throws UnknownOperatorException;
-    public void loadOption9() throws UnknownOperatorException;
-    public void logPrgStateExec() throws InvalidFilePathException, NoFilePathException;
+    public void loadOption1() throws ToyLanguageExceptions;
+    public void loadOption2() throws ToyLanguageExceptions;
+    public void loadOption3() throws ToyLanguageExceptions;
+    public void loadOption4() throws ToyLanguageExceptions;
+    public void loadOption5() throws ToyLanguageExceptions;
+    public void loadOption6() throws ToyLanguageExceptions;
+    public void loadOption7() throws ToyLanguageExceptions;
+    public void loadOption8() throws ToyLanguageExceptions;
+    public void loadOption9() throws ToyLanguageExceptions;
+    public void logPrgStateExec() throws ToyLanguageExceptions;
 }
 

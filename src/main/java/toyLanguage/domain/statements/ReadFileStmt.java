@@ -3,15 +3,11 @@ package toyLanguage.domain.statements;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.Exp;
-import toyLanguage.domain.myExceptions.IOFileException;
-import toyLanguage.domain.myExceptions.IdNotDefinedException;
-import toyLanguage.domain.myExceptions.MissEvaluationException;
-import toyLanguage.domain.myExceptions.MissmatchValueException;
-import toyLanguage.domain.myExceptions.InvalidFormatException;
-import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
+import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.IntType;
 import toyLanguage.domain.types.StringType;
+import toyLanguage.domain.types.Type;
 import toyLanguage.domain.values.IntValue;
 import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.values.Value;
@@ -79,5 +75,19 @@ public class ReadFileStmt implements Stmt {
         symTable.update(variableName, new IntValue(readValue));
 
         return state;
+    }
+    @Override
+    public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type expType = this.expression.typecheck(typeEnv);
+        if (!expType.equals(new StringType())) {
+            throw new MissmatchTypeException(new StringType().toString(), expType.toString());
+        }
+
+        Type varType = typeEnv.lookup(this.variableName);
+        if (!varType.equals(new IntType())) {
+            throw new MissmatchTypeException(new IntType().toString(), varType.toString());
+        }
+
+        return typeEnv;
     }
 }

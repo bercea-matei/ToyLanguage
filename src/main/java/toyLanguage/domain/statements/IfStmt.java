@@ -10,6 +10,7 @@ import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.types.BoolType;
+import toyLanguage.domain.types.Type;
 
 
 public class IfStmt implements Stmt{
@@ -44,7 +45,19 @@ public class IfStmt implements Stmt{
             throw new MissmatchValueException(new BoolType(), val.getType());
         return state;
     }
+    @Override
     public Stmt deepCopy() {
         return new IfStmt(this.exp.deepCopy(), this.thenS.deepCopy(), this.elseS.deepCopy());
+    }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type typexp=exp.typecheck(typeEnv);
+        if (typexp.equals(new BoolType())) {
+            thenS.typecheck(typeEnv.deepCopy());
+            elseS.typecheck(typeEnv.deepCopy());
+            return typeEnv;
+        }
+        else
+            throw new MissmatchTypeException(new BoolType().toString(), typexp.toString());
     }
 }

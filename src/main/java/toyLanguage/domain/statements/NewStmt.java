@@ -43,8 +43,17 @@ public class NewStmt implements Stmt{
         symTbl.update(this.varName, new RefValue(newAddr, innerType));
         return state;
     }
-
+    @Override
     public Stmt deepCopy() {
         return new NewStmt(this.varName, this.expression.deepCopy());
+    }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
+        Type typevar = typeEnv.lookup(varName);
+        Type typexp = expression.typecheck(typeEnv);
+        if (typevar.equals(new RefType(typexp)))
+            return typeEnv;
+        else
+            throw new MissmatchTypeException(typevar.toString(), typexp.toString());
     }
 }

@@ -1,9 +1,12 @@
 package toyLanguage.domain.expressions;
 
+import toyLanguage.domain.myExceptions.IdNotDefinedException;
 import toyLanguage.domain.myExceptions.IdNotFoundException;
+import toyLanguage.domain.myExceptions.MissmatchTypeException;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.values.*;
+import toyLanguage.domain.types.Type;
 
 public class ValueExp implements Exp{
     Value val;
@@ -19,7 +22,12 @@ public class ValueExp implements Exp{
     public String toString() {
         return this.val.toString();
     }
+    @Override
     public Exp deepCopy() {
         return new ValueExp(this.val.deepCopy());
+    }
+    @Override
+    public Type typecheck(MyDict<String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException {
+        return val.getType();
     }
 }

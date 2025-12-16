@@ -2,6 +2,7 @@ package toyLanguage.domain.statements;
 
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
+import toyLanguage.domain.types.Type;
 import toyLanguage.domain.adts.list.MyList;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
@@ -27,8 +28,14 @@ public class PrintStmt implements Stmt{
         outList.append(exp.eval(symTable, heapTbl));
         return state;
     }
+    @Override
     public Stmt deepCopy() {
         return new PrintStmt(this.exp.deepCopy());
+    }
+    @Override
+    public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend {
+        exp.typecheck(typeEnv);
+        return typeEnv;
     }
 }
 
