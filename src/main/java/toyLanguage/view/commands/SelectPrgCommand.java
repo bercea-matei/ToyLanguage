@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
+import toyLanguage.examples.Examples;
 
 public class SelectPrgCommand extends Command {
     private final MyController controller;
@@ -35,25 +36,71 @@ public class SelectPrgCommand extends Command {
     public void execute() {
         this.printOptions();
         String option = keyboard.next();
+
         
         if(option.equals("1")) {
-            this.loadOption1();
+            try {
+                Examples.loadOption1(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else if (option.equals("2")) {
-            this.loadOption2();
+            try {
+                Examples.loadOption2(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else if (option.equals("3")) {
-            this.loadOption3();
+            try {
+                Examples.loadOption3(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else if (option.equals("4")) {
-            this.loadOption4();
+            try {
+                Examples.loadOption4(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else if (option.equals("5")) {
-            this.loadOption5();
+            try {
+                Examples.loadOption5(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            };
         } else if (option.equals("6")) {
-            this.loadOption6();
+            try {
+                Examples.loadOption6(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            };
         } else if (option.equals("7")) {
-            this.loadOption7();
+            try {
+                Examples.loadOption7(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else if (option.equals("8")) {
-            this.loadOption8();
+            try {
+                Examples.loadOption8(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else if (option.equals("9")) {
-            this.loadOption9();
+            try {
+                Examples.loadOption9(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             System.err.println("unkown option");
         }
@@ -72,79 +119,7 @@ public class SelectPrgCommand extends Command {
         System.out.print(">>");
 
     }
-    private void loadOption1() {
-        try {
-            this.controller.loadOption1();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption2() {
-        try {
-            this.controller.loadOption2();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption3() {
-        try {
-            this.controller.loadOption3();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption4() {
-        try {
-            this.controller.loadOption4();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption5() {
-        try {
-            this.controller.loadOption5();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption6() {
-        try {
-            this.controller.loadOption6();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption7() {
-        try {
-            this.controller.loadOption7();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
+} 
 
-    }
-    private void loadOption8() {
-        try {
-            this.controller.loadOption8();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-    private void loadOption9() {
-        try {
-            this.controller.loadOption9();
-            System.out.println("program saved successfully");
-        } catch (ToyLanguageExceptions e) {
-            System.out.println(e);
-        }
-    }
-        
-}
-  
+
+

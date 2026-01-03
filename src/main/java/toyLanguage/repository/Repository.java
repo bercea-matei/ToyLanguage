@@ -13,6 +13,7 @@ import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.InvalidFilePathException;
 import toyLanguage.domain.myExceptions.NoFilePathException;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
+import toyLanguage.domain.myExceptions.UnfinishedProgramException;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.values.StringValue;
@@ -27,7 +28,9 @@ public class Repository implements MyRepository {
         this.prgStates = new ArrayList<>();
     }
     @Override
-    public void addPrgState(PrgState state) {
+    public void initializePrgState(PrgState state) throws UnfinishedProgramException{
+        if (prgStates.size() != 0)
+            throw new UnfinishedProgramException();
         this.prgStates.add(state);
     }
     @Override
