@@ -43,7 +43,7 @@ public class IfStmt implements Stmt{
         }
         else 
             throw new MissmatchValueException(new BoolType(), val.getType());
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

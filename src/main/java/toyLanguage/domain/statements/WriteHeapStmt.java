@@ -42,7 +42,7 @@ public class WriteHeapStmt implements Stmt{
         Type locationType = refVal.getLocationType();
         if (!newVal.getType().equals(locationType))
             throw new MissmatchValueException(locationType.toString(), newVal.getType().toString());        heapTbl.update(addr, newVal);
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

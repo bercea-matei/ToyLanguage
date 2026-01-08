@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import toyLanguage.domain.adts.dictionary.*;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.stack.*;
+import toyLanguage.domain.myExceptions.EmptyStackException;
+import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.values.Value;
 import toyLanguage.domain.values.StringValue;
@@ -17,6 +19,8 @@ public class PrgState {
     private final MyDict<StringValue, BufferedReader> fileTable;
     private final MyHeap<Integer, Value> heapTable;
     private final Stmt originalProgram;
+    private final int id;
+    private static int newId = 1;
 
     public PrgState(    
             Stmt origPrg, MyStack<Stmt> stk, 
@@ -29,6 +33,11 @@ public class PrgState {
         this.outList = list;
         this.fileTable = fileTable;
         this.heapTable = heapTable;
+        this.id = getNewId();
+    }
+    private static synchronized int getNewId() {
+        newId += 1;
+        return newId - 1; 
     }
     
     public MyDict<String, Value> getSymTable() {
@@ -49,6 +58,8 @@ public class PrgState {
     @Override
     public String toString() {
         StringBuilder allStr = new StringBuilder();
+        allStr.append("Thread ID: " + Integer.toString(this.id));
+        allStr.append("\n");
         allStr.append(this.exeStk.toString());
         allStr.append("\n");
         allStr.append(this.symTable.toString());
@@ -63,6 +74,15 @@ public class PrgState {
     }
     public Stmt getOriginal() {
         return this.originalProgram.deepCopy();
+    }
+    public Boolean isNotCompleted() {
+        return ! this.exeStk.isEmpty();
+    }
+    public PrgState oneStep() throws ToyLanguageExceptions{
+        if(this.exeStk.isEmpty()) 
+            throw new EmptyStackException();
+        Stmt crtStmt = this.exeStk.pop();
+    return crtStmt.execute(this);
     }
 
 }

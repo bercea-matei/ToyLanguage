@@ -60,7 +60,7 @@ public class CloseRFileStmt implements Stmt {
 
         fileTable.remove(filenameValue);
 
-        return state;
+        return null;
     }
     @Override
     public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {

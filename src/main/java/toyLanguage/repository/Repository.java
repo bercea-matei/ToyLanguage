@@ -1,14 +1,5 @@
 package toyLanguage.repository;
 
-import java.util.List;
-import java.util.Map;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.InvalidFilePathException;
 import toyLanguage.domain.myExceptions.NoFilePathException;
@@ -18,6 +9,15 @@ import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.values.Value;
+
+import java.util.List;
+import java.util.Map;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class Repository implements MyRepository {
     private List<PrgState> prgStates;
@@ -33,17 +33,10 @@ public class Repository implements MyRepository {
             throw new UnfinishedProgramException();
         this.prgStates.add(state);
     }
-    @Override
-    public PrgState getCrtPrg() throws NoProgramToRunException{
-        if (! this.prgStates.isEmpty())
-            return this.prgStates.get(0);
-        else 
-            throw new NoProgramToRunException();
-    }
 
     @Override
     public Stmt getOriginalState() throws NoProgramToRunException{
-        return this.prgStates.get(0).getOriginal();
+        return this.prgStates.get(0).getOriginal().deepCopy();
     }
     @Override 
     public void finishCrtState() throws FinishUnexistentStateException{
@@ -53,32 +46,32 @@ public class Repository implements MyRepository {
             throw new FinishUnexistentStateException();
     }
     @Override
-    public void logPrgStateExec() throws InvalidFilePathException, NoFilePathException {
+    public void logPrgStateExec(PrgState state) throws InvalidFilePathException, NoFilePathException {
         if (this.logFilePath == null || this.logFilePath.equals(""))
             throw new NoFilePathException();
         try {
             PrintWriter logFile  = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
             
             logFile.println(msgs[1]);
-            for (Stmt stmt : this.prgStates.get(0).getExeStk()) {
+            for (Stmt stmt : state.getExeStk()) {
                 logFile.println(stmt.toString());
             }
 
             logFile.println(msgs[2]);
-            for (Map.Entry<String, Value> entry : this.prgStates.get(0).getSymTable()) {
+            for (Map.Entry<String, Value> entry : state.getSymTable()) {
                 logFile.println(entry.getKey() + " --> " + entry.getValue().toString());
             }
 
             logFile.println(msgs[3]);
-            for (Value value : this.prgStates.get(0).getOutList()) {
+            for (Value value : state.getOutList()) {
                 logFile.println(value.toString());
             }
             logFile.println(msgs[4]);
-            for (Map.Entry<StringValue, BufferedReader> entry : this.prgStates.get(0).getFileTable()) {
+            for (Map.Entry<StringValue, BufferedReader> entry : state.getFileTable()) {
                 logFile.println(entry.getKey());
             }
             logFile.println(msgs[5]);
-            for (Map.Entry<Integer, Value> entry : this.prgStates.get(0).getHeapTable()) {
+            for (Map.Entry<Integer, Value> entry : state.getHeapTable()) {
                 logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
             logFile.println(msgs[0]);
@@ -94,6 +87,14 @@ public class Repository implements MyRepository {
     @Override
     public String getLogFilePath() {
         return this.logFilePath;
+    }
+    @Override
+    public List<PrgState> getPrgList() {
+        return this.prgStates;
+    }
+    @Override
+    public void setPrgList(List<PrgState> prgs) {
+        this.prgStates = prgs;
     }
 }
 

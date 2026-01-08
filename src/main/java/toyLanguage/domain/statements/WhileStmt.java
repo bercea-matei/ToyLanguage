@@ -37,12 +37,11 @@ public class WhileStmt implements Stmt{
             if (bool.getValue()) {
                 exeStk.push(this);
                 exeStk.push(this.statement);
-                return state;
             }
         }
         else 
             throw new MissmatchValueException(new BoolType(), val.getType());
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

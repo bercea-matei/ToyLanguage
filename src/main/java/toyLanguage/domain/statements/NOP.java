@@ -14,7 +14,7 @@ public class NOP implements Stmt{
 
     @Override
     public PrgState execute(PrgState state) throws ToyLanguageExceptions {
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

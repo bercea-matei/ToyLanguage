@@ -3,6 +3,8 @@ package toyLanguage.domain.statements;
 import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.stack.ExeStk;
+import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.types.Type;
 
 public class ForkStmt implements Stmt{
@@ -17,14 +19,15 @@ public class ForkStmt implements Stmt{
     }
     @Override
     public PrgState execute(PrgState parentState) throws ToyLanguageExceptions {
-
+        MyStack<Stmt> childStk = new ExeStk<>();
+        childStk.push(this.stmt);
         PrgState childState = new PrgState(
             parentState.getOriginal(),
-            parentState.getExeStk().deepCopy(),
+            childStk,
             parentState.getSymTable().deepCopy(),
-            parentState.getOutList().deepCopy(),
-            parentState.getFileTable().deepCopy(),
-            parentState.getHeapTable().deepCopy()
+            parentState.getOutList(),
+            parentState.getFileTable(),
+            parentState.getHeapTable()
         );
 
         return childState;

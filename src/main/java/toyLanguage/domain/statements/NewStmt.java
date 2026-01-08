@@ -41,7 +41,7 @@ public class NewStmt implements Stmt{
         
         int newAddr = heapTbl.allocate(newVal);
         symTbl.update(this.varName, new RefValue(newAddr, innerType));
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

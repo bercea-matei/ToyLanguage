@@ -25,7 +25,7 @@ public class CompStmt implements Stmt{
         MyStack<Stmt> stk=state.getExeStk();
         stk.push(snd);
         stk.push(first);
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

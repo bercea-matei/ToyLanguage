@@ -74,7 +74,7 @@ public class ReadFileStmt implements Stmt {
         }
         symTable.update(variableName, new IntValue(readValue));
 
-        return state;
+        return null;
     }
     @Override
     public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {

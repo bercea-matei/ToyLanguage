@@ -26,7 +26,7 @@ public class PrintStmt implements Stmt{
         MyHeap<Integer,Value> heapTbl= state.getHeapTable();
 
         outList.append(exp.eval(symTable, heapTbl));
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

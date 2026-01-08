@@ -55,7 +55,7 @@ public class OpenRFileStmt implements Stmt {
         } catch (IOException e) {
             throw new FileNotFoundException(filenameValue.getValue().toString(), e.getMessage());
         }
-        return state;
+        return null;
     }
     @Override
     public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {

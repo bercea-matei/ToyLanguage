@@ -35,7 +35,7 @@ public class AssignStmt implements Stmt{
         } else { 
             throw new IdNotDefinedException(this.id);
         }
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {

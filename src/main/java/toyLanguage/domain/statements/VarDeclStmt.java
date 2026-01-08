@@ -23,7 +23,7 @@ public class VarDeclStmt implements Stmt{
     public PrgState execute(PrgState state) throws IdAlreadyExistsException {
         MyDict<String, Value> symTbl = state.getSymTable();
         symTbl.add(this.name, this.typ.defaultValue());
-        return state;
+        return null;
     }
     @Override
     public Stmt deepCopy() {
