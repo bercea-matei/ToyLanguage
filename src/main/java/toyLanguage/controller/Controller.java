@@ -24,7 +24,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 
@@ -43,7 +42,11 @@ public class Controller implements MyController {
     }
     
     @Override
-    public void oneStepForAllPrg(List<PrgState> prgList) throws ToyLanguageExceptions {
+    //public void oneStepForAllPrg(List<PrgState> prgList) throws ToyLanguageExceptions {
+    public void oneStepForAllPrg() throws ToyLanguageExceptions {
+        //
+        List<PrgState> prgList = this.repo.getPrgList();
+        //
          //before the execution, print the PrgState List into the log file
          prgList.forEach(
             prg -> {try {repo.logPrgStateExec(prg);}
@@ -104,9 +107,11 @@ public class Controller implements MyController {
             sharedHeap.setContent(newHeapContent);
             //
             //
-            oneStepForAllPrg(prgList);
+            //oneStepForAllPrg(prgList);
+            oneStepForAllPrg();
             //remove the completed programs
             prgList=removeCompletedPrg(repo.getPrgList());
+            repo.setPrgList(prgList);
         }
         executor.shutdownNow();
         //HERE the repository still contains at least one Completed Prg

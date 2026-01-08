@@ -55,6 +55,9 @@ public class PrgState {
     public MyHeap<Integer, Value> getHeapTable() {
         return this.heapTable;
     }
+    public int getID() {
+        return this.id;
+    }
     @Override
     public String toString() {
         StringBuilder allStr = new StringBuilder();

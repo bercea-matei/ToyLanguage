@@ -15,7 +15,7 @@ public class RunOneStepCommand extends Command {
     @Override
     public void execute() {
         try {
-            this.controller.oneStep(this.controller.getCurrentState());
+            this.controller.oneStepForAllPrg();;
             if (this.controller.getPrintFlag()) {
                 this.controller.logPrgStateExec();
         }

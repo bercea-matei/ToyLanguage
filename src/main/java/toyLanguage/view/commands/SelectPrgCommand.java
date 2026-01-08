@@ -23,7 +23,11 @@ public class SelectPrgCommand extends Command {
         "Ref int v;new(v,20);Ref Ref int a; new(a,v);print(rH(v));print(rH(rH(a))+5)",
         "Ref int v;new(v,20);print(rH(v)); wH(v,30);print(rH(v)+5)",
         //for garbage collector
-        "Ref int v;new(v,20);Ref Ref int a; new(a,v); new(v,30);print(rH(rH(a)))"
+        "Ref int v;new(v,20);Ref Ref int a; new(a,v); new(v,30);print(rH(rH(a)))",
+        //fork
+        "int v; Ref int a; v=10;new(a,22);" +
+        "fork(wH(a,30);v=32;print(v);print(rH(a)));" +
+        "print(v);print(rH(a)) "
     };
 
         
@@ -97,6 +101,13 @@ public class SelectPrgCommand extends Command {
         } else if (option.equals("9")) {
             try {
                 Examples.loadOption9(this.controller);;
+                System.out.println("program saved successfully");
+            } catch (ToyLanguageExceptions e) {
+                System.out.println(e.getMessage());
+            }
+        } else if (option.equals("10")) {
+            try {
+                Examples.loadOption10(this.controller);;
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());

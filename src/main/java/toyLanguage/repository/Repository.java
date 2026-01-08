@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Repository implements MyRepository {
     private List<PrgState> prgStates;
     private String logFilePath;
-    private String msgs[] = {"------------------------------","ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
+    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
 
     public Repository() {
         this.prgStates = new ArrayList<>();
@@ -51,26 +51,28 @@ public class Repository implements MyRepository {
             throw new NoFilePathException();
         try {
             PrintWriter logFile  = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
-            
-            logFile.println(msgs[1]);
+            logFile.print(msgs[1]);
+            logFile.println(state.getID());
+
+            logFile.println(msgs[2]);
             for (Stmt stmt : state.getExeStk()) {
                 logFile.println(stmt.toString());
             }
 
-            logFile.println(msgs[2]);
+            logFile.println(msgs[3]);
             for (Map.Entry<String, Value> entry : state.getSymTable()) {
                 logFile.println(entry.getKey() + " --> " + entry.getValue().toString());
             }
 
-            logFile.println(msgs[3]);
+            logFile.println(msgs[4]);
             for (Value value : state.getOutList()) {
                 logFile.println(value.toString());
             }
-            logFile.println(msgs[4]);
+            logFile.println(msgs[5]);
             for (Map.Entry<StringValue, BufferedReader> entry : state.getFileTable()) {
                 logFile.println(entry.getKey());
             }
-            logFile.println(msgs[5]);
+            logFile.println(msgs[6]);
             for (Map.Entry<Integer, Value> entry : state.getHeapTable()) {
                 logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
