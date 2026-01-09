@@ -13,11 +13,11 @@ public class GoToNextStateCommand extends Command {
 
     @Override
     public void execute() {
-        try {
-            this.controller.goToNextState();
+        //try {
+            //this.controller.goToNextState();
             System.out.println("Next state was loaded");
-        } catch (FinishUnexistentStateException e) {
-            System.out.println(e.getMessage());
-        }
+        //} catch (FinishUnexistentStateException e) {
+        //    System.out.println(e.getMessage());
+        //}
     }
 }

@@ -40,6 +40,20 @@
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>21</version> <!-- Use a recent, stable version -->
+    </dependency>
+
+    <!-- Add this dependency if you want to use FXML -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>21</version> <!-- Use the same version as above -->
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -84,6 +98,30 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
         </plugin>
+        <plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.8</version>
+            <configuration>
+                <mainClass>toyLanguage.Interpreter</mainClass>
+            </configuration>
+            <executions>
+                <execution>
+                    <!-- Default configuration for running -->
+                    <id>default-cli</id>
+                    <configuration>
+                        <!-- This is where you add the required JVM arguments -->
+                        <options>
+                            <option>--enable-native-access=javafx.graphics</option>
+                            <!-- You might need more modules here later -->
+                            <option>--add-modules</option>
+                            <option>javafx.controls,javafx.fxml</option>
+                        </options>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>

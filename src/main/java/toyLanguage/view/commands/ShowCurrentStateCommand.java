@@ -15,11 +15,11 @@ public class ShowCurrentStateCommand extends Command {
     @Override
     public void execute() {
         System.out.println("\n---------CurrentState---------");
-        try {
-            PrgState stateD = this.controller.getCurrentState();
-            System.out.println(stateD.toString());
-        } catch (NoProgramToRunException e) {
-            System.out.println(e.getMessage());
-        }
+        //try {
+            //PrgState stateD = this.controller.getCurrentState();
+        //    System.out.println(stateD.toString());
+        //} catch (NoProgramToRunException e) {
+        //    System.out.println(e.getMessage());
+        //}
     }
 }

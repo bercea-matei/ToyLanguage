@@ -105,8 +105,6 @@ public class Controller implements MyController {
             MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
             Map<Integer, Value> newHeapContent = safeGarbageCollector(prgList, sharedHeap.getContent());
             sharedHeap.setContent(newHeapContent);
-            //
-            //
             //oneStepForAllPrg(prgList);
             oneStepForAllPrg();
             //remove the completed programs

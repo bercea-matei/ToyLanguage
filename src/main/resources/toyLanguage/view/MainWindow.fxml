@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.geometry.Insets?>
+
+
+
+<VBox alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="toyLanguage.view.MainWindowController">
+
+    <Label text="Program States" style="-fx-font-weight: bold;"/>
+    
+    <!-- 1. The fx:id here EXACTLY matches the variable name in the controller -->
+    <ListView fx:id="programStatesListView" />
+
+    <!-- 2. The fx:id here also matches the variable name -->
+    <!-- 3. The onAction="#handleRunOneStep" links the button click to your Java method -->
+    <Button fx:id="runOneStepButton" text="Run One Step" onAction="#handleRunOneStep" />
+
+</VBox>
