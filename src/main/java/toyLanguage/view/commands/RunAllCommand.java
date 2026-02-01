@@ -2,10 +2,8 @@ package toyLanguage.view.commands;
 
 import toyLanguage.controller.MyController; 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
-import toyLanguage.controller.ExecutionObserver;
-import toyLanguage.domain.prg_state.PrgState;
 
-public class RunAllCommand extends Command implements ExecutionObserver{
+public class RunAllCommand extends Command{
     private final MyController controller;
         
     public RunAllCommand (String key, String description, MyController controller) {
@@ -16,11 +14,12 @@ public class RunAllCommand extends Command implements ExecutionObserver{
     @Override
     public void execute() {
         try {
-            this.controller.allStep(this);
+            this.controller.allStep();
         } catch (ToyLanguageExceptions e) {
             System.err.println("Execution failed: " + e.getMessage());
         }
     }
+    /*
     @Override
     public void onExecutionStart(PrgState initialState) {
         System.out.println("--- Starting All Run ---");
@@ -35,5 +34,7 @@ public class RunAllCommand extends Command implements ExecutionObserver{
     public void onExecutionFinish(PrgState finalState) {
         System.out.println("-----------------------------");
         System.out.println("Execution finished successfully.");
-    }}
+    }
+    */
+}
  

@@ -73,17 +73,17 @@ public class Controller implements MyController {
                     }})
                 .filter(p -> p!=null)
                 .collect(Collectors.toList());
-                //add the new created threads to the list of existing threads
             prgList.addAll(newPrgList);
-            //------------------------------------------------------------------------------
-            //after the execution, print the PrgState List into the log file
+
+            MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
+            Map<Integer, Value> newHeapContent = safeGarbageCollector(prgList, sharedHeap.getContent());
+            
             prgList.forEach(prg -> {
                 try {repo.logPrgStateExec(prg);}
                 catch (ToyLanguageExceptions e) {
                     return;
                 }});
-            //Save the current programs in the repository
-            prgList=removeCompletedPrg(repo.getPrgList()); //move this here
+            prgList=removeCompletedPrg(repo.getPrgList());
             repo.setPrgList(prgList);
 
         } catch (InterruptedException e) {
@@ -94,62 +94,16 @@ public class Controller implements MyController {
     }
     
     @Override
-    public void allStep(ExecutionObserver observer) throws ToyLanguageExceptions {
-        //remove the completed programs
-        //rem
+    public void allStep() throws ToyLanguageExceptions {
         List<PrgState> prgList=removeCompletedPrg(repo.getPrgList());
-        //List<PrgState> prgList=repo.getPrgList();
         while(prgList.size() > 0) {
-            //conservativeGarbageCollector
-            //MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
-            //Map<Integer, Value> newHeapContent = safeGarbageCollector(prgList, sharedHeap.getContent());
-            //sharedHeap.setContent(newHeapContent);
-            //oneStepForAllPrg(prgList);
             oneStepForAllPrg();
             prgList=repo.getPrgList();
-            //remove the completed programs
-            //---moved inside oneStepForAllPrg for more uniform behaviour
-            //prgList=removeCompletedPrg(repo.getPrgList());
-            //repo.setPrgList(prgList);
         }
         this.executor.shutdownNow();
-        //HERE the repository still contains at least one Completed Prg
-        // and its List<PrgState> is not empty. Note that oneStepForAllPrg calls the method
-        //setPrgList of repository in order to change the repository
-        // update the repository state
         repo.setPrgList(prgList);
     }
-    /*
-    @Override
-    public void allStep(ExecutionObserver observer) throws ToyLanguageExceptions {
-        PrgState prg = repo.getCrtPrg();
-        if (prg == null)
-            throw new NoProgramToRunException();
-        
-        if (this.printFlag) {
-            //observer.onExecutionStart(prg);
-            this.repo.logPrgStateExec();
-        }
-        if(prg.getExeStk().isEmpty()) 
-            //this.repo.finishCrtState();    
-            throw new EmptyStackException();
-        while (!prg.getExeStk().isEmpty()) {
-            oneStep(prg);
-            if (this.printFlag) {
-                //observer.onStepExecuted(prg);
-                this.repo.logPrgStateExec();
-                prg.getHeapTable().setContent(safeGarbageCollector(getAddrFromSymTable(prg.getSymTable().getContent().values()),prg.getHeapTable().getContent()));
-                this.repo.logPrgStateExec();
-            }
-        }
-    }
-    */
-    private Map<Integer,Value> unsafeGarbageCollector(List<Integer> symTableAddr, Map<Integer,Value> heap) {
-        return heap.entrySet()
-                .stream()
-                .filter(e->symTableAddr.contains(e.getKey()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
+    
     //TODo-remove heap param
     private Map<Integer,Value> safeGarbageCollector(List<PrgState> allPrgStates, Map<Integer,Value> heap) {
         List<Integer> allRootAddresses = allPrgStates.stream()
@@ -185,14 +139,6 @@ public class Controller implements MyController {
                 .collect(Collectors.toList());
     }
 
-    /*@Override
-    public PrgState getCurrentState() throws NoProgramToRunException {
-        PrgState prg = this.repo.getCrtPrg();
-        if (prg == null)
-            throw new NoProgramToRunException();
-        return prg;
-    }
-    */
     @Override
     public boolean getPrintFlag() {
         return this.printFlag;

@@ -19,7 +19,7 @@ public interface MyController {
     public void initializePrgState(PrgState state) throws UnfinishedProgramException;
     //public void oneStepForAllPrg(List<PrgState> prgList) throws ToyLanguageExceptions;
     public void oneStepForAllPrg() throws ToyLanguageExceptions;
-    public void allStep(ExecutionObserver observer) throws ToyLanguageExceptions;
+    public void allStep() throws ToyLanguageExceptions;
     //public PrgState getCurrentState() throws NoProgramToRunException;
     public boolean getPrintFlag();
     public void flipPrintFlag();
