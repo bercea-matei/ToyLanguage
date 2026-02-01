@@ -37,65 +37,41 @@ public class MainWindowController {
     private int currentSelectedProgramId = 1;
 
     @FXML
-    //private TextField noPrgStates;
     private Label noPrgStates;
-
     @FXML
     private Label currentPrgStateIdLabel;
-
-    //@FXML
-    //private ListView<String> programStatesListView;
-
     @FXML
     private Button runOneStepButton;
-
     @FXML
     private ListView<String> exeStkListView;
-
     @FXML
     private ListView<Integer> prgStatesIdsListView;
-
     @FXML
     private ListView<String> outListView;
-
     @FXML
     private ListView<String> fileTableListView;
-
     @FXML
     private TableView<Map.Entry<String, Value>> symTableView;
-
     @FXML
     private TableColumn<Map.Entry<String, Value>, String> symVarNameCol;
-
     @FXML
     private TableColumn<Map.Entry<String, Value>, String> symValueCol;
-
     @FXML
     private TableView<Map.Entry<Integer, Value>> heapTableView;
-
     @FXML
     private TableColumn<Map.Entry<Integer, Value>, String> heapAddressCol;
-
     @FXML
     private TableColumn<Map.Entry<Integer, Value>, String> heapValueCol;
 
 
+    public void setLogicController(MyController controller) {
+        this.logicController = controller;
+        updateAllUIComponents();
+    }
 
     @FXML
     public void initialize() {
-        this.logicController = Interpreter.controller;
-        try {
-            //10 print sym r/w heap
-            //4 files
-            //5 while
-            //6 typecheck
-            //Examples.loadOption10(this.logicController);
-            Examples ex = new Examples();
-            List<ProgramExample> exList = ex.getAll();
-            exList.get(0).loadIntoController(this.logicController);
-        } catch (ToyLanguageExceptions e) {
-            showError(e.getMessage());
-        }
+        
 
         prgStatesIdsListView.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> {
@@ -122,9 +98,6 @@ public class MainWindowController {
         heapValueCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getValue().toString());
         });
-
-        
-        updateAllUIComponents();
     }
 
     @FXML

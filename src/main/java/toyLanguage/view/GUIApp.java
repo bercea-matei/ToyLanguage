@@ -15,8 +15,7 @@ public class GUIApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         
-        FXMLLoader fxmlLoader = new FXMLLoader(GUIApp.class.getResource("MainWindow.fxml"));
-        //FXMLLoader fxmlLoader = new FXMLLoader(GUIApp.class.getResource("ProgramSelector.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUIApp.class.getResource("ProgramSelector.fxml"));
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root, 800, 600);

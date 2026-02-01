@@ -9,18 +9,21 @@ import toyLanguage.repository.MyRepository;
 import toyLanguage.view.commands.*;
 
 public class Interpreter {
-    public static MyController controller;
 
     public static void main(String[] args) {
         
         boolean ifGui = true;
 
-        MyRepository repo = new Repository();
-        controller = new Controller(repo);
+        
         
         if (ifGui) {
             GUIApp.main(args);
         } else {
+
+            MyController controller;
+            MyRepository repo = new Repository();
+            controller = new Controller(repo);
+
             TextMenu tui = new TextMenu(controller);
 
             tui.addCommand(new ExitCommand("0", "Exit"));
