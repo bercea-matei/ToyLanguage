@@ -12,7 +12,7 @@ public class Interpreter {
 
     public static void main(String[] args) {
         
-        boolean ifGui = false;
+        boolean ifGui = true;
         
         if (ifGui) {
             GUIApp.main(args);

@@ -76,7 +76,7 @@ public class Controller implements MyController {
             prgList.addAll(newPrgList);
 
             MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
-            Map<Integer, Value> newHeapContent = safeGarbageCollector(prgList, sharedHeap.getContent());
+            safeGarbageCollector(prgList, sharedHeap.getContent());
             
             prgList.forEach(prg -> {
                 try {repo.logPrgStateExec(prg);}
@@ -96,16 +96,14 @@ public class Controller implements MyController {
     @Override
     public void allStep() throws ToyLanguageExceptions {
         List<PrgState> prgList=removeCompletedPrg(repo.getPrgList());
-        while(prgList.size() > 0) {
+        while(!prgList.isEmpty()) {
             oneStepForAllPrg();
             prgList=repo.getPrgList();
         }
         this.executor.shutdownNow();
-        repo.setPrgList(prgList);
     }
     
-    //TODo-remove heap param
-    private Map<Integer,Value> safeGarbageCollector(List<PrgState> allPrgStates, Map<Integer,Value> heap) {
+    private void safeGarbageCollector(List<PrgState> allPrgStates, Map<Integer,Value> heap) {
         List<Integer> allRootAddresses = allPrgStates.stream()
             .flatMap(prg -> getAddrFromSymTable(prg.getSymTable().getContent().values()).stream())
             .collect(Collectors.toList());
@@ -128,9 +126,14 @@ public class Controller implements MyController {
             }
         }
         final Set<Integer> finalReachable = reachableAddresses;
+        /*
         return heap.entrySet().stream()
                 .filter(entry -> finalReachable.contains(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));    
+        */
+        //here we modify the heap in place so as to not have 
+        //to sync it later between all the program states
+        heap.keySet().retainAll(reachableAddresses);
     }
     private List<Integer> getAddrFromSymTable(Collection<Value> symTableValues){
         return symTableValues.stream()

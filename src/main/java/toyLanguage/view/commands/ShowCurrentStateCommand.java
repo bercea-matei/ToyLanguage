@@ -15,6 +15,8 @@ public class ShowCurrentStateCommand extends Command {
     @Override
     public void execute() {
         System.out.println("\n---------CurrentState---------");
+        System.out.println("\n(deprecated)");
+        System.out.println("\n(we change nothing)");
         //try {
             //PrgState stateD = this.controller.getCurrentState();
         //    System.out.println(stateD.toString());
