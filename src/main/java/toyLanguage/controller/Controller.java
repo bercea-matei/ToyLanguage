@@ -40,23 +40,17 @@ public class Controller implements MyController {
     }
     
     @Override
-    //public void oneStepForAllPrg(List<PrgState> prgList) throws ToyLanguageExceptions {
     public void oneStepForAllPrg() throws ToyLanguageExceptions {
         List<PrgState> prgList = this.repo.getPrgList();
-         //before the execution, print the PrgState List into the log file
-         prgList.forEach(
-            prg -> {try {repo.logPrgStateExec(prg);}
-            catch (ToyLanguageExceptions e) {
-                return; 
-            }});
-         //RUN concurrently one step for each of the existing PrgStates
-         //-----------------------------------------------------------------------
-         //prepare the list of callables
-         List<Callable<PrgState>> callList = prgList.stream()
+        if (prgList.isEmpty()) {
+            throw new EmptyStackException();
+        }
+
+        logCurrentStates(prgList);
+
+        List<Callable<PrgState>> callList = prgList.stream()
             .map((PrgState p) -> (Callable<PrgState>)(() -> {return p.oneStep();}))
             .collect(Collectors.toList());
-            //start the execution of the callables
-            //it returns the list of new created PrgStates (namely threads)
         
         try {
             List<PrgState> newPrgList = this.executor.invokeAll(callList).stream()
@@ -73,16 +67,15 @@ public class Controller implements MyController {
                     }})
                 .filter(p -> p!=null)
                 .collect(Collectors.toList());
+
+
             prgList.addAll(newPrgList);
 
             MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
             safeGarbageCollector(prgList, sharedHeap.getContent());
             
-            prgList.forEach(prg -> {
-                try {repo.logPrgStateExec(prg);}
-                catch (ToyLanguageExceptions e) {
-                    return;
-                }});
+            logCurrentStates(prgList);
+
             prgList=removeCompletedPrg(repo.getPrgList());
             repo.setPrgList(prgList);
 
@@ -92,6 +85,17 @@ public class Controller implements MyController {
             return;
         }
     }
+
+    private void logCurrentStates(List<PrgState>prgList) {
+        prgList.forEach(prg -> {
+            try {
+                    repo.logPrgStateExec(prg);
+            }
+            catch (ToyLanguageExceptions e) {
+                throw new RuntimeException("CRITICAL: Logging failed. Execution halted.", e);
+            }});
+    }
+
     
     @Override
     public void allStep() throws ToyLanguageExceptions {

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class Repository implements MyRepository {
     private List<PrgState> prgStates;
-    private String logFilePath;
+    private String logFilePath = "ourLogs.log";
     private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
 
     public Repository() {

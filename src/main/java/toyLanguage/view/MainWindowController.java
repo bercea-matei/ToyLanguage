@@ -1,6 +1,5 @@
 package toyLanguage.view;
 
-import toyLanguage.Interpreter; 
 import toyLanguage.controller.MyController;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
@@ -11,8 +10,6 @@ import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.values.StringValue;
 import toyLanguage.domain.values.Value;
-import toyLanguage.examples.Examples;
-import toyLanguage.examples.ProgramExample;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -27,7 +24,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 
@@ -77,7 +73,6 @@ public class MainWindowController {
             (observable, oldValue, newValue) -> {
                 
                 if (newValue != null) {
-                    System.out.println("-----" + currentSelectedProgramId);
                     handleProgramStateSelection(newValue);
                 }
             }

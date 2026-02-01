@@ -58,3 +58,11 @@ out/
 
 # Windows
 Thumbs.db
+
+
+#logs
+*.log
+
+
+
+
