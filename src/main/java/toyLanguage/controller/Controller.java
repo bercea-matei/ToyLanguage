@@ -96,6 +96,7 @@ public class Controller implements MyController {
     @Override
     public void allStep(ExecutionObserver observer) throws ToyLanguageExceptions {
         //remove the completed programs
+        //rem
         List<PrgState> prgList=removeCompletedPrg(repo.getPrgList());
         //List<PrgState> prgList=repo.getPrgList();
         while(prgList.size() > 0) {
