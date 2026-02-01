@@ -52,7 +52,7 @@ public class WriteHeapStmt implements Stmt{
     public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
         Type varType = typeEnv.lookup(this.varName);
         if (!(varType instanceof RefType)) {
-            throw new MissmatchTypeException("RefType", this.varName.toString());
+            throw new MissmatchTypeException(this.whatAmI(), "RefType", this.varName.toString());
         }
 
         Type expType = this.expression.typecheck(typeEnv);
@@ -62,7 +62,11 @@ public class WriteHeapStmt implements Stmt{
         if (innerTypeOfRef.equals(expType)) {
             return typeEnv;
         } else {
-            throw new MissmatchTypeException(innerTypeOfRef.toString(), expType.toString());
+            throw new MissmatchTypeException(this.whatAmI(), innerTypeOfRef.toString(), expType.toString());
         }
+    } 
+    private String whatAmI() {
+        return "WriteHeapStmt";
     }
+
 }

@@ -4,6 +4,7 @@ import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.expressions.operators.RelOp;
 import toyLanguage.domain.myExceptions.*;
+import toyLanguage.domain.types.BoolType;
 import toyLanguage.domain.types.IntType;
 import toyLanguage.domain.types.Type;
 import toyLanguage.domain.values.BoolValue;
@@ -107,10 +108,14 @@ public class RelExp implements Exp {
         typ2=e2.typecheck(typeEnv);
         if (typ1.equals(new IntType())) {
             if (typ2.equals(new IntType())) {
-                return new IntType();
+                return new BoolType();
             } else
-                throw new WhichOperandExceptionExtend(2, new MissmatchTypeException(new IntType().toString(), typ2.toString()));
+                throw new WhichOperandExceptionExtend(2, new MissmatchTypeException(this.whatAmI(), new IntType().toString(), typ2.toString()));
         }else
-            throw new WhichOperandExceptionExtend(1, new MissmatchTypeException(new IntType().toString(), typ1.toString()));
+            throw new WhichOperandExceptionExtend(1, new MissmatchTypeException(this.whatAmI(),new IntType().toString(), typ1.toString()));
+    } 
+    private String whatAmI() {
+        return "RelExp";
     }
+
 }

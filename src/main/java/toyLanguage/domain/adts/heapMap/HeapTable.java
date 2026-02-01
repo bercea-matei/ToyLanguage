@@ -22,7 +22,7 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
         this.freeAddrCounter = 1;
     }
     @Override
-    public V lookup(Integer id) throws IdNotFoundException {
+    public synchronized V lookup(Integer id) throws IdNotFoundException {
         if (this.isKeyDef(id)) {
             return this.myDict.get(id);
         } else {
@@ -30,7 +30,7 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
         }
     }
     @Override
-    public void update(Integer id, V val) throws IdNotFoundException {
+    public synchronized void update(Integer id, V val) throws IdNotFoundException {
         if (this.isKeyDef(id)) {
             this.myDict.replace(id, val);
         } else {
@@ -38,19 +38,19 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
         }
     }
     @Override
-    public int allocate(V val) {
+    public synchronized int allocate(V val) {
         this.myDict.putIfAbsent(this.freeAddrCounter, val);
         this.freeAddrCounter += 1;
         return freeAddrCounter - 1;
     }
     @Override
-    public boolean isKeyDef(Integer id){
+    public synchronized boolean isKeyDef(Integer id){
         if (id < 1)
             return false;
         return this.myDict.containsKey(id);
     }
     @Override
-    public String toString() {
+    public synchronized String toString() {
         StringBuilder printSymTbl = new StringBuilder();
         printSymTbl.append("{ ");
         for ( Map.Entry<Integer, V> entry_ : this.myDict.entrySet()) {
@@ -65,7 +65,7 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
         return printSymTbl.toString();
     }
     @Override
-    public void remove(Integer id) throws IdNotFoundException{
+    public synchronized void remove(Integer id) throws IdNotFoundException{
         if (! isKeyDef(id)) {
             throw new IdNotFoundException(id.toString());
         }
@@ -73,7 +73,7 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
     }
 
     @Override
-    public MyHeap<Integer,V> deepCopy() {
+    public synchronized MyHeap<Integer,V> deepCopy() {
         MyHeap<Integer,V> copy = new HeapTable<>();
         for (Map.Entry<Integer, V> entry_ : this.myDict.entrySet())
         {
@@ -83,7 +83,7 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
         return copy;
     }
     @Override
-    public Iterator<Map.Entry<Integer, V>> iterator() {
+    public synchronized Iterator<Map.Entry<Integer, V>> iterator() {
         return new Iterator<Map.Entry<Integer, V>>() {
             private final Iterator<Map.Entry<Integer, V>> actualIterator = myDict.entrySet().iterator();
             @Override
@@ -101,16 +101,20 @@ public class HeapTable<V extends Value> implements MyHeap<Integer,V> {
         };
     }
     @Override
-    public String getDataTypeAsString() {
+    public synchronized String getDataTypeAsString() {
         return this.dataTypeName;
     }
     
     @Override
-    public void setContent(Map<Integer, V> newContent) {
+    public synchronized void setContent(Map<Integer, V> newContent) {
         this.myDict = newContent;
     }
     @Override
-    public Map<Integer, V> getContent() {
+    public synchronized Map<Integer, V> getContent() {
         return this.myDict;
+    }
+    @Override
+    public synchronized boolean isEmpty() {
+        return this.myDict.isEmpty();
     }
 }

@@ -69,7 +69,11 @@ public class CloseRFileStmt implements Stmt {
         if (expType.equals(new StringType())) {
             return typeEnv;
         } else {
-            throw new MissmatchTypeException(new StringType().toString(), expType.toString());
+            throw new MissmatchTypeException(this.whatAmI(),new StringType().toString(), expType.toString());
         }
+    } 
+    private String whatAmI() {
+        return "CloseRFileStmt";
     }
+
 }

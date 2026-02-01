@@ -15,28 +15,28 @@ public class ExeStk<E extends Stmt> implements MyStack<E> {
         this.exeStk = new ArrayDeque<>();
     }
     @Override
-    public void push(E elem) {
+    public synchronized void push(E elem) {
         this.exeStk.push(elem);
     }
     @Override
-    public E pop() throws EmptyStackException {
+    public synchronized E pop() throws EmptyStackException {
         if (exeStk.isEmpty())
             throw new EmptyStackException();
         return this.exeStk.pop();
     }
     @Override
-    public E top() throws EmptyStackException {
+    public synchronized E top() throws EmptyStackException {
         if (this.exeStk.isEmpty()) {
             throw new EmptyStackException();
         }
         return this.exeStk.peek();
     }
     @Override
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return exeStk.isEmpty();
     }
     @Override
-    public String toString() {
+    public synchronized String toString() {
         StringBuilder strExeStack = new StringBuilder();
         
         strExeStack.append("{ ");
@@ -51,7 +51,7 @@ public class ExeStk<E extends Stmt> implements MyStack<E> {
         return strExeStack.toString();
     }
     @Override
-    public MyStack<E> deepCopy() {
+    public synchronized MyStack<E> deepCopy() {
         MyStack<E> copyStk = new ExeStk<>();
         for (E element : this.exeStk) {
             copyStk.push((E)(element.deepCopy()));
@@ -59,7 +59,7 @@ public class ExeStk<E extends Stmt> implements MyStack<E> {
         return copyStk;
     }
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Iterator<E>() {
             private final Iterator<E> actualIterator = exeStk.iterator();
 
@@ -78,7 +78,7 @@ public class ExeStk<E extends Stmt> implements MyStack<E> {
         };
     }
     @Override
-    public String getDataTypeAsString() {
+    public synchronized String getDataTypeAsString() {
         return this.dataTypeName;
     }
 }

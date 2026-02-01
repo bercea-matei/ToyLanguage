@@ -63,8 +63,11 @@ public class LogicExp implements Exp{
             if (typ2.equals(new BoolType())) {
                 return new BoolType();
             } else
-                throw new WhichOperandExceptionExtend(2, new MissmatchTypeException(new BoolType().toString(), typ2.toString()));
+                throw new WhichOperandExceptionExtend(2, new MissmatchTypeException(this.whatAmI(), new BoolType().toString(), typ2.toString()));
         }else
-            throw new WhichOperandExceptionExtend(1, new MissmatchTypeException(new BoolType().toString(), typ1.toString()));
+            throw new WhichOperandExceptionExtend(1, new MissmatchTypeException(this.whatAmI(), new BoolType().toString(), typ1.toString()));
+    } 
+    private String whatAmI() {
+        return "LogicExp";
     }
 }

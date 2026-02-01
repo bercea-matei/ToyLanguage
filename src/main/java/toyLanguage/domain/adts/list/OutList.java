@@ -18,11 +18,11 @@ public class OutList<E extends Value> implements MyList<E> {
     }
 
     @Override
-    public void append(E elem) {
+    public synchronized void append(E elem) {
         this.outList.add(elem);
     }
     @Override
-    public E get(int index) throws IndexOutOfBoundsException, EmptyListException {
+    public synchronized E get(int index) throws IndexOutOfBoundsException, EmptyListException {
         if (this.outList.isEmpty())
             throw new EmptyListException();
         if (index < 0 || index >= this.outList.size())
@@ -30,7 +30,7 @@ public class OutList<E extends Value> implements MyList<E> {
         return this.outList.get(index);
     }
     @Override
-    public E remove(int index) throws IndexOutOfBoundsException, EmptyListException {
+    public synchronized E remove(int index) throws IndexOutOfBoundsException, EmptyListException {
         if (this.outList.isEmpty())
             throw new EmptyListException();
         if (index < 0 || index >= this.outList.size())
@@ -38,22 +38,22 @@ public class OutList<E extends Value> implements MyList<E> {
         return this.outList.remove(index);
     }
     @Override
-    public int size() {
+    public synchronized int size() {
         return this.outList.size();
     }
     @Override
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return this.outList.isEmpty();
     }
     @Override
-    public String toString() {
+    public synchronized String toString() {
         String contents = this.outList.stream()
                                       .map(element -> element.toString())
                                       .collect(Collectors.joining(", "));
         return "{ " + contents + " }";
     }
     @Override
-    public MyList<E> deepCopy() {
+    public synchronized MyList<E> deepCopy() {
         MyList<E> copyList = new OutList<>();
         for (E elem : this.outList) {
             copyList.append((E)elem.deepCopy());
@@ -61,7 +61,7 @@ public class OutList<E extends Value> implements MyList<E> {
         return copyList;
     }
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Iterator<E>() {
             private final Iterator<E> actualIterator = outList.iterator();
 
@@ -80,7 +80,7 @@ public class OutList<E extends Value> implements MyList<E> {
         };
     }
     @Override
-    public String getDataTypeAsString() {
+    public synchronized String getDataTypeAsString() {
         return this.dataTypeName;
     }
 }

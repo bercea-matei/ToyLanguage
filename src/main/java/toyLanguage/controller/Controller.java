@@ -4,17 +4,13 @@ import toyLanguage.domain.myExceptions.*;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.repository.*;
 import toyLanguage.domain.statements.*;
-import toyLanguage.domain.types.*;
 import toyLanguage.domain.adts.dictionary.*;
 import toyLanguage.domain.adts.heapMap.*;
-import toyLanguage.domain.adts.heapMap.HeapTable;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.values.*;
-import toyLanguage.domain.expressions.*;
 
 import java.io.BufferedReader;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +27,7 @@ public class Controller implements MyController {
     private MyRepository repo;
     private boolean printFlag = true; 
     private ExecutorService executor;
+    private int noThreads = 2;
 
     public Controller(MyRepository repo) { 
         this.repo = repo;
@@ -39,14 +36,13 @@ public class Controller implements MyController {
     @Override
     public void initializePrgState(PrgState state) throws UnfinishedProgramException {
         this.repo.initializePrgState(state);
+        this.executor = Executors.newFixedThreadPool(noThreads);
     }
     
     @Override
     //public void oneStepForAllPrg(List<PrgState> prgList) throws ToyLanguageExceptions {
     public void oneStepForAllPrg() throws ToyLanguageExceptions {
-        //
         List<PrgState> prgList = this.repo.getPrgList();
-        //
          //before the execution, print the PrgState List into the log file
          prgList.forEach(
             prg -> {try {repo.logPrgStateExec(prg);}
@@ -63,7 +59,7 @@ public class Controller implements MyController {
             //it returns the list of new created PrgStates (namely threads)
         
         try {
-            List<PrgState> newPrgList = executor.invokeAll(callList).stream()
+            List<PrgState> newPrgList = this.executor.invokeAll(callList).stream()
                 .map(future -> {
                     try { return future.get();}
                     catch(InterruptedException e) {
@@ -87,7 +83,9 @@ public class Controller implements MyController {
                     return;
                 }});
             //Save the current programs in the repository
+            prgList=removeCompletedPrg(repo.getPrgList()); //move this here
             repo.setPrgList(prgList);
+
         } catch (InterruptedException e) {
             System.err.println("Executor service was interrupted while waiting for tasks to complete.");
             Thread.currentThread().interrupt();
@@ -97,21 +95,23 @@ public class Controller implements MyController {
     
     @Override
     public void allStep(ExecutionObserver observer) throws ToyLanguageExceptions {
-        executor = Executors.newFixedThreadPool(2);
         //remove the completed programs
         List<PrgState> prgList=removeCompletedPrg(repo.getPrgList());
-        while(prgList.size() > 0){
+        //List<PrgState> prgList=repo.getPrgList();
+        while(prgList.size() > 0) {
             //conservativeGarbageCollector
-            MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
-            Map<Integer, Value> newHeapContent = safeGarbageCollector(prgList, sharedHeap.getContent());
-            sharedHeap.setContent(newHeapContent);
+            //MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
+            //Map<Integer, Value> newHeapContent = safeGarbageCollector(prgList, sharedHeap.getContent());
+            //sharedHeap.setContent(newHeapContent);
             //oneStepForAllPrg(prgList);
             oneStepForAllPrg();
+            prgList=repo.getPrgList();
             //remove the completed programs
-            prgList=removeCompletedPrg(repo.getPrgList());
-            repo.setPrgList(prgList);
+            //---moved inside oneStepForAllPrg for more uniform behaviour
+            //prgList=removeCompletedPrg(repo.getPrgList());
+            //repo.setPrgList(prgList);
         }
-        executor.shutdownNow();
+        this.executor.shutdownNow();
         //HERE the repository still contains at least one Completed Prg
         // and its List<PrgState> is not empty. Note that oneStepForAllPrg calls the method
         //setPrgList of repository in order to change the repository
@@ -149,6 +149,7 @@ public class Controller implements MyController {
                 .filter(e->symTableAddr.contains(e.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
+    //TODo-remove heap param
     private Map<Integer,Value> safeGarbageCollector(List<PrgState> allPrgStates, Map<Integer,Value> heap) {
         List<Integer> allRootAddresses = allPrgStates.stream()
             .flatMap(prg -> getAddrFromSymTable(prg.getSymTable().getContent().values()).stream())
@@ -228,5 +229,35 @@ public class Controller implements MyController {
         return inPrgList.stream()
             .filter(p -> p.isNotCompleted())
             .collect(Collectors.toList());
+    }
+    @Override
+    public List<PrgState> getPrgList() {
+        return repo.getPrgList();
+    }
+    @Override
+    public void shutdown() {
+        if (this.executor != null) {
+            this.executor.shutdownNow();
+        }
+    }
+    @Override
+    public MyStack<Stmt> getExeStkById(int id) {
+        return this.repo.getExeStkById(id);
+    }
+    @Override
+    public MyDict<String,Value> getSymTableById(int id) {
+        return this.repo.getSymTableById(id);
+    }
+    @Override
+    public MyDict<StringValue,BufferedReader> getFileTableById(int id) {
+        return this.repo.getFileTableById(id);
+    }
+    @Override
+    public MyList<Value> getOutListById(int id) {
+        return this.repo.getOutListById(id);
+    }
+    @Override
+    public MyHeap<Integer,Value> getHeapTableById(int id) {
+        return this.repo.getHeapTableById(id);
     }
 }

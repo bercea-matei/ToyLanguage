@@ -1,5 +1,9 @@
 package toyLanguage.repository;
 
+import toyLanguage.domain.adts.dictionary.MyDict;
+import toyLanguage.domain.adts.heapMap.MyHeap;
+import toyLanguage.domain.adts.list.MyList;
+import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.InvalidFilePathException;
 import toyLanguage.domain.myExceptions.NoFilePathException;
@@ -28,25 +32,25 @@ public class Repository implements MyRepository {
         this.prgStates = new ArrayList<>();
     }
     @Override
-    public void initializePrgState(PrgState state) throws UnfinishedProgramException{
+    public synchronized void initializePrgState(PrgState state) throws UnfinishedProgramException{
         if (prgStates.size() != 0)
             throw new UnfinishedProgramException();
         this.prgStates.add(state);
     }
 
     @Override
-    public Stmt getOriginalState() throws NoProgramToRunException{
+    public synchronized Stmt getOriginalState() throws NoProgramToRunException{
         return this.prgStates.get(0).getOriginal().deepCopy();
     }
     @Override 
-    public void finishCrtState() throws FinishUnexistentStateException{
+    public synchronized void finishCrtState() throws FinishUnexistentStateException{
         if (! this.prgStates.isEmpty())
             this.prgStates.remove(0);
         else
             throw new FinishUnexistentStateException();
     }
     @Override
-    public void logPrgStateExec(PrgState state) throws InvalidFilePathException, NoFilePathException {
+    public synchronized void logPrgStateExec(PrgState state) throws InvalidFilePathException, NoFilePathException {
         if (this.logFilePath == null || this.logFilePath.equals(""))
             throw new NoFilePathException();
         try {
@@ -83,20 +87,55 @@ public class Repository implements MyRepository {
         }
     }
     @Override
-    public void setLogFilePath(String logFilePath) {
+    public synchronized void setLogFilePath(String logFilePath) {
         this.logFilePath = logFilePath;
     }
     @Override
-    public String getLogFilePath() {
+    public synchronized String getLogFilePath() {
         return this.logFilePath;
     }
     @Override
-    public List<PrgState> getPrgList() {
+    public synchronized List<PrgState> getPrgList() {
         return this.prgStates;
     }
     @Override
-    public void setPrgList(List<PrgState> prgs) {
+    public synchronized void setPrgList(List<PrgState> prgs) {
         this.prgStates = prgs;
+    }
+    @Override
+    public synchronized MyStack<Stmt> getExeStkById(int id) {
+        for (PrgState prg : this.prgStates)
+            if(prg.getID() == id)
+                return prg.getExeStk();
+        return null;
+    }
+    @Override
+    public synchronized MyDict<String,Value> getSymTableById(int id) {
+        for (PrgState prg : this.prgStates)
+            if(prg.getID() == id)
+                return prg.getSymTable();
+        return null;
+    }
+    @Override
+    public synchronized MyDict<StringValue,BufferedReader> getFileTableById(int id) {
+        for (PrgState prg : this.prgStates)
+            if(prg.getID() == id)
+                return prg.getFileTable();
+        return null;
+    }
+    @Override
+    public synchronized MyList<Value> getOutListById(int id) {
+        for (PrgState prg : this.prgStates)
+            if(prg.getID() == id)
+                return prg.getOutList();
+        return null;
+    }
+    @Override
+    public synchronized MyHeap<Integer,Value> getHeapTableById(int id) {
+        for (PrgState prg : this.prgStates)
+            if(prg.getID() == id)
+                return prg.getHeapTable();
+        return null;
     }
 }
 

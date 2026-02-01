@@ -42,8 +42,12 @@ public class ReadHeapExp implements Exp{
             RefType reft =(RefType) typ;
             return reft.getInner();
         } else {
-            throw new MissmatchTypeException("RefType", typ.toString());
+            throw new MissmatchTypeException(this.whatAmI(),"RefType", typ.toString());
         }
     }
-    
+     
+    private String whatAmI() {
+        return "ReadHeapExp";
+    }
+
 }

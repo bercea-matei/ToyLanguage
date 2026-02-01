@@ -48,6 +48,10 @@ public class AssignStmt implements Stmt{
         if (typevar.equals(typexp))
             return typeEnv;
         else
-            throw new MissmatchTypeException(typevar.toString(), typexp.toString());
+            throw new MissmatchTypeException(this.whatAmI(), typevar.toString(), typexp.toString());
+    } 
+    private String whatAmI() {
+        return "AssignStmt";
     }
+
 }

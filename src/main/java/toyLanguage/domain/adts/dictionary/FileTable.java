@@ -17,7 +17,7 @@ public class FileTable<K,V> implements MyDict<K,V> {
         this.myFiles = new HashMap<>();
     }
     @Override
-    public V lookup(K id) throws IdNotFoundException {
+    public synchronized V lookup(K id) throws IdNotFoundException {
         if (this.myFiles.containsKey(id)) {
             return this.myFiles.get(id);
         } else {
@@ -25,7 +25,7 @@ public class FileTable<K,V> implements MyDict<K,V> {
         }
     }
     @Override
-    public void update(K id, V val) throws IdNotFoundException, OperationNotSupportedException {
+    public synchronized void update(K id, V val) throws IdNotFoundException, OperationNotSupportedException {
         throw new OperationNotSupportedException("update", this.getDataTypeAsString());
         /*if (this.myFiles.containsKey(id)) {
             this.myFiles.replace(id, val);
@@ -34,7 +34,7 @@ public class FileTable<K,V> implements MyDict<K,V> {
         }*/
     }
     @Override
-    public void add(K id, V val) throws IdAlreadyExistsException {
+    public synchronized void add(K id, V val) throws IdAlreadyExistsException {
         if (! this.myFiles.containsKey(id)) {
             this.myFiles.putIfAbsent(id, val);
         } else {
@@ -42,11 +42,11 @@ public class FileTable<K,V> implements MyDict<K,V> {
         }
     }
     @Override
-    public boolean isKeyDef(K id) {
+    public synchronized boolean isKeyDef(K id) {
         return this.myFiles.containsKey(id);
     }
     @Override
-    public String toString() {
+    public synchronized String toString() {
         StringBuilder printSymTbl = new StringBuilder();
         printSymTbl.append("{ ");
         for ( Map.Entry<K, V> entry_ : this.myFiles.entrySet()) {
@@ -61,7 +61,7 @@ public class FileTable<K,V> implements MyDict<K,V> {
         return printSymTbl.toString();
     }
     @Override
-    public void remove(K id) throws IdNotFoundException{
+    public synchronized void remove(K id) throws IdNotFoundException{
         if (!myFiles.containsKey(id)) {
             throw new IdNotFoundException(id.toString());
         }
@@ -69,7 +69,7 @@ public class FileTable<K,V> implements MyDict<K,V> {
     }
 
     @Override
-    public MyDict<K,V> deepCopy() {
+    public synchronized MyDict<K,V> deepCopy() {
         MyDict<K,V> copy = new FileTable<>();
         for (Map.Entry<K, V> entry_ : this.myFiles.entrySet())
         {
@@ -83,7 +83,7 @@ public class FileTable<K,V> implements MyDict<K,V> {
         return copy;
     }
     @Override
-    public Iterator<Map.Entry<K, V>> iterator() {
+    public synchronized Iterator<Map.Entry<K, V>> iterator() {
         return new Iterator<Map.Entry<K, V>>() {
             private final Iterator<Map.Entry<K, V>> actualIterator = myFiles.entrySet().iterator();
             @Override
@@ -101,11 +101,15 @@ public class FileTable<K,V> implements MyDict<K,V> {
         };
     }
     @Override
-    public String getDataTypeAsString() {
+    public synchronized String getDataTypeAsString() {
         return this.dataTypeName;
     }
     @Override
-    public Map<K, V> getContent() {
+    public synchronized Map<K, V> getContent() {
         return this.myFiles;
+    }
+    @Override
+    public synchronized boolean isEmpty() {
+        return this.myFiles.isEmpty();
     }
 }

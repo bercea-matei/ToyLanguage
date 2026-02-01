@@ -18,4 +18,5 @@ public interface MyHeap<K, V> extends Iterable<Map.Entry<K, V>> {
     //List<Integer> getAddrFromSymTable(Collection<V> symTableValues);
     public void setContent(Map<K, V> newContent);
     public Map<K, V> getContent();
+    public boolean isEmpty();
 }

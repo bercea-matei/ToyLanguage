@@ -55,6 +55,10 @@ public class WhileStmt implements Stmt{
             return typeEnv;
         }
         else
-            throw new MissmatchTypeException(new BoolType().toString(), typexp.toString());
+            throw new MissmatchTypeException(this.whatAmI() ,new BoolType().toString(), typexp.toString());
+    }
+    private String whatAmI() {
+        return "WhileStmt";
     }
 }   
+

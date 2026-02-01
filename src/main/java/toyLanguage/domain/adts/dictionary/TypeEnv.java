@@ -7,7 +7,6 @@ import java.util.Map;
 import toyLanguage.domain.myExceptions.IdAlreadyExistsException;
 import toyLanguage.domain.myExceptions.IdNotFoundException;
 import toyLanguage.domain.types.Type;
-import toyLanguage.domain.values.Value;
 
 public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
     private Map<K,V> myDict;
@@ -17,7 +16,7 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         this.myDict = new HashMap<>();
     }
     @Override
-    public V lookup(K id) throws IdNotFoundException {
+    public synchronized V lookup(K id) throws IdNotFoundException {
         if (this.myDict.containsKey(id)) {
             return this.myDict.get(id);
         } else {
@@ -25,7 +24,7 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         }
     }
     @Override
-    public void update(K id, V val) throws IdNotFoundException {
+    public synchronized void update(K id, V val) throws IdNotFoundException {
         if (this.myDict.containsKey(id)) {
             this.myDict.replace(id, val);
         } else {
@@ -33,7 +32,7 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         }
     }
     @Override
-    public void add(K id, V val) throws IdAlreadyExistsException {
+    public synchronized void add(K id, V val) throws IdAlreadyExistsException {
         if (! this.myDict.containsKey(id)) {
             this.myDict.putIfAbsent(id, val);
         } else {
@@ -41,11 +40,11 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         }
     }
     @Override
-    public boolean isKeyDef(K id) {
+    public synchronized boolean isKeyDef(K id) {
         return this.myDict.containsKey(id);
     }
     @Override
-    public String toString() {
+    public synchronized String toString() {
         StringBuilder printSymTbl = new StringBuilder();
         printSymTbl.append("{ ");
         for ( Map.Entry<K, V> entry_ : this.myDict.entrySet()) {
@@ -60,7 +59,7 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         return printSymTbl.toString();
     }
     @Override
-    public void remove(K id) throws IdNotFoundException{
+    public synchronized void remove(K id) throws IdNotFoundException{
         if (!myDict.containsKey(id)) {
             throw new IdNotFoundException(id.toString());
         }
@@ -68,7 +67,7 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
     }
 
     @Override
-    public MyDict<K,V> deepCopy() {
+    public synchronized MyDict<K,V> deepCopy() {
         MyDict<K,V> copy = new TypeEnv<>();
         for (Map.Entry<K, V> entry_ : this.myDict.entrySet())
         {
@@ -83,7 +82,7 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         return copy;
     }
     @Override
-    public Iterator<Map.Entry<K, V>> iterator() {
+    public synchronized Iterator<Map.Entry<K, V>> iterator() {
         return new Iterator<Map.Entry<K, V>>() {
             private final Iterator<Map.Entry<K, V>> actualIterator = myDict.entrySet().iterator();
             @Override
@@ -101,11 +100,15 @@ public class TypeEnv<K,V extends Type> implements MyDict<K,V> {
         };
     }
     @Override
-    public String getDataTypeAsString() {
+    public synchronized String getDataTypeAsString() {
         return this.dataTypeName;
     }
     @Override
-    public Map<K, V> getContent() {
+    public synchronized Map<K, V> getContent() {
         return this.myDict;
+    }
+    @Override
+    public synchronized boolean isEmpty() {
+        return this.myDict.isEmpty();
     }
 }

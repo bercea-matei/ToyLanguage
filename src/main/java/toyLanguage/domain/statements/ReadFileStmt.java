@@ -80,14 +80,18 @@ public class ReadFileStmt implements Stmt {
     public MyDict<String, Type> typecheck(MyDict<String, Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
         Type expType = this.expression.typecheck(typeEnv);
         if (!expType.equals(new StringType())) {
-            throw new MissmatchTypeException(new StringType().toString(), expType.toString());
+            throw new MissmatchTypeException(this.whatAmI(), new StringType().toString(), expType.toString());
         }
 
         Type varType = typeEnv.lookup(this.variableName);
         if (!varType.equals(new IntType())) {
-            throw new MissmatchTypeException(new IntType().toString(), varType.toString());
+            throw new MissmatchTypeException(this.whatAmI(),new IntType().toString(), varType.toString());
         }
 
         return typeEnv;
+    } 
+    private String whatAmI() {
+        return "ReadFileStmt";
     }
+
 }

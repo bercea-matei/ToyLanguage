@@ -20,7 +20,7 @@ public class RunOneStepCommand extends Command {
                 this.controller.logPrgStateExec();
         }
         } catch (ToyLanguageExceptions e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "!!!!");
         }
     }
 

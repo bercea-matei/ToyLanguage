@@ -1,11 +1,13 @@
 package toyLanguage.view.commands;
 
-import toyLanguage.controller.MyController; 
+import toyLanguage.controller.MyController;
+
+import java.util.List;
 import java.util.Scanner;
 
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.myExceptions.UnknownOperatorException;
-import toyLanguage.examples.Examples;
+import toyLanguage.examples.*;
 
 public class SelectPrgCommand extends Command {
     private final MyController controller;
@@ -41,73 +43,86 @@ public class SelectPrgCommand extends Command {
         this.printOptions();
         String option = keyboard.next();
 
+        Examples ex = new Examples();
+        List<ProgramExample> exList = ex.getAll();
+
         
         if(option.equals("1")) {
             try {
-                Examples.loadOption1(this.controller);;
+                //Examples.loadOption1(this.controller);;
+                exList.get(0).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("2")) {
             try {
-                Examples.loadOption2(this.controller);;
+                //Examples.loadOption2(this.controller);;
+                exList.get(1).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("3")) {
             try {
-                Examples.loadOption3(this.controller);;
+                //Examples.loadOption3(this.controller);;
+                exList.get(2).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("4")) {
             try {
-                Examples.loadOption4(this.controller);;
+                //Examples.loadOption4(this.controller);;
+                exList.get(3).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("5")) {
             try {
-                Examples.loadOption5(this.controller);;
+                //Examples.loadOption5(this.controller);;
+                exList.get(4).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             };
         } else if (option.equals("6")) {
             try {
-                Examples.loadOption6(this.controller);;
+                //Examples.loadOption6(this.controller);;
+                exList.get(5).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             };
         } else if (option.equals("7")) {
             try {
-                Examples.loadOption7(this.controller);;
+                //Examples.loadOption7(this.controller);;
+                exList.get(6).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("8")) {
             try {
-                Examples.loadOption8(this.controller);;
+                //Examples.loadOption8(this.controller);;
+                exList.get(7).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("9")) {
             try {
-                Examples.loadOption9(this.controller);;
+                //Examples.loadOption9(this.controller);;
+                exList.get(8).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());
             }
         } else if (option.equals("10")) {
             try {
-                Examples.loadOption10(this.controller);;
+                //Examples.loadOption10(this.controller);;
+                exList.get(9).loadIntoController(this.controller);
                 System.out.println("program saved successfully");
             } catch (ToyLanguageExceptions e) {
                 System.out.println(e.getMessage());

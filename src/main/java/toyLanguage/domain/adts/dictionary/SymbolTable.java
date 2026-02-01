@@ -108,4 +108,8 @@ public class SymbolTable<K,V extends Value> implements MyDict<K,V> {
     public Map<K, V> getContent() {
         return this.myDict;
     }
+    @Override
+    public boolean isEmpty() {
+        return this.myDict.isEmpty();
+    }
 }
