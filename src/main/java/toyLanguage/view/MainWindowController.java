@@ -128,7 +128,21 @@ public class MainWindowController {
     }
     private void updatePrgStatesIdsListView(List<Integer> allIds) {
         //allIds = List.of(1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18);
-        prgStatesIdsListView.getItems().setAll(allIds);
+        //prgStatesIdsListView.getItems().setAll(allIds);
+
+        List<Integer> currentItems = prgStatesIdsListView.getItems();
+
+        if (!currentItems.equals(allIds)) {
+            Integer selected = prgStatesIdsListView.getSelectionModel().getSelectedItem();
+            
+            prgStatesIdsListView.getItems().setAll(allIds);
+            
+            if (selected != null && allIds.contains(selected)) {
+                prgStatesIdsListView.getSelectionModel().select(selected);
+            } else if (!allIds.isEmpty()) {
+                prgStatesIdsListView.getSelectionModel().selectFirst();
+            }
+        }
     }
     //-------------------------------
     //   OutList
@@ -232,7 +246,7 @@ public class MainWindowController {
             prgStatesIdsListView.getItems().clear();
             fileTableListView.getItems().clear();
             symTableView.getItems().clear();
-            //heapTableView.getItems().clear();
+            heapTableView.getItems().clear();
             return;
         }
         //no_prgs

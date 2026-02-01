@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import toyLanguage.Interpreter;
 import toyLanguage.controller.Controller;
 import toyLanguage.controller.MyController;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
@@ -18,18 +17,16 @@ import toyLanguage.repository.MyRepository;
 import toyLanguage.repository.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramSelectorController {
     List<ProgramExample> exList;
+    private final List<MyController> activeControllers = new ArrayList<>();
 
     @FXML
     private ListView<ProgramExample> programListView;
 
-    //public Stmt getSelectedProgram() {
-    //    return programListView.getSelectionModel().getSelectedItem();
-    //}
-    
     @FXML
     public void initialize() {
         Examples ex = new Examples();
@@ -67,6 +64,8 @@ public class ProgramSelectorController {
 
             MainWindowController uiCtrl = loader.getController();
             uiCtrl.setLogicController(controller);
+            activeControllers.add(controller);
+            
 
             Stage newStage = new Stage();
             newStage.setTitle("Execution Engine - " + selectedPrg.toString());
@@ -77,6 +76,11 @@ public class ProgramSelectorController {
             newStage.initOwner(programListView.getScene().getWindow()); 
             newStage.initModality(Modality.NONE); 
 
+            newStage.setOnCloseRequest(event -> {
+                System.out.println("Cleaning up executor for window...");
+                controller.shutdown(); 
+            });
+
             newStage.show();
 
         } catch (IOException e) {
@@ -85,12 +89,20 @@ public class ProgramSelectorController {
     }
 
     private void showError(String message) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error occurred!");
-            alert.setContentText(message);
-            alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("An error occurred!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public void shutdownAll() {
+        System.out.println("Starter closing. Shutting down " + activeControllers.size() + " engines.");
+        for (MyController ctrl : activeControllers) {
+            ctrl.shutdown();
         }
+        activeControllers.clear();
+    }
 }
 
 

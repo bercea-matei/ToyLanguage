@@ -17,6 +17,11 @@ public class GUIApp extends Application {
         
         FXMLLoader fxmlLoader = new FXMLLoader(GUIApp.class.getResource("ProgramSelector.fxml"));
         Parent root = fxmlLoader.load();
+        ProgramSelectorController selectorController = fxmlLoader.getController();
+        primaryStage.setOnCloseRequest(event -> {
+            selectorController.shutdownAll();
+            System.exit(0);
+        });
 
         Scene scene = new Scene(root, 800, 600);
 
@@ -31,12 +36,7 @@ public class GUIApp extends Application {
 
     @Override
     public void stop() throws Exception {
-        System.out.println("Application is closing. Shutting down executor service...");
         
-        if (Interpreter.controller != null) {
-            Interpreter.controller.shutdown();
-        }
-
         super.stop();
     }
 }
