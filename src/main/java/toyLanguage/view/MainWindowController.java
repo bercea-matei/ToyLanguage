@@ -35,6 +35,10 @@ public class MainWindowController {
     @FXML
     private Label noPrgStates;
     @FXML
+    private Label outListLabel;
+    @FXML
+    private Label fileTableLabel;
+    @FXML
     private Label currentPrgStateIdLabel;
     @FXML
     private Button runOneStepButton;
