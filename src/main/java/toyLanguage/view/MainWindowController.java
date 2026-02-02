@@ -150,7 +150,7 @@ public class MainWindowController {
         if(outListView == null)
             return;
 
-        MyList<Value> outList = this.logicController.getOutListById(this.currentSelectedProgramId);
+        MyList<Value> outList = this.logicController.getOutList();
 
         if (outList == null || outList.isEmpty()) {
             return; 
@@ -171,7 +171,7 @@ public class MainWindowController {
     //   FileTable
     //-------------------------------
     private void updateFileTableListView() {
-        MyDict<StringValue, BufferedReader> fileTable = this.logicController.getFileTableById(this.currentSelectedProgramId);
+        MyDict<StringValue, BufferedReader> fileTable = this.logicController.getFileTable();
         if (fileTable == null)
             return;
         List<String> allFiles = new ArrayList<>();
@@ -217,7 +217,7 @@ public class MainWindowController {
     //   HeapTable
     //-------------------------------
     private void updateHeapTableView() {
-        MyHeap<Integer, Value> heapTable = this.logicController.getHeapTableById(this.currentSelectedProgramId);
+        MyHeap<Integer, Value> heapTable = this.logicController.getHeapTable();
         if (heapTableView == null) {
             return;
         }
@@ -243,9 +243,13 @@ public class MainWindowController {
             //outListView.getItems().clear();
             exeStkListView.getItems().clear();
             prgStatesIdsListView.getItems().clear();
-            fileTableListView.getItems().clear();
+            //fileTableListView.getItems().clear();
             symTableView.getItems().clear();
             heapTableView.getItems().clear();
+        
+            updateOutListView();
+            updateFileTableListView();
+
             return;
         }
         //no_prgs

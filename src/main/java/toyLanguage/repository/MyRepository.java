@@ -31,4 +31,10 @@ public interface MyRepository {
     public MyDict<StringValue,BufferedReader> getFileTableById(int id);
     public MyList<Value> getOutListById(int id);
     public MyHeap<Integer,Value> getHeapTableById(int id);
+
+    public MyDict<StringValue,BufferedReader> getFileTable();
+    public MyList<Value> getOutList();
+    public MyHeap<Integer,Value> getHeapTable();
+
+
 }

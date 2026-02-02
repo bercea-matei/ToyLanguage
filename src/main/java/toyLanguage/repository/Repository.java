@@ -25,9 +25,11 @@ import java.util.ArrayList;
 
 public class Repository implements MyRepository {
     private List<PrgState> prgStates;
+    private MyList<Value> outList;
+    private MyHeap<Integer,Value> heapTable;
+    private MyDict<StringValue,BufferedReader> fileTable;
     private String logFilePath = "ourLogs.log";
     private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
-
 
     public Repository() {
         this.prgStates = new ArrayList<>();
@@ -37,6 +39,9 @@ public class Repository implements MyRepository {
         if (prgStates.size() != 0)
             throw new UnfinishedProgramException();
         this.prgStates.add(state);
+        this.heapTable = state.getHeapTable();
+        this.outList = state.getOutList();
+        this.fileTable = state.getFileTable();
     }
 
     @Override
@@ -138,6 +143,20 @@ public class Repository implements MyRepository {
                 return prg.getHeapTable();
         return null;
     }
-}
 
+    @Override
+    public synchronized MyDict<StringValue,BufferedReader> getFileTable() {
+        return this.fileTable;
+    }
+    @Override
+    public synchronized MyList<Value> getOutList() {
+        return this.outList;
+    }
+    @Override
+    public synchronized MyHeap<Integer,Value> getHeapTable() {
+        return this.heapTable;
+    }
+
+
+}
 

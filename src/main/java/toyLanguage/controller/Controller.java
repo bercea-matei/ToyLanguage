@@ -214,4 +214,17 @@ public class Controller implements MyController {
     public MyHeap<Integer,Value> getHeapTableById(int id) {
         return this.repo.getHeapTableById(id);
     }
+
+    @Override
+    public MyDict<StringValue,BufferedReader> getFileTable() {
+        return this.repo.getFileTable();
+    }
+    @Override
+    public MyList<Value> getOutList() {
+        return this.repo.getOutList();
+    }
+    @Override
+    public MyHeap<Integer,Value> getHeapTable() {
+        return this.repo.getHeapTable();
+    }
 }
