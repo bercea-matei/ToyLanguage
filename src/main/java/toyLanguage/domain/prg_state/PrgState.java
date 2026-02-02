@@ -15,6 +15,7 @@ import toyLanguage.domain.statements.Stmt;
 public class PrgState {
     private final MyStack<Stmt> exeStk;
     private final MyDict<String, Value> symTable;
+    private final MyDict<Integer, Integer> latchTable;
     private final MyList<Value> outList;
     private final MyDict<StringValue, BufferedReader> fileTable;
     private final MyHeap<Integer, Value> heapTable;
@@ -26,13 +27,15 @@ public class PrgState {
             Stmt origPrg, MyStack<Stmt> stk, 
             MyDict<String, Value> dict, MyList<Value> list, 
             MyDict<StringValue, BufferedReader> fileTable, 
-            MyHeap<Integer, Value> heapTable) {
+            MyHeap<Integer, Value> heapTable,
+            MyDict<Integer, Integer> latchTable) {
         this.originalProgram = origPrg.deepCopy();
         this.exeStk = stk;
         this.symTable = dict;
         this.outList = list;
         this.fileTable = fileTable;
         this.heapTable = heapTable;
+        this.latchTable = latchTable;
         this.id = getNewId();
     }
     private static synchronized int getNewId() {
@@ -55,6 +58,9 @@ public class PrgState {
     public MyHeap<Integer, Value> getHeapTable() {
         return this.heapTable;
     }
+    public MyDict<Integer, Integer> getLatchTable() {
+        return this.latchTable;
+    }
     public int getID() {
         return this.id;
     }
@@ -70,10 +76,12 @@ public class PrgState {
         allStr.append(this.outList.toString());
         allStr.append("\n");
         allStr.append(this.fileTable.toString());
+        allStr.append("\n");
+        allStr.append(this.latchTable.toString());
         return allStr.toString();
     }
     public PrgState deepCopy() {
-        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.fileTable.deepCopy(), this.heapTable.deepCopy());
+        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.fileTable.deepCopy(), this.heapTable.deepCopy(), this.latchTable);
     }
     public Stmt getOriginal() {
         return this.originalProgram.deepCopy();

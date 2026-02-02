@@ -39,5 +39,6 @@ public interface MyController {
     public MyDict<StringValue,BufferedReader> getFileTable();
     public MyList<Value> getOutList();
     public MyHeap<Integer,Value> getHeapTable();
+    public MyDict<Integer,Integer> getLatchTable();
 }
 

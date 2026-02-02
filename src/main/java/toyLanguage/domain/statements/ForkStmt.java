@@ -27,7 +27,8 @@ public class ForkStmt implements Stmt{
             parentState.getSymTable().deepCopy(),
             parentState.getOutList(),
             parentState.getFileTable(),
-            parentState.getHeapTable()
+            parentState.getHeapTable(),
+            parentState.getLatchTable()
         );
 
         return childState;

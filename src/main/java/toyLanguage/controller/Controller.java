@@ -11,6 +11,7 @@ import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.values.*;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 
@@ -53,36 +55,36 @@ public class Controller implements MyController {
             .collect(Collectors.toList());
         
         try {
-            List<PrgState> newPrgList = this.executor.invokeAll(callList).stream()
-                .map(future -> {
-                    try { return future.get();}
-                    catch(InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        System.err.println("Task was interrupted and is shutting down.");
-                    return null;
-                    } catch (ExecutionException e) {
-                        Throwable cause = e.getCause();
-                        System.err.println("An error occurred during task execution: " + cause.getMessage());
-                    return null;
-                    }})
-                .filter(p -> p!=null)
-                .collect(Collectors.toList());
+            List<Future<PrgState>> futures = this.executor.invokeAll(callList);
 
+            List<PrgState> newPrgList = new ArrayList<>();
+            
+            for (Future<PrgState> future : futures) {
+                try {
+                    PrgState result = future.get();
+                    if (result != null) newPrgList.add(result);
+                } catch (ExecutionException e) {
+                    if (e.getCause() instanceof ToyLanguageExceptions) {
+                        throw (ToyLanguageExceptions) e.getCause();
+                    } else {
+                        throw new RuntimeException("Unexpected Engine Crash", e.getCause());
+                    }
+                }
+            }
 
+            // 3. If we reached here, no thread crashed!
             prgList.addAll(newPrgList);
-
-            MyHeap<Integer, Value> sharedHeap = prgList.get(0).getHeapTable();
-            safeGarbageCollector(prgList, sharedHeap.getContent());
+            
+            // Use the in-place GC we built earlier
+            safeGarbageCollector(prgList, repo.getHeapTable().getContent());
             
             logCurrentStates(prgList);
 
-            prgList=removeCompletedPrg(repo.getPrgList());
-            repo.setPrgList(prgList);
+            repo.setPrgList(removeCompletedPrg(repo.getPrgList()));
 
         } catch (InterruptedException e) {
-            System.err.println("Executor service was interrupted while waiting for tasks to complete.");
             Thread.currentThread().interrupt();
-            return;
+            throw new ToyLanguageExceptions("Execution interrupted.");
         }
     }
 
@@ -226,5 +228,9 @@ public class Controller implements MyController {
     @Override
     public MyHeap<Integer,Value> getHeapTable() {
         return this.repo.getHeapTable();
+    }
+    @Override
+    public MyDict<Integer,Integer> getLatchTable() {
+        return this.repo.getLatchTable();
     }
 }

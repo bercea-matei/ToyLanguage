@@ -62,6 +62,12 @@ public class MainWindowController {
     private TableColumn<Map.Entry<Integer, Value>, String> heapAddressCol;
     @FXML
     private TableColumn<Map.Entry<Integer, Value>, String> heapValueCol;
+    @FXML
+    private TableView<Map.Entry<Integer, Integer>> latchTableView;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Integer>, String> latchLocationCol;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Integer>, String> latchValueCol;
 
 
     public void setLogicController(MyController controller) {
@@ -97,6 +103,14 @@ public class MainWindowController {
         heapValueCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getValue().toString());
         });
+
+        latchLocationCol.setCellValueFactory(p -> {
+            return new SimpleStringProperty(p.getValue().getKey().toString());
+        });
+
+        latchValueCol.setCellValueFactory(p -> {
+            return new SimpleStringProperty(p.getValue().getValue().toString());
+        });
     }
 
     @FXML
@@ -112,6 +126,7 @@ public class MainWindowController {
             updateAllUIComponents();
     
         } catch (ToyLanguageExceptions e) {
+            this.runOneStepButton.setDisable(true);
             showError(e.getMessage());
         }
     }
@@ -233,6 +248,24 @@ public class MainWindowController {
         List<Map.Entry<Integer, Value>> symTableEntryList = new ArrayList<>(map.entrySet());
         items.setAll(symTableEntryList);
     }
+    //-------------------------------
+    //   LatchTable
+    //-------------------------------
+    private void updateLatchTableView() {
+        MyDict<Integer, Integer> latchTable = this.logicController.getLatchTable();
+        if (latchTableView == null) {
+            return;
+        }
+
+        if (latchTable == null || latchTable.isEmpty()) {
+            //items.clear();
+            return;
+        }
+
+        List<Map.Entry<Integer, Integer>> latchList = new ArrayList<>(latchTable.getContent().entrySet());
+
+        latchTableView.getItems().setAll(latchList);
+    }
 
     //-------------------------------
     //   ALL Update
@@ -249,6 +282,7 @@ public class MainWindowController {
         
             updateOutListView();
             updateFileTableListView();
+            updateLatchTableView();
 
             return;
         }
@@ -267,6 +301,7 @@ public class MainWindowController {
         updateExeStkListView();
         updateSymbolTableView();
         updateHeapTableView();
+        updateLatchTableView();
     }
 
     private void showError(String message) {

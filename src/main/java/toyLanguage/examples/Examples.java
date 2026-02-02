@@ -25,21 +25,26 @@ public class Examples {
         try {
             list.add(new ProgramExample(createExample5()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example2 due to error: " + e.getMessage());
+            System.err.println("Skipping example5 due to error: " + e.getMessage());
         }
         list.add(new ProgramExample(createExample6()));
         try {
-        list.add(new ProgramExample(createExample7()));
+            list.add(new ProgramExample(createExample7()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example2 due to error: " + e.getMessage());
+            System.err.println("Skipping example7 due to error: " + e.getMessage());
         }
         try {
-        list.add(new ProgramExample(createExample8()));
+            list.add(new ProgramExample(createExample8()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example2 due to error: " + e.getMessage());
+            System.err.println("Skipping example8 due to error: " + e.getMessage());
         }
         list.add(new ProgramExample(createExample9()));
         list.add(new ProgramExample(createExample10()));
+        try {
+            list.add(new ProgramExample(createExample11()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example11 due to error: " + e.getMessage());
+        }
 
         return list;
     }
@@ -209,5 +214,79 @@ public class Examples {
                     )
                 )
             );
-    } 
+    }
+    private static Stmt createExample11() throws ToyLanguageExceptions {
+        return new CompStmt(
+            new VarDeclStmt("v1", new RefType(new IntType())),
+            new CompStmt(
+                new VarDeclStmt("v2", new RefType(new IntType())),
+                new CompStmt(
+                    new VarDeclStmt("v3", new RefType(new IntType())),
+                    new CompStmt(
+                        new VarDeclStmt("cnt", new IntType()),
+                        new CompStmt(
+                            new NewStmt("v1", new ValueExp(new IntValue(2))),
+                            new CompStmt(
+                                new NewStmt("v2", new ValueExp(new IntValue(3))),
+                                new CompStmt(
+                                    new NewStmt("v3", new ValueExp(new IntValue(4))),
+                                    new CompStmt(
+                                        // newLatch(cnt, rH(v2)); -> rH(v2) is 3
+                                        new NewLatchStmt("cnt", new ReadHeapExp(new VarExp("v2"))),
+                                        new CompStmt(
+                                            // Outer Fork
+                                            new ForkStmt(
+                                                new CompStmt(
+                                                    new WriteHeapStmt("v1", new ArithExp('*', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(10)))),
+                                                    new CompStmt(
+                                                        new PrintStmt(new ReadHeapExp(new VarExp("v1"))),
+                                                        new CompStmt(
+                                                            new CountDownStmt("cnt"),
+                                                            // Middle Fork
+                                                            new ForkStmt(
+                                                                new CompStmt(
+                                                                    new WriteHeapStmt("v2", new ArithExp('*', new ReadHeapExp(new VarExp("v2")), new ValueExp(new IntValue(10)))),
+                                                                    new CompStmt(
+                                                                        new PrintStmt(new ReadHeapExp(new VarExp("v2"))),
+                                                                        new CompStmt(
+                                                                            new CountDownStmt("cnt"),
+                                                                            // Inner Fork
+                                                                            new ForkStmt(
+                                                                                new CompStmt(
+                                                                                    new WriteHeapStmt("v3", new ArithExp('*', new ReadHeapExp(new VarExp("v3")), new ValueExp(new IntValue(10)))),
+                                                                                    new CompStmt(
+                                                                                        new PrintStmt(new ReadHeapExp(new VarExp("v3"))),
+                                                                                        new CountDownStmt("cnt")
+                                                                                    )
+                                                                                )
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                )
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            // Main Thread Continuation
+                                            new CompStmt(
+                                                new AwaitStmt("cnt"),
+                                                new CompStmt(
+                                                    new PrintStmt(new ValueExp(new IntValue(100))),
+                                                    new CompStmt(
+                                                        new CountDownStmt("cnt"),
+                                                        new PrintStmt(new ValueExp(new IntValue(100)))
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
 }

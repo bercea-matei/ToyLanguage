@@ -3,7 +3,6 @@ package toyLanguage.examples;
 import java.io.BufferedReader;
 
 import toyLanguage.controller.MyController;
-import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.*;
@@ -34,7 +33,8 @@ public class ProgramExample {
             MyList<Value> outList = new OutList<>();
             MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
             MyHeap<Integer, Value> heapTable = new HeapTable<>();
-            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable);
+            MyDict<Integer, Integer> latchTable = new LatchTable<>();
+            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, latchTable);
             ctrl.initializePrgState(state);
 
         } catch (ToyLanguageExceptions e) {
