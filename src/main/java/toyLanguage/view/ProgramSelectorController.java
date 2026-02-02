@@ -57,6 +57,7 @@ public class ProgramSelectorController {
                 selectedPrg.loadIntoController(controller);
             } catch (ToyLanguageExceptions e) {
                 showError(e.getMessage());
+                return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
