@@ -72,10 +72,8 @@ public class Controller implements MyController {
                 }
             }
 
-            // 3. If we reached here, no thread crashed!
             prgList.addAll(newPrgList);
             
-            // Use the in-place GC we built earlier
             safeGarbageCollector(prgList, repo.getHeapTable().getContent());
             
             logCurrentStates(prgList);
