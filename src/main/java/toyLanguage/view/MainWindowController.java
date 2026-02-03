@@ -112,6 +112,7 @@ public class MainWindowController {
             updateAllUIComponents();
     
         } catch (ToyLanguageExceptions e) {
+            runOneStepButton.setDisable(true);
             showError(e.getMessage());
         }
     }
