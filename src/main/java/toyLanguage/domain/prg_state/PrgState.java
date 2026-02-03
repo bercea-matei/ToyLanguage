@@ -73,7 +73,7 @@ public class PrgState {
         return allStr.toString();
     }
     public PrgState deepCopy() {
-        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList.deepCopy(), this.fileTable.deepCopy(), this.heapTable.deepCopy());
+        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList, this.fileTable, this.heapTable);
     }
     public Stmt getOriginal() {
         return this.originalProgram.deepCopy();
