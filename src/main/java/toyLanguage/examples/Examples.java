@@ -25,21 +25,31 @@ public class Examples {
         try {
             list.add(new ProgramExample(createExample5()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example2 due to error: " + e.getMessage());
+            System.err.println("Skipping example5 due to error: " + e.getMessage());
         }
         list.add(new ProgramExample(createExample6()));
         try {
         list.add(new ProgramExample(createExample7()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example2 due to error: " + e.getMessage());
+            System.err.println("Skipping example7 due to error: " + e.getMessage());
         }
         try {
-        list.add(new ProgramExample(createExample8()));
+            list.add(new ProgramExample(createExample8()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example2 due to error: " + e.getMessage());
+            System.err.println("Skipping example8 due to error: " + e.getMessage());
         }
         list.add(new ProgramExample(createExample9()));
         list.add(new ProgramExample(createExample10()));
+        try {
+            list.add(new ProgramExample(createExample11()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example11 due to error: " + e.getMessage());
+        }
+        try {
+            list.add(new ProgramExample(createExample12()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example12 due to error: " + e.getMessage());
+        }
 
         return list;
     }
@@ -210,4 +220,103 @@ public class Examples {
                 )
             );
     } 
+
+    private static Stmt createExample11() throws ToyLanguageExceptions{
+        Stmt varInit = new CompStmt(
+            new VarDeclStmt("v1", new RefType(new IntType())), 
+            new CompStmt(
+                new VarDeclStmt("cnt", new IntType()), 
+                new CompStmt(
+                    new NewStmt("v1", new ValueExp(new IntValue(1))),
+                    new CreateSemaphoreStmt("cnt", new ReadHeapExp(new VarExp("v1")))
+                )
+            )
+        );
+
+        Stmt fork1 = new ForkStmt(
+        new CompStmt(
+            new AcquireStmt("cnt"), 
+            new CompStmt(
+                //--
+                new WriteHeapStmt("v1", new ArithExp('*', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(10)))), 
+                new CompStmt(
+                    new PrintStmt(new ReadHeapExp(new VarExp("v1"))),
+                    new ReleaseStmt("cnt"))
+            )
+        ));
+
+        Stmt fork2 = new ForkStmt(
+        new CompStmt(
+            new AcquireStmt("cnt"), 
+            new CompStmt(
+                //--
+                new WriteHeapStmt("v1", new ArithExp('*', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(10)))), 
+                new CompStmt(
+                    //--
+                    new WriteHeapStmt("v1", 
+                        new ArithExp('*', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(2)))),
+                    new CompStmt(
+                    new PrintStmt(new ReadHeapExp(new VarExp("v1"))),
+                    new ReleaseStmt("cnt"))
+                )
+            )
+        ));
+
+        Stmt lastPage = new CompStmt(
+            new AcquireStmt("cnt"), 
+            new CompStmt(            
+                new PrintStmt(
+                    new ArithExp('-', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(1)))),
+                new ReleaseStmt("cnt")
+            )
+        );
+
+        return new CompStmt(varInit, 
+            new CompStmt(fork1, 
+                new CompStmt(fork2, lastPage)));
+
+    }
+
+    private static Stmt createExample12() throws ToyLanguageExceptions {
+       
+        Stmt varInit = new CompStmt(
+            new VarDeclStmt("a", new IntType()), 
+            new CompStmt(
+                new VarDeclStmt("b", new IntType()), 
+                new CompStmt(
+                    new VarDeclStmt("c", new IntType()), 
+                    new CompStmt(
+                        new AssignStmt("a", new ValueExp(new IntValue(1))),
+                        new CompStmt(
+                            new AssignStmt("b", new ValueExp(new IntValue(2))),
+                            new AssignStmt("c", new ValueExp(new IntValue(5)))
+                        )
+                    )
+                )
+            )
+        );
+
+        Stmt switch_ = new SwitchStmt(
+            new ArithExp('*', new VarExp("a"), new ValueExp(new IntValue(10))), 
+            new ArithExp('*', new VarExp("b"), new VarExp("c")), 
+            new ValueExp(new IntValue(10)), 
+            new CompStmt(
+                new PrintStmt(new VarExp("a")), 
+                new PrintStmt(new VarExp("b"))
+            ),
+            new CompStmt(
+                new PrintStmt(new ValueExp(new IntValue(100))), 
+                new PrintStmt(new ValueExp(new IntValue(200))) 
+            ), 
+                new PrintStmt(new ValueExp(new IntValue(300))) 
+        );
+
+        return new CompStmt(
+            varInit, 
+            new CompStmt(switch_, 
+            new PrintStmt(new ValueExp(new IntValue(300)))
+            ));
+
+
+    }
 }

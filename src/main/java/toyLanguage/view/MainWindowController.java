@@ -4,6 +4,7 @@ import toyLanguage.controller.MyController;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.list.MyList;
+import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.prg_state.PrgState;
@@ -62,6 +63,15 @@ public class MainWindowController {
     private TableColumn<Map.Entry<Integer, Value>, String> heapAddressCol;
     @FXML
     private TableColumn<Map.Entry<Integer, Value>, String> heapValueCol;
+    @FXML
+    private TableView<Map.Entry<Integer, Pair<Integer, List<Integer>>>> semaphoreTableView;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> semaphoreLocationCol;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> semaphoreTotalCountCol;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> semaphoreThreadsListCol;
+
 
 
     public void setLogicController(MyController controller) {
@@ -93,10 +103,19 @@ public class MainWindowController {
         heapAddressCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getKey().toString());
         });
-
         heapValueCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getValue().toString());
         });
+
+        semaphoreLocationCol.setCellValueFactory(p -> 
+            new SimpleStringProperty(p.getValue().getKey().toString())
+        );
+        semaphoreTotalCountCol.setCellValueFactory(p -> 
+            new SimpleStringProperty(p.getValue().getValue().getFirst().toString())
+        );
+        semaphoreThreadsListCol.setCellValueFactory(p -> 
+            new SimpleStringProperty(p.getValue().getValue().getSecond().toString())
+        );
     }
 
     @FXML
@@ -234,6 +253,27 @@ public class MainWindowController {
         List<Map.Entry<Integer, Value>> symTableEntryList = new ArrayList<>(map.entrySet());
         items.setAll(symTableEntryList);
     }
+    //-------------------------------
+    //   SemaphoreTable
+    //-------------------------------
+    private void updateSemaphoreTableView() {
+        MyDict<Integer, Pair<Integer, List<Integer>>> semTbl = logicController.getSemaphoreTable();
+        if (semaphoreTableView == null) {
+            return;
+        }
+
+        ObservableList<Map.Entry<Integer, Pair<Integer, List<Integer>>>> items = semaphoreTableView.getItems();
+
+        if (semTbl == null || semTbl.isEmpty()) {
+            //items.clear();
+            return;
+        }
+
+
+        Map<Integer, Pair<Integer, List<Integer>>> map = semTbl.getContent();
+        List<Map.Entry<Integer, Pair<Integer, List<Integer>>>> symTableEntryList = new ArrayList<>(map.entrySet());
+        items.setAll(symTableEntryList);
+    }
 
     //-------------------------------
     //   ALL Update
@@ -250,6 +290,7 @@ public class MainWindowController {
         
             updateOutListView();
             updateFileTableListView();
+            updateSemaphoreTableView();
 
             return;
         }
@@ -268,6 +309,7 @@ public class MainWindowController {
         updateExeStkListView();
         updateSymbolTableView();
         updateHeapTableView();
+        updateSemaphoreTableView();
     }
 
     private void showError(String message) {

@@ -7,6 +7,7 @@ import toyLanguage.domain.statements.*;
 import toyLanguage.domain.adts.dictionary.*;
 import toyLanguage.domain.adts.heapMap.*;
 import toyLanguage.domain.adts.list.*;
+import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.values.*;
 
@@ -226,5 +227,9 @@ public class Controller implements MyController {
     @Override
     public MyHeap<Integer,Value> getHeapTable() {
         return this.repo.getHeapTable();
+    }
+    @Override
+    public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable() {
+        return this.repo.getSemaphoreTable();
     }
 }

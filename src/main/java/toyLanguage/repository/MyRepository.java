@@ -7,6 +7,7 @@ import toyLanguage.domain.values.Value;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.list.MyList;
+import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.InvalidFilePathException;
@@ -35,6 +36,8 @@ public interface MyRepository {
     public MyDict<StringValue,BufferedReader> getFileTable();
     public MyList<Value> getOutList();
     public MyHeap<Integer,Value> getHeapTable();
+    public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable();
+
 
 
 }

@@ -3,6 +3,7 @@ package toyLanguage.repository;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.list.MyList;
+import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.FinishUnexistentStateException;
 import toyLanguage.domain.myExceptions.InvalidFilePathException;
@@ -28,6 +29,7 @@ public class Repository implements MyRepository {
     private MyList<Value> outList;
     private MyHeap<Integer,Value> heapTable;
     private MyDict<StringValue,BufferedReader> fileTable;
+    private MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable;
     private String logFilePath = "ourLogs.log";
     private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
 
@@ -42,6 +44,7 @@ public class Repository implements MyRepository {
         this.heapTable = state.getHeapTable();
         this.outList = state.getOutList();
         this.fileTable = state.getFileTable();
+        this.semaphoreTable = state.getSemaphoreTable();
     }
 
     @Override
@@ -155,6 +158,10 @@ public class Repository implements MyRepository {
     @Override
     public synchronized MyHeap<Integer,Value> getHeapTable() {
         return this.heapTable;
+    }
+    @Override
+    public synchronized MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable() {
+        return this.semaphoreTable;
     }
 
 

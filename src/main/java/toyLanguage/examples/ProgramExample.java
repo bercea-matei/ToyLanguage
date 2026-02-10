@@ -1,9 +1,9 @@
 package toyLanguage.examples;
 
 import java.io.BufferedReader;
+import java.util.List;
 
 import toyLanguage.controller.MyController;
-import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.*;
@@ -11,6 +11,7 @@ import toyLanguage.domain.adts.dictionary.*;
 import toyLanguage.domain.adts.heapMap.*;
 import toyLanguage.domain.adts.heapMap.HeapTable;
 import toyLanguage.domain.adts.list.*;
+import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.*;
 import toyLanguage.domain.values.*;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
@@ -34,7 +35,8 @@ public class ProgramExample {
             MyList<Value> outList = new OutList<>();
             MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
             MyHeap<Integer, Value> heapTable = new HeapTable<>();
-            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable);
+            MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable = new SemaphoreTable<>();
+            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable);
             ctrl.initializePrgState(state);
 
         } catch (ToyLanguageExceptions e) {

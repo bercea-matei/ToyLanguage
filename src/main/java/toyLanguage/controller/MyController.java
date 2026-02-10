@@ -6,6 +6,7 @@ import java.util.List;
 import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.list.MyList;
+import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.MyStack;
 import toyLanguage.domain.myExceptions.NoProgramToRunException;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
@@ -39,5 +40,6 @@ public interface MyController {
     public MyDict<StringValue,BufferedReader> getFileTable();
     public MyList<Value> getOutList();
     public MyHeap<Integer,Value> getHeapTable();
+    public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable();
 }
 
