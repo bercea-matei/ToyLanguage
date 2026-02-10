@@ -17,6 +17,7 @@ import toyLanguage.domain.statements.Stmt;
 public class PrgState {
     private final MyStack<Stmt> exeStk;
     private final MyDict<String, Value> symTable;
+    private final MyDict<Integer, Integer> latchTable;
     private final MyList<Value> outList;
     private final MyDict<StringValue, BufferedReader> fileTable;
     private final MyHeap<Integer, Value> heapTable;
@@ -30,7 +31,8 @@ public class PrgState {
             MyDict<String, Value> dict, MyList<Value> list, 
             MyDict<StringValue, BufferedReader> fileTable, 
             MyHeap<Integer, Value> heapTable,
-            MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable) {
+            MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable,
+            MyDict<Integer, Integer> latchTable) {
         this.originalProgram = origPrg.deepCopy();
         this.exeStk = stk;
         this.symTable = dict;
@@ -38,6 +40,7 @@ public class PrgState {
         this.fileTable = fileTable;
         this.heapTable = heapTable;
         this.semaphoreTable = semaphoreTable;
+        this.latchTable = latchTable;
         this.id = getNewId();
     }
     private static synchronized int getNewId() {
@@ -63,6 +66,9 @@ public class PrgState {
     public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable() {
         return this.semaphoreTable;
     }
+    public MyDict<Integer, Integer> getLatchTable() {
+        return this.latchTable;
+    }
     public int getID() {
         return this.id;
     }
@@ -80,10 +86,12 @@ public class PrgState {
         allStr.append(this.fileTable.toString());
         allStr.append("\n");
         allStr.append(this.semaphoreTable.toString());
+        allStr.append("\n");
+        allStr.append(this.latchTable.toString());
         return allStr.toString();
     }
     public PrgState deepCopy() {
-        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList, this.fileTable, this.heapTable, this.semaphoreTable);
+        return new PrgState(this.originalProgram.deepCopy(),this.exeStk.deepCopy(), this.symTable.deepCopy(), this.outList, this.fileTable, this.heapTable, this.semaphoreTable, this.latchTable);
     }
     public Stmt getOriginal() {
         return this.originalProgram.deepCopy();

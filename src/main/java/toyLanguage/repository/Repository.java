@@ -30,8 +30,9 @@ public class Repository implements MyRepository {
     private MyHeap<Integer,Value> heapTable;
     private MyDict<StringValue,BufferedReader> fileTable;
     private MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable;
+    private MyDict<Integer, Integer> latchTable;
     private String logFilePath = "ourLogs.log";
-    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable"};
+    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable", "LatchTable"};
 
     public Repository() {
         this.prgStates = new ArrayList<>();
@@ -45,6 +46,7 @@ public class Repository implements MyRepository {
         this.outList = state.getOutList();
         this.fileTable = state.getFileTable();
         this.semaphoreTable = state.getSemaphoreTable();
+        this.latchTable = state.getLatchTable();
     }
 
     @Override
@@ -87,6 +89,10 @@ public class Repository implements MyRepository {
             }
             logFile.println(msgs[6]);
             for (Map.Entry<Integer, Value> entry : state.getHeapTable()) {
+                logFile.println(entry.getKey() + "-->" + entry.getValue());
+            }
+            logFile.println(msgs[7]);
+            for (Map.Entry<Integer, Integer> entry : state.getLatchTable()) {
                 logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
             logFile.println(msgs[0]);
@@ -162,6 +168,10 @@ public class Repository implements MyRepository {
     @Override
     public synchronized MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable() {
         return this.semaphoreTable;
+    }
+    @Override
+    public synchronized MyDict<Integer,Integer> getLatchTable() {
+        return this.latchTable;
     }
 
 

@@ -37,7 +37,7 @@ public interface MyRepository {
     public MyList<Value> getOutList();
     public MyHeap<Integer,Value> getHeapTable();
     public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable();
-
+    public MyDict<Integer, Integer> getLatchTable();
 
 
 }

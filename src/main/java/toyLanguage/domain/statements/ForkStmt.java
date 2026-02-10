@@ -28,7 +28,8 @@ public class ForkStmt implements Stmt{
             parentState.getOutList(),
             parentState.getFileTable(),
             parentState.getHeapTable(),
-            parentState.getSemaphoreTable()
+            parentState.getSemaphoreTable(),
+            parentState.getLatchTable()
         );
 
         return childState;

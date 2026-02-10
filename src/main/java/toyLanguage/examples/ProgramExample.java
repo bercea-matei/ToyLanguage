@@ -36,7 +36,8 @@ public class ProgramExample {
             MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
             MyHeap<Integer, Value> heapTable = new HeapTable<>();
             MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable = new SemaphoreTable<>();
-            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable);
+            MyDict<Integer, Integer> latchTable = new LatchTable<>();
+            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable, latchTable);
             ctrl.initializePrgState(state);
 
         } catch (ToyLanguageExceptions e) {

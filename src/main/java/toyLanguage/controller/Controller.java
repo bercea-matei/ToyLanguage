@@ -232,4 +232,8 @@ public class Controller implements MyController {
     public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable() {
         return this.repo.getSemaphoreTable();
     }
+    @Override
+    public MyDict<Integer,Integer> getLatchTable() {
+        return this.repo.getLatchTable();
+    }
 }

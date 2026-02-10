@@ -71,7 +71,12 @@ public class MainWindowController {
     private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> semaphoreTotalCountCol;
     @FXML
     private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> semaphoreThreadsListCol;
-
+    @FXML
+    private TableView<Map.Entry<Integer, Integer>> latchTableView;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Integer>, String> latchLocationCol;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Integer>, String> latchValueCol;
 
 
     public void setLogicController(MyController controller) {
@@ -116,6 +121,13 @@ public class MainWindowController {
         semaphoreThreadsListCol.setCellValueFactory(p -> 
             new SimpleStringProperty(p.getValue().getValue().getSecond().toString())
         );
+        latchLocationCol.setCellValueFactory(p -> {
+            return new SimpleStringProperty(p.getValue().getKey().toString());
+        });
+
+        latchValueCol.setCellValueFactory(p -> {
+            return new SimpleStringProperty(p.getValue().getValue().toString());
+        });
     }
 
     @FXML
@@ -269,10 +281,28 @@ public class MainWindowController {
             return;
         }
 
-
         Map<Integer, Pair<Integer, List<Integer>>> map = semTbl.getContent();
         List<Map.Entry<Integer, Pair<Integer, List<Integer>>>> symTableEntryList = new ArrayList<>(map.entrySet());
         items.setAll(symTableEntryList);
+
+    }
+    //-------------------------------
+    //   LatchTable
+    //-------------------------------
+    private void updateLatchTableView() {
+        MyDict<Integer, Integer> latchTable = this.logicController.getLatchTable();
+        if (latchTableView == null) {
+            return;
+        }
+
+        if (latchTable == null || latchTable.isEmpty()) {
+            //items.clear();
+            return;
+        }
+
+        
+        List<Map.Entry<Integer, Integer>> latchList = new ArrayList<>(latchTable.getContent().entrySet());
+        latchTableView.getItems().setAll(latchList);
     }
 
     //-------------------------------
@@ -291,6 +321,7 @@ public class MainWindowController {
             updateOutListView();
             updateFileTableListView();
             updateSemaphoreTableView();
+            updateLatchTableView();
 
             return;
         }
@@ -310,6 +341,7 @@ public class MainWindowController {
         updateSymbolTableView();
         updateHeapTableView();
         updateSemaphoreTableView();
+        updateLatchTableView();
     }
 
     private void showError(String message) {
