@@ -34,7 +34,6 @@ public class AcquireStmt implements Stmt{
         Value val = symTbl.lookup(this.varName);
         if (! (val.getType() instanceof IntType))
             throw new MissmatchValueException(new IntType().toString(), val.getType().toString());
-
         
         synchronized (state.getSemaphoreTable()) {
             Integer foundIndex = ((IntValue) val).getValue();
