@@ -25,6 +25,9 @@
         <RowConstraints percentHeight="10" />
         <RowConstraints percentHeight="10" />
         <RowConstraints percentHeight="10" />
+        <RowConstraints percentHeight="10" />
+        <RowConstraints percentHeight="10" />
+        <RowConstraints percentHeight="10" />
         <RowConstraints percentHeight="11" />
         <RowConstraints percentHeight="3" />
         <RowConstraints percentHeight="12" />
@@ -45,6 +48,7 @@
     </padding>
 
 
+        <!-- LEFT SIDE -->
         <TableView fx:id="symTableView" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.rowSpan="3" GridPane.columnSpan="3">
             <columns>
                 <TableColumn fx:id="symVarNameCol" text="VarName"/>
@@ -66,26 +70,21 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
-
-        <TableView fx:id="latchTableView" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="7" GridPane.rowSpan="3" GridPane.columnSpan="3">
-            <columns>
-                <TableColumn fx:id="latchLocationCol" text="Location"/>
-                <TableColumn fx:id="latchValueCol" text="Value"/>
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TableView>
+        <!-- LEFT SIDE -->
     
 
-        <VBox spacing="10" prefWidth="200" alignment="TOP_CENTER" GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.rowSpan="6" GridPane.columnSpan="4" >
+        <!-- CENTER -->
+        <VBox spacing="10" prefWidth="200" alignment="TOP_CENTER" GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.rowSpan="9" GridPane.columnSpan="4" >
             <children>
                 <ListView fx:id="prgStatesIdsListView" orientation="HORIZONTAL" prefHeight="200"/>
                 <Label fx:id="currentPrgStateIdLabel" text="Current Program State Id: 1"/>
                 <ListView fx:id="exeStkListView" />
             </children>
         </VBox>
-    
+        <!-- CENTER -->
+
+
+        <!-- RIGHT SIDE -->
         <TableView fx:id="heapTableView" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="7" GridPane.rowSpan="3" GridPane.columnSpan="3" >
             <columns>
                 <TableColumn fx:id="heapAddressCol" text="Address" prefWidth="96"/>
@@ -97,17 +96,28 @@
             </columnResizePolicy>
         </TableView>
 
+                <TableView fx:id="latchTableView" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="7" GridPane.rowSpan="3" GridPane.columnSpan="3">
+            <columns>
+                <TableColumn fx:id="latchLocationCol" text="Location"/>
+                <TableColumn fx:id="latchValueCol" text="Value"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <!-- RIGHT SIDE -->
+
         
-        <Label fx:id="outListLabel" text="Out List:" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.rowSpan="1" GridPane.columnSpan="4" />
-        <ListView fx:id="outListView" prefWidth="200" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.rowSpan="3" GridPane.columnSpan="4" />
+        <Label fx:id="outListLabel" text="Out List:" GridPane.rowIndex="9" GridPane.columnIndex="0" GridPane.rowSpan="1" GridPane.columnSpan="4" />
+        <ListView fx:id="outListView" prefWidth="200" GridPane.rowIndex="10" GridPane.columnIndex="0" GridPane.rowSpan="3" GridPane.columnSpan="4" />
             
-        <VBox alignment="CENTER" prefWidth="200"  spacing="4.0" GridPane.rowIndex="6" GridPane.columnIndex="4" GridPane.rowSpan="4" GridPane.columnSpan="2" >
+        <VBox alignment="CENTER" prefWidth="200"  spacing="4.0" GridPane.rowIndex="9" GridPane.columnIndex="4" GridPane.rowSpan="4" GridPane.columnSpan="2" >
              <Label fx:id="noPrgStates" text="Number of Program States: 0"/>
             <Button fx:id="runOneStepButton" text="Run One Step" onAction="#handleRunOneStep" />
         </VBox>
         
-        <Label fx:id="fileTableLabel" text="File Table:" GridPane.rowIndex="6" GridPane.columnIndex="6" GridPane.rowSpan="1" GridPane.columnSpan="4" />
-        <ListView fx:id="fileTableListView" prefWidth="200" GridPane.rowIndex="7" GridPane.columnIndex="6" GridPane.rowSpan="3" GridPane.columnSpan="4" />
+        <Label fx:id="fileTableLabel" text="File Table:" GridPane.rowIndex="9" GridPane.columnIndex="6" GridPane.rowSpan="1" GridPane.columnSpan="4" />
+        <ListView fx:id="fileTableListView" prefWidth="200" GridPane.rowIndex="10" GridPane.columnIndex="6" GridPane.rowSpan="3" GridPane.columnSpan="4" />
 
 </GridPane>
 

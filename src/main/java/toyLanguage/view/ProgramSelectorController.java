@@ -71,7 +71,7 @@ public class ProgramSelectorController {
             Stage newStage = new Stage();
             newStage.setTitle("Execution Engine - " + selectedPrg.toString());
             
-            Scene scene = new Scene(root, 1000, 700);
+            Scene scene = new Scene(root, 1000, 900);
             newStage.setScene(scene);
             
             newStage.initOwner(programListView.getScene().getWindow()); 
