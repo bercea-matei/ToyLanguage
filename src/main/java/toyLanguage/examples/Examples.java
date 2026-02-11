@@ -59,6 +59,11 @@ public class Examples {
         } catch (ToyLanguageExceptions e) {
             System.err.println("Skipping example14 due to error: " + e.getMessage());
         }
+        try {
+            list.add(new ProgramExample(createExample15()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example14 due to error: " + e.getMessage());
+        }
 
         return list;
     }
@@ -433,4 +438,43 @@ public class Examples {
             new CompStmt(new BarrAwaitStmt("cnt"), 
             new PrintStmt(new ValueExp(new StringValue("Rendezvous Complete!")))))))))))))));
     }
+
+    private static Stmt createExample15() throws ToyLanguageExceptions{
+        Stmt v1SubChild = new CompStmt(new LockStmt("x"), 
+            new CompStmt(new WriteHeapStmt("v1", new ArithExp('-', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(1)))), 
+                new UnlockStmt("x")));
+
+        Stmt v1FirstChild = new CompStmt(new ForkStmt(v1SubChild), 
+            new CompStmt(new LockStmt("x"), 
+                new CompStmt(new WriteHeapStmt("v1", new ArithExp('*', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(10)))), 
+                    new UnlockStmt("x"))));
+
+        Stmt v2SubChild = new CompStmt(new LockStmt("q"), 
+            new CompStmt(new WriteHeapStmt("v2", new ArithExp('+', new ReadHeapExp(new VarExp("v2")), new ValueExp(new IntValue(5)))), 
+                new UnlockStmt("q")));
+
+        Stmt v2FirstChild = new CompStmt(new ForkStmt(v2SubChild), 
+            new CompStmt(new LockStmt("q"), 
+                new CompStmt(new WriteHeapStmt("v2", new ArithExp('*', new ReadHeapExp(new VarExp("v2")), new ValueExp(new IntValue(10)))), 
+                    new UnlockStmt("q"))));
+
+        return new CompStmt(new VarDeclStmt("v1", new RefType(new IntType())),
+            new CompStmt(new VarDeclStmt("v2", new RefType(new IntType())),
+            new CompStmt(new VarDeclStmt("x", new IntType()),
+            new CompStmt(new VarDeclStmt("q", new IntType()),
+            new CompStmt(new NewStmt("v1", new ValueExp(new IntValue(20))),
+            new CompStmt(new NewStmt("v2", new ValueExp(new IntValue(30))),
+            new CompStmt(new NewLockStmt("x"),
+            new CompStmt(new ForkStmt(v1FirstChild),
+            new CompStmt(new NewLockStmt("q"),
+            new CompStmt(new ForkStmt(v2FirstChild),
+            new CompStmt(new NOP(), new CompStmt(new NOP(), new CompStmt(new NOP(), new CompStmt(new NOP(),
+            new CompStmt(new LockStmt("x"),
+            new CompStmt(new PrintStmt(new ReadHeapExp(new VarExp("v1"))),
+            new CompStmt(new UnlockStmt("x"),
+            new CompStmt(new LockStmt("q"),
+            new CompStmt(new PrintStmt(new ReadHeapExp(new VarExp("v2"))),
+            new UnlockStmt("q"))))))))))))))))))));
+    }
+
 }

@@ -83,6 +83,12 @@ public class MainWindowController {
     private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierLocationCol;
     @FXML
     private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierThreadsListCol;
+    @FXML
+    private TableView<Map.Entry<Integer, Integer>> lockTableView;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Integer>, String> lockLocationCol;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Integer>, String> lockValueCol;
 
 
     public void setLogicController(MyController controller) {
@@ -142,6 +148,14 @@ public class MainWindowController {
         barrierThreadsListCol.setCellValueFactory(p -> 
             new SimpleStringProperty(p.getValue().getValue().getSecond().toString())
         );
+
+        lockLocationCol.setCellValueFactory(p -> {
+            return new SimpleStringProperty(p.getValue().getKey().toString());
+        });
+
+        lockValueCol.setCellValueFactory(p -> {
+            return new SimpleStringProperty(p.getValue().getValue().toString());
+        });
     }
 
     @FXML
@@ -340,6 +354,27 @@ public class MainWindowController {
     }
 
     //-------------------------------
+    //   LockTable
+    //-------------------------------
+    private void updateLockTableView() {
+        MyDict<Integer, Integer> latchTable = this.logicController.getlockTable();
+        if (lockTableView == null) {
+            return;
+        }
+
+        if (latchTable == null || latchTable.isEmpty()) {
+            //items.clear();
+            return;
+        }
+
+        List<Map.Entry<Integer, Integer>> latchList = new ArrayList<>(latchTable.getContent().entrySet());
+
+        lockTableView.getItems().setAll(latchList);
+    }
+
+
+
+    //-------------------------------
     //   ALL Update
     //-------------------------------
     private void updateAllUIComponents() {
@@ -357,6 +392,7 @@ public class MainWindowController {
             updateSemaphoreTableView();
             updateLatchTableView();
             updateBarrierTableView();
+            updateLockTableView();
 
             return;
         }
@@ -378,6 +414,7 @@ public class MainWindowController {
         updateSemaphoreTableView();
         updateLatchTableView();
         updateBarrierTableView();
+        updateLockTableView();
     }
 
     private void showError(String message) {

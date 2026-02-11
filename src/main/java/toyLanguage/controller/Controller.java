@@ -240,4 +240,8 @@ public class Controller implements MyController {
     public MyDict<Integer, Pair<Integer, List<Integer>>> getBarrierTable() {
         return this.repo.getBarrierTable();
     }
+    @Override
+    public MyDict<Integer,Integer> getlockTable() {
+        return this.repo.getlockTable();
+    }
 }

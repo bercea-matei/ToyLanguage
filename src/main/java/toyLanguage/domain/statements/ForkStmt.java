@@ -30,7 +30,8 @@ public class ForkStmt implements Stmt{
             parentState.getHeapTable(),
             parentState.getSemaphoreTable(),
             parentState.getLatchTable(),
-            parentState.getBarrierTable()
+            parentState.getBarrierTable(),
+            parentState.getLockTable()
         );
 
         return childState;

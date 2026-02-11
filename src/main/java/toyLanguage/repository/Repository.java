@@ -32,8 +32,9 @@ public class Repository implements MyRepository {
     private MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable;
     private MyDict<Integer, Integer> latchTable;
     private MyDict<Integer, Pair<Integer, List<Integer>>> barrierTable;
+    private MyDict<Integer, Integer> lockTable;
     private String logFilePath = "ourLogs.log";
-    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable", "SemaphoreTable", "LatchTable", "BarrierTable"};
+    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable", "SemaphoreTable", "LatchTable", "BarrierTable", "LockTable"};
 
     public Repository() {
         this.prgStates = new ArrayList<>();
@@ -49,6 +50,7 @@ public class Repository implements MyRepository {
         this.semaphoreTable = state.getSemaphoreTable();
         this.latchTable = state.getLatchTable();
         this.barrierTable = state.getBarrierTable();
+        this.lockTable = state.getLockTable();
     }
 
     @Override
@@ -103,6 +105,10 @@ public class Repository implements MyRepository {
             }
             logFile.println(msgs[9]);
             for (Map.Entry<Integer, Pair<Integer, List<Integer>>> entry : state.getBarrierTable()) {
+                logFile.println(entry.getKey() + "-->" + entry.getValue());
+            }
+            logFile.println(msgs[10]);
+            for (Map.Entry<Integer, Integer> entry : state.getLockTable()) {
                 logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
             logFile.println(msgs[0]);
@@ -186,6 +192,10 @@ public class Repository implements MyRepository {
     @Override
     public MyDict<Integer, Pair<Integer, List<Integer>>> getBarrierTable() {
         return this.barrierTable;
+    }
+    @Override
+    public synchronized MyDict<Integer,Integer> getlockTable() {
+        return this.lockTable;
     }
 
 

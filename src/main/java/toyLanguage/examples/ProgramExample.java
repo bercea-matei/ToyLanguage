@@ -38,7 +38,8 @@ public class ProgramExample {
             MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable = new SemaphoreTable<>();
             MyDict<Integer, Integer> latchTable = new LatchTable<>();
             MyDict<Integer, Pair<Integer, List<Integer>>> barrierTable = new BarrierTable<>();
-            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable, latchTable, barrierTable);
+            MyDict<Integer, Integer> lockTable = new LockTable<>();
+            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable, latchTable, barrierTable, lockTable);
             ctrl.initializePrgState(state);
 
         } catch (ToyLanguageExceptions e) {

@@ -116,6 +116,17 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
+
+        <TableView fx:id="lockTableView" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="7" GridPane.rowSpan="3" GridPane.columnSpan="3">
+            <columns>
+                <TableColumn fx:id="lockLocationCol" text="Lock Location"/>
+
+                <TableColumn fx:id="lockValueCol" text="Lock Value"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
         <!-- RIGHT SIDE -->
 
         

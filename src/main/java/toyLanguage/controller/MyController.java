@@ -43,5 +43,6 @@ public interface MyController {
     public MyDict<Integer, Pair<Integer, List<Integer>>> getSemaphoreTable();
     public MyDict<Integer,Integer> getLatchTable();
     public MyDict<Integer, Pair<Integer, List<Integer>>> getBarrierTable();
+    public MyDict<Integer,Integer> getlockTable();
 }
 
