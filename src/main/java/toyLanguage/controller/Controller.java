@@ -236,4 +236,8 @@ public class Controller implements MyController {
     public MyDict<Integer,Integer> getLatchTable() {
         return this.repo.getLatchTable();
     }
+    @Override
+    public MyDict<Integer, Pair<Integer, List<Integer>>> getBarrierTable() {
+        return this.repo.getBarrierTable();
+    }
 }

@@ -8,10 +8,10 @@ import toyLanguage.domain.adts.dictionary.MyDict;
 import toyLanguage.domain.types.IntType;
 import toyLanguage.domain.types.Type;
 
-public class AwaitStmt implements Stmt{
+public class LatchAwaitStmt implements Stmt{
     private String id;
 
-    public AwaitStmt(String id) {
+    public LatchAwaitStmt(String id) {
         this.id=id;
     }
 
@@ -53,7 +53,7 @@ public class AwaitStmt implements Stmt{
     }
     @Override
     public Stmt deepCopy() {
-        return new AwaitStmt(this.id);
+        return new LatchAwaitStmt(this.id);
     }
     @Override
     public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
@@ -64,6 +64,6 @@ public class AwaitStmt implements Stmt{
             throw new MissmatchTypeException(this.whatAmI() ,typevar.toString(), (new IntType()).toString());
     } 
     private String whatAmI() {
-        return "AwaitStmt";
+        return "LatchAwaitStmt";
     }
 }

@@ -54,6 +54,10 @@ public class Examples {
             list.add(new ProgramExample(createExample13()));
         } catch (ToyLanguageExceptions e) {
             System.err.println("Skipping example13 due to error: " + e.getMessage());
+        }try {
+            list.add(new ProgramExample(createExample14()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example14 due to error: " + e.getMessage());
         }
 
         return list;
@@ -377,7 +381,7 @@ public class Examples {
                                             ),
                                             // Main Thread Continuation
                                             new CompStmt(
-                                                new AwaitStmt("cnt"),
+                                                new LatchAwaitStmt("cnt"),
                                                 new CompStmt(
                                                     new PrintStmt(new ValueExp(new IntValue(100))),
                                                     new CompStmt(
@@ -396,6 +400,37 @@ public class Examples {
             )
         );
         
+    }
+    private static Stmt createExample14() throws ToyLanguageExceptions {
+    // Each thread: wh(v, rh(v)*10) -> await(cnt) -> print(rh(v))
+    
+        Stmt thread1Logic = new CompStmt(
+            new WriteHeapStmt("v1", new ArithExp('*', new ReadHeapExp(new VarExp("v1")), new ValueExp(new IntValue(10)))),
+            new CompStmt(new BarrAwaitStmt("cnt"), new PrintStmt(new ReadHeapExp(new VarExp("v1"))))
+        );
 
+        Stmt thread2Logic = new CompStmt(
+            new WriteHeapStmt("v2", new ArithExp('*', new ReadHeapExp(new VarExp("v2")), new ValueExp(new IntValue(10)))),
+            new CompStmt(new BarrAwaitStmt("cnt"), new PrintStmt(new ReadHeapExp(new VarExp("v2"))))
+        );
+
+        Stmt thread3Logic = new CompStmt(
+            new WriteHeapStmt("v3", new ArithExp('*', new ReadHeapExp(new VarExp("v3")), new ValueExp(new IntValue(10)))),
+            new CompStmt(new BarrAwaitStmt("cnt"), new PrintStmt(new ReadHeapExp(new VarExp("v3"))))
+        );
+
+        return new CompStmt(new VarDeclStmt("v1", new RefType(new IntType())),
+            new CompStmt(new VarDeclStmt("v2", new RefType(new IntType())),
+            new CompStmt(new VarDeclStmt("v3", new RefType(new IntType())),
+            new CompStmt(new VarDeclStmt("cnt", new IntType()),
+            new CompStmt(new NewStmt("v1", new ValueExp(new IntValue(2))),
+            new CompStmt(new NewStmt("v2", new ValueExp(new IntValue(3))),
+            new CompStmt(new NewStmt("v3", new ValueExp(new IntValue(4))),
+            new CompStmt(new NewBarrierStmt("cnt", new ValueExp(new IntValue(3))),
+            new CompStmt(new ForkStmt(thread1Logic),
+            new CompStmt(new ForkStmt(thread2Logic),
+            new CompStmt(new ForkStmt(thread3Logic),
+            new CompStmt(new BarrAwaitStmt("cnt"), 
+            new PrintStmt(new ValueExp(new StringValue("Rendezvous Complete!")))))))))))))));
     }
 }

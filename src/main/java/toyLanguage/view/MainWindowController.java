@@ -77,6 +77,12 @@ public class MainWindowController {
     private TableColumn<Map.Entry<Integer, Integer>, String> latchLocationCol;
     @FXML
     private TableColumn<Map.Entry<Integer, Integer>, String> latchValueCol;
+    @FXML
+    private TableView<Map.Entry<Integer, Pair<Integer, List<Integer>>>> barrierTableView;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierLocationCol;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierThreadsListCol;
 
 
     public void setLogicController(MyController controller) {
@@ -121,6 +127,7 @@ public class MainWindowController {
         semaphoreThreadsListCol.setCellValueFactory(p -> 
             new SimpleStringProperty(p.getValue().getValue().getSecond().toString())
         );
+
         latchLocationCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getKey().toString());
         });
@@ -128,6 +135,13 @@ public class MainWindowController {
         latchValueCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getValue().toString());
         });
+        
+        barrierLocationCol.setCellValueFactory(p -> 
+            new SimpleStringProperty(p.getValue().getKey().toString())
+        );
+        barrierThreadsListCol.setCellValueFactory(p -> 
+            new SimpleStringProperty(p.getValue().getValue().getSecond().toString())
+        );
     }
 
     @FXML
@@ -213,7 +227,7 @@ public class MainWindowController {
         fileTableListView.getItems().setAll(allFiles);
     }
     //-------------------------------
-    //---ExeStk update
+    //   ExeStk update
     //-------------------------------
     private void updateExeStkListView() {
         MyStack<Stmt> exeStk = this.logicController.getExeStkById(this.currentSelectedProgramId);
@@ -226,7 +240,7 @@ public class MainWindowController {
     }
 
     //-------------------------------
-    //SymTable
+    //   SymTable
     //-------------------------------
     private void updateSymbolTableView() {
         MyDict<String, Value> symTable = this.logicController.getSymTableById(this.currentSelectedProgramId);
@@ -304,6 +318,26 @@ public class MainWindowController {
         List<Map.Entry<Integer, Integer>> latchList = new ArrayList<>(latchTable.getContent().entrySet());
         latchTableView.getItems().setAll(latchList);
     }
+    //-------------------------------
+    //   BarrierTable
+    //-------------------------------
+    private void updateBarrierTableView() {
+        MyDict<Integer, Pair<Integer, List<Integer>>> barrTbl = logicController.getBarrierTable();
+        if (barrierTableView == null) {
+            return;
+        }
+
+        ObservableList<Map.Entry<Integer, Pair<Integer, List<Integer>>>> items = barrierTableView.getItems();
+
+        if (barrTbl == null || barrTbl.isEmpty()) {
+            //items.clear();
+            return;
+        }
+
+        Map<Integer, Pair<Integer, List<Integer>>> map = barrTbl.getContent();
+        List<Map.Entry<Integer, Pair<Integer, List<Integer>>>> symTableEntryList = new ArrayList<>(map.entrySet());
+        items.setAll(symTableEntryList);
+    }
 
     //-------------------------------
     //   ALL Update
@@ -322,6 +356,7 @@ public class MainWindowController {
             updateFileTableListView();
             updateSemaphoreTableView();
             updateLatchTableView();
+            updateBarrierTableView();
 
             return;
         }
@@ -342,6 +377,7 @@ public class MainWindowController {
         updateHeapTableView();
         updateSemaphoreTableView();
         updateLatchTableView();
+        updateBarrierTableView();
     }
 
     private void showError(String message) {

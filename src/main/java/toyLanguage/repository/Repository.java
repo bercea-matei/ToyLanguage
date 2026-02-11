@@ -31,8 +31,9 @@ public class Repository implements MyRepository {
     private MyDict<StringValue,BufferedReader> fileTable;
     private MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable;
     private MyDict<Integer, Integer> latchTable;
+    private MyDict<Integer, Pair<Integer, List<Integer>>> barrierTable;
     private String logFilePath = "ourLogs.log";
-    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable", "LatchTable"};
+    private String msgs[] = {"------------------------------","Thread ID: ", "ExeStack:", "SymTable", "Out", "FileTable", "HeapTable", "SemaphoreTable", "LatchTable", "BarrierTable"};
 
     public Repository() {
         this.prgStates = new ArrayList<>();
@@ -47,6 +48,7 @@ public class Repository implements MyRepository {
         this.fileTable = state.getFileTable();
         this.semaphoreTable = state.getSemaphoreTable();
         this.latchTable = state.getLatchTable();
+        this.barrierTable = state.getBarrierTable();
     }
 
     @Override
@@ -92,7 +94,15 @@ public class Repository implements MyRepository {
                 logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
             logFile.println(msgs[7]);
+            for (Map.Entry<Integer, Pair<Integer, List<Integer>>> entry : state.getSemaphoreTable()) {
+                logFile.println(entry.getKey() + "-->" + entry.getValue());
+            }
+            logFile.println(msgs[8]);
             for (Map.Entry<Integer, Integer> entry : state.getLatchTable()) {
+                logFile.println(entry.getKey() + "-->" + entry.getValue());
+            }
+            logFile.println(msgs[9]);
+            for (Map.Entry<Integer, Pair<Integer, List<Integer>>> entry : state.getBarrierTable()) {
                 logFile.println(entry.getKey() + "-->" + entry.getValue());
             }
             logFile.println(msgs[0]);
@@ -172,6 +182,10 @@ public class Repository implements MyRepository {
     @Override
     public synchronized MyDict<Integer,Integer> getLatchTable() {
         return this.latchTable;
+    }
+    @Override
+    public MyDict<Integer, Pair<Integer, List<Integer>>> getBarrierTable() {
+        return this.barrierTable;
     }
 
 

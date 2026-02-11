@@ -70,6 +70,17 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
+
+        <TableView fx:id="barrierTableView" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.rowSpan="3" GridPane.columnSpan="3">
+            <columns>
+                <TableColumn fx:id="barrierLocationCol" text="Barr Location"/>
+
+                <TableColumn fx:id="barrierThreadsListCol" text="Barr Thread IDs"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
         <!-- LEFT SIDE -->
     
 
