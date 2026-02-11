@@ -70,6 +70,11 @@ public class Examples {
         } catch (ToyLanguageExceptions e) {
             System.err.println("Skipping example16 due to error: " + e.getMessage());
         }
+        try {
+            list.add(new ProgramExample(createExample17()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example16 due to error: " + e.getMessage());
+        }
 
         return list;
     }
@@ -500,6 +505,48 @@ public class Examples {
             outerFork))))));
 
         return mainProgram;
+    }
+    private static Stmt createExample17() throws ToyLanguageExceptions {
+        return new CompStmt(
+            new VarDeclStmt("a", new RefType(new IntType())), 
+            new CompStmt(
+                new VarDeclStmt("b", new RefType(new IntType())),
+                    new CompStmt(
+                        new VarDeclStmt("v", new IntType()),
+                        new CompStmt(new NewStmt("a", new ValueExp(new IntValue(0))),
+                            new CompStmt(new NewStmt("b", new ValueExp(new IntValue(0))), 
+                                new CompStmt(
+                new WriteHeapStmt("a",  new ValueExp(new IntValue(1))), 
+                new CompStmt(
+                    new WriteHeapStmt("b",  new ValueExp(new IntValue(2))),
+                    new CompStmt(
+                        new CondAssignStmt("v", 
+                            new RelExp(
+                                "<",
+                                new ReadHeapExp(new VarExp("a")),
+                                new ReadHeapExp(new VarExp("b"))),
+                                new ValueExp(new IntValue(100)), new ValueExp(new IntValue(200))), 
+                        new CompStmt(
+                            new PrintStmt(new VarExp("v")),
+                            new CompStmt(
+                                new CondAssignStmt("v", 
+                                new RelExp(
+                                    ">",
+                                    new ArithExp('-', new ReadHeapExp(new VarExp("b")), new ValueExp(new IntValue(2))),
+                                    new ReadHeapExp(new VarExp("a"))),
+                                    new ValueExp(new IntValue(100)), new ValueExp(new IntValue(200))),
+                                new PrintStmt(new VarExp("v"))
+                            )
+                                        
+                        )
+                    )
+                )
+            )
+                            )    
+                        )
+                    )
+                )
+            );
     }
 
 }

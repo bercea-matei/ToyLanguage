@@ -412,22 +412,20 @@ public class MainWindowController {
     //   ALL Update
     //-------------------------------
     private void updateAllUIComponents() {
+        updateOutListView();
+        updateFileTableListView();
+        updateSemaphoreTableView();
+        updateLatchTableView();
+        updateBarrierTableView();
+        updateLockTableView();
+        updateProcTableView();
+        
         List<PrgState> currentStates = logicController.getPrgList();
         if (currentStates.isEmpty()) {
-            //outListView.getItems().clear();
             exeStkListView.getItems().clear();
             prgStatesIdsListView.getItems().clear();
-            //fileTableListView.getItems().clear();
             symTableView.getItems().clear();
             heapTableView.getItems().clear();
-        
-            updateOutListView();
-            updateFileTableListView();
-            updateSemaphoreTableView();
-            updateLatchTableView();
-            updateBarrierTableView();
-            updateLockTableView();
-            updateProcTableView();
 
             return;
         }
@@ -441,16 +439,9 @@ public class MainWindowController {
         
 
         //gracefull ones
-        updateOutListView();
-        updateFileTableListView();
         updateExeStkListView();
         updateSymbolTableView();
         updateHeapTableView();
-        updateSemaphoreTableView();
-        updateLatchTableView();
-        updateBarrierTableView();
-        updateLockTableView();
-        updateProcTableView();
     }
 
     private void showError(String message) {
