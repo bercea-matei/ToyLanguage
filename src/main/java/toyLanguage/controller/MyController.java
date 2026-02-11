@@ -44,5 +44,6 @@ public interface MyController {
     public MyDict<Integer,Integer> getLatchTable();
     public MyDict<Integer, Pair<Integer, List<Integer>>> getBarrierTable();
     public MyDict<Integer,Integer> getlockTable();
+    public MyDict<String, Pair<List<String>,Stmt>> getProcTable();
 }
 

@@ -1,9 +1,11 @@
 package toyLanguage.examples;
 
 import java.io.BufferedReader;
+import java.util.Arrays;
 import java.util.List;
 
 import toyLanguage.controller.MyController;
+import toyLanguage.domain.statements.PrintStmt;
 import toyLanguage.domain.statements.Stmt;
 import toyLanguage.domain.prg_state.PrgState;
 import toyLanguage.domain.types.*;
@@ -13,6 +15,8 @@ import toyLanguage.domain.adts.heapMap.HeapTable;
 import toyLanguage.domain.adts.list.*;
 import toyLanguage.domain.adts.pair.Pair;
 import toyLanguage.domain.adts.stack.*;
+import toyLanguage.domain.expressions.ArithExp;
+import toyLanguage.domain.expressions.VarExp;
 import toyLanguage.domain.values.*;
 import toyLanguage.domain.myExceptions.ToyLanguageExceptions;
 import toyLanguage.domain.myExceptions.TypeCheckFailedException;
@@ -39,7 +43,43 @@ public class ProgramExample {
             MyDict<Integer, Integer> latchTable = new LatchTable<>();
             MyDict<Integer, Pair<Integer, List<Integer>>> barrierTable = new BarrierTable<>();
             MyDict<Integer, Integer> lockTable = new LockTable<>();
-            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable, latchTable, barrierTable, lockTable);
+            MyDict<String, Pair<List<String>,Stmt>> procTable = new ProcTable<>();
+            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable, latchTable, barrierTable, lockTable, procTable);
+            ctrl.initializePrgState(state);
+
+        } catch (ToyLanguageExceptions e) {
+            throw new TypeCheckFailedException(e);
+        }
+    }
+    
+    public void loadExampleWithProcedures(MyController ctrl) throws ToyLanguageExceptions {
+        try {
+            MyDict<String, Type> typeEnv = new TypeEnv<String, Type>();
+            this.stmt.typecheck(typeEnv);
+            
+            MyStack<Stmt> exeStk = new ExeStk<>();
+            exeStk.push(this.stmt);
+            MyDict<String, Value> symTable = new SymbolTable<>();
+            MyList<Value> outList = new OutList<>();
+            MyDict<StringValue, BufferedReader> fileTable = new FileTable<>();
+            MyHeap<Integer, Value> heapTable = new HeapTable<>();
+            MyDict<Integer, Pair<Integer, List<Integer>>> semaphoreTable = new SemaphoreTable<>();
+            MyDict<Integer, Integer> latchTable = new LatchTable<>();
+            MyDict<Integer, Pair<Integer, List<Integer>>> barrierTable = new BarrierTable<>();
+            MyDict<Integer, Integer> lockTable = new LockTable<>();
+
+            MyDict<String, Pair<List<String>,Stmt>> procTable = new ProcTable<>();
+            //sum proc
+            List<String> params = Arrays.asList("a", "b");
+            Stmt body = new PrintStmt(new ArithExp('+', new VarExp("a"), new VarExp("b")));
+            procTable.add("sum", new Pair<>(params, body));
+            //prod proc
+            List<String> params2 = Arrays.asList("a", "b");
+            Stmt body2 = new PrintStmt(new ArithExp('*', new VarExp("a"), new VarExp("b")));
+            procTable.add("product", new Pair<>(params2, body2));
+
+            
+            PrgState state = new PrgState(this.stmt, exeStk, symTable, outList, fileTable, heapTable, semaphoreTable, latchTable, barrierTable, lockTable, procTable);
             ctrl.initializePrgState(state);
 
         } catch (ToyLanguageExceptions e) {

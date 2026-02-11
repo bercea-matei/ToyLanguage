@@ -89,6 +89,13 @@ public class MainWindowController {
     private TableColumn<Map.Entry<Integer, Integer>, String> lockLocationCol;
     @FXML
     private TableColumn<Map.Entry<Integer, Integer>, String> lockValueCol;
+    @FXML
+    private TableView<Map.Entry<String, Pair<List<String>,Stmt>>> procTableView;
+    @FXML
+    private TableColumn<Map.Entry<String, Pair<List<String>,Stmt>>, String> procSigCol;
+    @FXML
+    private TableColumn<Map.Entry<String, Pair<List<String>,Stmt>>, String> procBodyCol;
+
 
 
     public void setLogicController(MyController controller) {
@@ -152,10 +159,16 @@ public class MainWindowController {
         lockLocationCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getKey().toString());
         });
-
         lockValueCol.setCellValueFactory(p -> {
             return new SimpleStringProperty(p.getValue().getValue().toString());
         });
+
+        procSigCol.setCellValueFactory(p -> 
+            new SimpleStringProperty(p.getValue().getKey().toString())
+        );
+        procBodyCol.setCellValueFactory(p -> 
+        new SimpleStringProperty(p.getValue().getValue().getSecond().toString())
+        );
     }
 
     @FXML
@@ -371,6 +384,27 @@ public class MainWindowController {
 
         lockTableView.getItems().setAll(latchList);
     }
+    //-------------------------------
+    //   ProcTable
+    //-------------------------------
+    private void updateProcTableView() {
+        MyDict<String, Pair<List<String>,Stmt>> procTbl = logicController.getProcTable();
+        if (procTableView == null) {
+            return;
+        }
+
+        ObservableList<Map.Entry<String, Pair<List<String>,Stmt>>> items = procTableView.getItems();
+
+        if (procTbl == null || procTbl.isEmpty()) {
+            //items.clear();
+            return;
+        }
+
+
+        Map<String, Pair<List<String>,Stmt>> map = procTbl.getContent();
+        List<Map.Entry<String, Pair<List<String>,Stmt>>> symTableEntryList = new ArrayList<>(map.entrySet());
+        items.setAll(symTableEntryList);
+    }
 
 
 
@@ -393,6 +427,7 @@ public class MainWindowController {
             updateLatchTableView();
             updateBarrierTableView();
             updateLockTableView();
+            updateProcTableView();
 
             return;
         }
@@ -415,6 +450,7 @@ public class MainWindowController {
         updateLatchTableView();
         updateBarrierTableView();
         updateLockTableView();
+        updateProcTableView();
     }
 
     private void showError(String message) {

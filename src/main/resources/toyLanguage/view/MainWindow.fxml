@@ -85,13 +85,24 @@
     
 
         <!-- CENTER -->
-        <VBox spacing="10" prefWidth="200" alignment="TOP_CENTER" GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.rowSpan="9" GridPane.columnSpan="4" >
+        <VBox spacing="10" prefWidth="200" alignment="TOP_CENTER" GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.rowSpan="5" GridPane.columnSpan="4" >
             <children>
                 <ListView fx:id="prgStatesIdsListView" orientation="HORIZONTAL" prefHeight="200"/>
                 <Label fx:id="currentPrgStateIdLabel" text="Current Program State Id: 1"/>
                 <ListView fx:id="exeStkListView" />
             </children>
         </VBox>
+
+        <TableView fx:id="procTableView" prefWidth="200" GridPane.rowIndex="5" GridPane.columnIndex="3" GridPane.rowSpan="4" GridPane.columnSpan="4">
+            <columns>
+                <TableColumn fx:id="procSigCol" text="Proc. Sign."/>
+
+                <TableColumn fx:id="procBodyCol" text="Proc. Body"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
         <!-- CENTER -->
 
 
@@ -107,7 +118,7 @@
             </columnResizePolicy>
         </TableView>
 
-                <TableView fx:id="latchTableView" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="7" GridPane.rowSpan="3" GridPane.columnSpan="3">
+        <TableView fx:id="latchTableView" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="7" GridPane.rowSpan="3" GridPane.columnSpan="3">
             <columns>
                 <TableColumn fx:id="latchLocationCol" text="Location"/>
                 <TableColumn fx:id="latchValueCol" text="Value"/>

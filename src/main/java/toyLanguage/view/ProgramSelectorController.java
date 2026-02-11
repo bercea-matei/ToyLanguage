@@ -54,7 +54,8 @@ public class ProgramSelectorController {
 
         try {
             try {
-                selectedPrg.loadIntoController(controller);
+                //selectedPrg.loadIntoController(controller);
+                selectedPrg.loadExampleWithProcedures(controller);
             } catch (ToyLanguageExceptions e) {
                 showError(e.getMessage());
                 return;

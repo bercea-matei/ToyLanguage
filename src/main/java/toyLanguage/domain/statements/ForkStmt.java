@@ -31,7 +31,8 @@ public class ForkStmt implements Stmt{
             parentState.getSemaphoreTable(),
             parentState.getLatchTable(),
             parentState.getBarrierTable(),
-            parentState.getLockTable()
+            parentState.getLockTable(),
+            parentState.getProcTable()
         );
 
         return childState;

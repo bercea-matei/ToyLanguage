@@ -7,6 +7,7 @@ import toyLanguage.domain.values.*;
 import toyLanguage.domain.expressions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Examples {
@@ -62,7 +63,12 @@ public class Examples {
         try {
             list.add(new ProgramExample(createExample15()));
         } catch (ToyLanguageExceptions e) {
-            System.err.println("Skipping example14 due to error: " + e.getMessage());
+            System.err.println("Skipping example15 due to error: " + e.getMessage());
+        }
+        try {
+            list.add(new ProgramExample(createExample16()));
+        } catch (ToyLanguageExceptions e) {
+            System.err.println("Skipping example16 due to error: " + e.getMessage());
         }
 
         return list;
@@ -475,6 +481,25 @@ public class Examples {
             new CompStmt(new LockStmt("q"),
             new CompStmt(new PrintStmt(new ReadHeapExp(new VarExp("v2"))),
             new UnlockStmt("q"))))))))))))))))))));
+    }
+    private Stmt createExample16() throws ToyLanguageExceptions {
+               
+        Stmt innerFork = new ForkStmt(new CallProcStmt("sum", Arrays.asList(new VarExp("v"), new VarExp("w"))));
+        
+        Stmt outerFork = new ForkStmt(new CompStmt(
+            new CallProcStmt("product", Arrays.asList(new VarExp("v"), new VarExp("w"))),
+            innerFork
+        ));
+
+        Stmt mainProgram = new CompStmt(new VarDeclStmt("v", new IntType()),
+            new CompStmt(new VarDeclStmt("w", new IntType()),
+            new CompStmt(new AssignStmt("v", new ValueExp(new IntValue(2))),
+            new CompStmt(new AssignStmt("w", new ValueExp(new IntValue(5))),
+            new CompStmt(new CallProcStmt("sum", Arrays.asList(new ArithExp('*', new VarExp("v"), new ValueExp(new IntValue(10))), new VarExp("w"))),
+            new CompStmt(new PrintStmt(new VarExp("v")), 
+            outerFork))))));
+
+        return mainProgram;
     }
 
 }

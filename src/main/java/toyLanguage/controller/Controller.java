@@ -244,4 +244,8 @@ public class Controller implements MyController {
     public MyDict<Integer,Integer> getlockTable() {
         return this.repo.getlockTable();
     }
+    @Override
+    public MyDict<String, Pair<List<String>,Stmt>> getProcTable() {
+        return this.repo.getProcTable();
+    }
 }
