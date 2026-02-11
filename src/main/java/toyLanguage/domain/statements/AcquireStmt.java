@@ -8,9 +8,7 @@ import toyLanguage.domain.values.*;
 import java.util.List;
 
 import toyLanguage.domain.adts.dictionary.MyDict;
-import toyLanguage.domain.adts.heapMap.MyHeap;
 import toyLanguage.domain.adts.pair.Pair;
-import toyLanguage.domain.expressions.Exp;
 
 public class AcquireStmt implements Stmt{
     private String varName;

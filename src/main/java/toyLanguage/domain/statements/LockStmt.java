@@ -9,10 +9,10 @@ import toyLanguage.domain.types.IntType;
 import toyLanguage.domain.types.Type;
 
 public class LockStmt implements Stmt{
-    private String id;
+    private String var;
 
-    public LockStmt(String id) {
-        this.id=id;
+    public LockStmt(String var) {
+        this.var=var;
     }
 
     @Override
@@ -21,8 +21,8 @@ public class LockStmt implements Stmt{
         MyDict<Integer, Integer> lockTbl = state.getLockTable();
 
 
-        if (symTbl.isKeyDef(this.id)) {
-            Value foundIndex = symTbl.lookup(this.id);
+        if (symTbl.isKeyDef(this.var)) {
+            Value foundIndex = symTbl.lookup(this.var);
             Type typId = (foundIndex).getType();
             if (! typId.equals(new IntType()))
                 throw new MissmatchValueException(new IntType(),typId);
@@ -42,22 +42,22 @@ public class LockStmt implements Stmt{
             return null;
             
         } else { 
-            throw new IdNotDefinedException(this.id);
+            throw new IdNotDefinedException(this.var);
         }
         //return null;
     }
 
     @Override
     public String toString() {
-        return "lock(" + this.id + ")";
+        return "lock(" + this.var + ")";
     }
     @Override
     public Stmt deepCopy() {
-        return new LockStmt(this.id);
+        return new LockStmt(this.var);
     }
     @Override
     public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
-        Type typevar = typeEnv.lookup(id);
+        Type typevar = typeEnv.lookup(var);
         if (typevar.equals(new IntType()))
             return typeEnv;
         else

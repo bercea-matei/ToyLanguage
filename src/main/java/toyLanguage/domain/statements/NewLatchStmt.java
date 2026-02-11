@@ -12,11 +12,11 @@ import toyLanguage.domain.types.Type;
 
 public class NewLatchStmt implements Stmt{
     private static int newFreeLocation = -1;
-    private String id;
+    private String var;
     private Exp exp;
 
-    public NewLatchStmt(String id ,Exp exp) {
-        this.id=id;
+    public NewLatchStmt(String var ,Exp exp) {
+        this.var=var;
         this.exp=exp;
     }
 
@@ -26,8 +26,8 @@ public class NewLatchStmt implements Stmt{
         MyHeap<Integer,Value> heapTbl = state.getHeapTable();
 
 
-        if (symTbl.isKeyDef(this.id)) {
-            Type typId = (symTbl.lookup(this.id)).getType();
+        if (symTbl.isKeyDef(this.var)) {
+            Type typId = (symTbl.lookup(this.var)).getType();
             if (! typId.equals(new IntType()))
                 throw new MissmatchValueException(new IntType(),typId);
 
@@ -36,7 +36,7 @@ public class NewLatchStmt implements Stmt{
                 synchronized (state.getLatchTable()) {
                 newFreeLocation++;
                 state.getLatchTable().add(newFreeLocation, ((IntValue)val).getValue());
-                state.getSymTable().update(this.id, new IntValue(newFreeLocation));
+                state.getSymTable().update(this.var, new IntValue(newFreeLocation));
                 return null;
                 }
 
@@ -44,22 +44,22 @@ public class NewLatchStmt implements Stmt{
                 throw new MissmatchValueException(typId, val.getType());
             }
         } else { 
-            throw new IdNotDefinedException(this.id);
+            throw new IdNotDefinedException(this.var);
         }
         //return null;
     }
 
     @Override
     public String toString() {
-        return "newLatch(" + this.id + ", " + this.exp.toString() + ")";
+        return "newLatch(" + this.var + ", " + this.exp.toString() + ")";
     }
     @Override
     public Stmt deepCopy() {
-        return new NewLatchStmt(this.id, this.exp.deepCopy());
+        return new NewLatchStmt(this.var, this.exp.deepCopy());
     }
     @Override
     public MyDict<String,Type> typecheck(MyDict <String,Type> typeEnv) throws IdNotFoundException, IdNotDefinedException, MissmatchTypeException, WhichOperandExceptionExtend, IdAlreadyExistsException {
-        Type typevar = typeEnv.lookup(id);
+        Type typevar = typeEnv.lookup(var);
         Type typexp = exp.typecheck(typeEnv);
         if (typevar.equals(new IntType()))
             return typeEnv;
