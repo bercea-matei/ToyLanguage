@@ -1,6 +1,6 @@
-### Toy Language Interpreter
+### Toy Language Virtual Machine & Multi-threaded Interpreter
 
-This project is a Java-based interpreter for a simple imperative "Toy Language," developed as a university assignment for an Advanced Programming Methods course. The interpreter is built using the Model-View-Controller (MVC) architectural pattern and demonstrates core concepts of language design, data structures, and concurrent execution.
+This project is a Java-based interpreter for an imperative, multi-threaded "Toy Language," developed as a university assignment for an Advanced Programming Methods course. The interpreter is built using the Model-View-Controller (MVC) architectural pattern and demonstrates core concepts of language design, data structures, and concurrent execution.
 ### ✨ Core Features
 - MVC Architecture: Clear separation of concerns between the data model (language components), the view (text menu), and the controller (execution logic).
 - Custom Abstract Data Types: Generic, custom-built ADTs for the Execution Stack (MyIStack), Symbol Table (MyIDictionary), and Output List (MyIList) that wrap Java's standard collections.
